@@ -54,8 +54,8 @@ for($z = 0; $z < sizeof($trimestres); $z++)
 
 //Estatus
 $sel_estatus = '';
-$lista_estatus = ['-Seleccione-','Activo','En Proceso','Inactivo','Pago Emitido'];
-$lista_estatus_ids = ['0','1','3','2','4'];
+$lista_estatus = ['-Seleccione-','Activo','Inactivo'];
+$lista_estatus_ids = ['0','1','2'];
 for($z = 0; $z < sizeof($lista_estatus_ids); $z++)
 {
     if($this->input->post('active') == $lista_estatus_ids[$z]){
@@ -117,6 +117,17 @@ for($z = 0; $z < sizeof($coberturas); $z++)
         $sel_cobertura .= '<option value="'.$coberturas[$z]['id_campana_cobertura'].'" selected>' . $coberturas[$z]['nombre_campana_cobertura'] . '</option>';
     }else{
         $sel_cobertura .= '<option value="'.$coberturas[$z]['id_campana_cobertura'].'">' . $coberturas[$z]['nombre_campana_cobertura'] . '</option>';
+    }
+}
+
+//Tipo tiempos oficiales
+$sel_tipoTO = '<option value="0">-Seleccione-</option>';
+for($z = 0; $z < sizeof($tiposTO); $z++)
+{
+    if($this->input->post('id_campana_tipoTO') == $tiposTO[$z]['id_campana_tipoTO']){
+        $sel_tipoTO .= '<option value="'.$tiposTO[$z]['id_campana_tipoTO'].'" selected>' . $tiposTO[$z]['nombre_campana_tipoTO'] . '</option>';
+    }else{
+        $sel_tipoTO .= '<option value="'.$tiposTO[$z]['id_campana_tipoTO'].'">' . $tiposTO[$z]['nombre_campana_tipoTO'] . '</option>';
     }
 }
 ?>
@@ -304,6 +315,26 @@ for($z = 0; $z < sizeof($coberturas); $z++)
                                         <?php echo $sel_trimestre; ?>
                                     </select>
                                 </div>
+                                
+                                <!--Agregar fechas DGPA -->
+			                    <div class="form-group">
+			                    	<label>Fecha de inicio del periodo que se informa*
+			                        	<i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['fecha_inicio_periodo']?>"></i>
+			                        </label>
+			                        <?php $class = "form-control datepicker";
+			            				echo form_input(array('type' => 'text', 'autocomplete' => 'off', 'id' => 'fecha_inicio_periodo', 'name' => 'fecha_inicio_periodo',
+			                            'placeholder' => 'Ingrese fecha de inicio del período', 'value' => $this->input->post('fecha_inicio_periodo'), 'class' => $class)); ?>
+			                    </div>
+			                    <div class="form-group">
+			                        <label>Fecha de término del periodo que se informa*
+			                            <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['fecha_termino_periodo']?>"></i>
+			                        </label>
+			                        <?php $class = "form-control datepicker";
+			                             echo form_input(array('type' => 'text', 'autocomplete' => 'off', 'id' => 'fecha_termino_periodo', 'name' => 'fecha_termino_periodo',
+			                             'placeholder' => 'Ingrese fecha de término del período', 'value' => $this->input->post('fecha_termino_periodo'), 'class' => $class)); ?>
+			                    </div>
+			                    <!--Fin de fechas DGPA-->
+                                
                                 <div class="form-group">
                                     <label>Sujeto obligado contratante*
                                         <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['soc']?>"></i>
@@ -385,6 +416,62 @@ for($z = 0; $z < sizeof($coberturas); $z++)
                                         <option value="2" <?php if($this->input->post('id_tiempo_oficial') == '2') { ?>  selected="selected"; <?php } ?>>No</option>
                                     </select>
                                 </div>
+                                
+                                <div class="form-group">
+                                    <label>Monto total del tiempo de estado o tiempo fiscal consumidos
+                                        <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['monto_tiempo']?>"></i>
+                                    </label>
+                                     <br>                                                           
+	                                <table class="table">
+										<tr>
+											<th>Horas</th>
+											<th>Minutos</th>
+											<th>Segundos</th>
+											<th>Monto total del tiempo</th>
+										</tr>
+										<tr>
+											<td><input class="form-control" value="00" name="hora_to" id="hora_to" onchange="javascript:monto_TO();"><?php echo set_value('hora_to'); ?></input></td>
+											<td><input class="form-control" value="00" name="minutos_to" id="minutos_to"  onchange="javascript:monto_TO();"><?php echo set_value('minutos_to'); ?></input></td>
+											<td><input class="form-control" value="00" name="segundos_to" id="segundos_to" onchange="javascript:monto_TO();"><?php echo set_value('segundos_to'); ?></input></td>
+											<td><input class="form-control" readonly="readonly" name="monto_tiempo" id="monto_tiempo"><?php echo set_value('monto_tiempo'); ?></input></td>
+										</tr>
+									</table>
+                                </div>
+                             
+                             <script type="text/javascript">
+
+						function monto_TO() {
+						
+						    hora_to=document.getElementById('hora_to').value;
+						    minutos_to=document.getElementById('minutos_to').value;
+						    segundos_to=document.getElementById('segundos_to').value;
+						
+						    monto_tiempo=hora_to+':'+minutos_to+':'+segundos_to;
+						
+						    document.getElementById('monto_tiempo').value=monto_tiempo;
+												
+						}
+						
+						</script>
+						   
+                                <div class="form-group">
+                                    <label>Tipo de tiempo oficial
+                                        <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['tipoTO']?>"></i>
+                                    </label>
+                                    <select name="id_campana_tipoTO" class="form-control <?php if($error_tipoTO) echo 'has-error' ?>">
+                                        <?php echo $sel_tipoTO; ?>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Mensaje sobre el tiempo oficial
+                                        <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['mensajeTO']?>"></i>
+                                    </label>
+                                    <textarea class="form-control" name="mensajeTO" id="mensajeTO"> 
+                                        <?php echo set_value('mensajeTO'); ?> 
+                                    </textarea>
+                                </div>
+                                
                                 <div class="form-group">
                                     <label>Fecha inicio tiempo oficial
                                         <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['fecha_inicio_to']?>"></i>
@@ -400,7 +487,7 @@ for($z = 0; $z < sizeof($coberturas); $z++)
                                     <?php $class = "form-control datepicker";
                                         echo form_input(array('type' => 'text', 'autocomplete' => 'off', 'id' => 'fecha_termino_to', 'name' => 'fecha_termino_to',
                                         'value' => $this->input->post('fecha_termino_to'), 'class' => $class)); ?>
-                                </div>
+                                </div>                                
                                 <div class="form-group">
                                     <label>Publicaci&oacute;n SEGOB.
                                         <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['segob']?>"></i>

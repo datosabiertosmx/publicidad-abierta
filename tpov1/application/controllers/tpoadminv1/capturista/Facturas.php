@@ -106,10 +106,14 @@ class Facturas extends CI_Controller
         */
         $iDisplayStart = 0;
         $iDisplayLength = 10;
-        if ( isset( $_GET['start'] ) && $_GET['length'] != '-1' )
+        $sLimit = "";
+        if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' )
         {
-            $iDisplayStart = $_GET['start'];
-            $iDisplayLength = $_GET['length'];
+            $iDisplayStart = $_GET['iDisplayStart'];
+            $iDisplayLength = $_GET['iDisplayLength'];
+
+            $sLimit = "LIMIT ".intval( $_GET['iDisplayStart'] ).", ".
+                intval( $_GET['iDisplayLength'] );
         }
 
         $data = $this->Facturas_model->dame_paginacion_facturas(false, $iDisplayStart, $iDisplayLength);

@@ -13,12 +13,15 @@ class Exportar extends CI_Controller
     }
 
     function pnt(){
-        $file_70FXXIIIA = $this->F70FXXIIIA('data/archivos/', '70FXXIIIA.csv');
+        $file_F70FXXIIIA = $this->F70FXXIIIA('data/archivos/', 'F70FXXIIIA.csv');
         $file_F70FXXIIIB_reporte_formatos = $this->F70FXXIIIB_reporte_formatos('data/archivos/', 'F70FXXIIIB_reporte_formatos.csv');
         $file_F70FXXIIIB_tabla_10633 = $this->F70FXXIIIB_tabla_10633('data/archivos/', 'F70FXXIIIB_tabla_10633.csv');
         $file_F70FXXIIIB_tabla_10632 = $this->F70FXXIIIB_tabla_10632('data/archivos/', 'F70FXXIIIB_tabla_10632.csv');
         $file_F70FXXIIIB_tabla_10656 = $this->F70FXXIIIB_tabla_10656('data/archivos/', 'F70FXXIIIB_tabla_10656.csv');
-        $files =array($file_70FXXIIIA, $file_F70FXXIIIB_reporte_formatos, $file_F70FXXIIIB_tabla_10633, $file_F70FXXIIIB_tabla_10632, $file_F70FXXIIIB_tabla_10656);
+		$file_F70FXXIIIC = $this->F70FXXIIIC('data/archivos/', 'F70FXXIIIC.csv');
+		$file_F70FXXIIIC_tabla_333914 = $this->F70FXXIIIC_tabla_333914('data/archivos/', 'F70FXXIIIC_tabla_333914.csv');
+        $file_F70FXXIIID = $this->F70FXXIIID('data/archivos/', 'F70FXXIIID.csv');		
+        $files =array($file_F70FXXIIIA, $file_F70FXXIIIB_reporte_formatos, $file_F70FXXIIIB_tabla_10633, $file_F70FXXIIIB_tabla_10632, $file_F70FXXIIIB_tabla_10656, $file_F70FXXIIIC, $file_F70FXXIIIC_tabla_333914, $file_F70FXXIIID);
                
         $leemefile = 'leeme.txt';
         $leemetexto = $this->leemePNT();
@@ -69,13 +72,13 @@ class Exportar extends CI_Controller
         header('Content-type: application/json');
         echo json_encode( $urlfilename );
     }
-
+//Generación del archivo de la sección Erogaciones botón "Descarga de datos"
     function erogaciones(){
         
         $file_facturas = $this->crear_archivo_facturas('data/archivos/', 'facturas.csv');
         $file_facturas_detalle = $this->crear_archivo_facturas_desglose('data/archivos/', 'facturas_detalles.csv');
         $files =array($file_facturas, $file_facturas_detalle);
-               
+             
         $leemefile = 'leeme.txt';
         $leemetexto = $this->leemeErogaciones();
         $this->creaZip($leemefile, $leemetexto, $files, "data/archivos/ErogacionesData.zip");
@@ -475,7 +478,7 @@ class Exportar extends CI_Controller
         $this->load->model('tpoadminv1/Generales_model');
         $filename = $path . $namefile;
         $myfile = fopen(FCPATH . $filename, 'w');
-        
+        $this->db->where('ejercicio', '2018');
         $query = $this->db->get('vout_facturas');
         $csv_header = array('#',
                     utf8_decode('Número de factura'),
@@ -728,8 +731,8 @@ class Exportar extends CI_Controller
         $csv_header = array('#',
                     utf8_decode('Sujeto Obligado'),
                     utf8_decode('Ejercicio'),
-                    //utf8_decode('Fecha de término del periodo que se informa'),
-                    //utf8_decode('Fecha de inicio del periodo que se informa'),
+                    utf8_decode('Fecha de inicio del periodo que se informa'),
+                    utf8_decode('Fecha de término del periodo que se informa'),
                     utf8_decode('Denominación del documento'),
                     utf8_decode('Fecha en La Que Se Aprobó El Programa Anual de Comunicacion Social'),
                     utf8_decode('Hipervínculo Al Programa Anual de Comunicacion Social O Equivalente'),
@@ -749,11 +752,12 @@ class Exportar extends CI_Controller
                     utf8_decode($count),
                     utf8_decode($row['nombre_sujeto_obligado']),
                     utf8_decode($row['ejercicio']),
-                    utf8_decode($row['denominacion']),
+					utf8_decode($row['fecha_inicio_periodo']),
+					utf8_decode($row['fecha_termino_periodo']),
+                    utf8_decode($this->Generales_model->clear_html_tags($row['denominacion'])),
                     utf8_decode($this->Generales_model->clear_date($row['publicacion'])),
                     utf8_decode($this->Generales_model->ruta_descarga_archivos($row['hipervinculo'],  'data/programas/')),
                     utf8_decode($row['area_responsable']),
-                    //utf8_decode($row['periodo']),
                     utf8_decode($this->Generales_model->clear_date($row['validacion'])),
                     utf8_decode($this->Generales_model->clear_date($row['actualizacion'])),
                     utf8_decode($this->Generales_model->clear_html_tags($row['nota']))
@@ -767,7 +771,7 @@ class Exportar extends CI_Controller
 
         return $filename;
      }  
-
+     
      function F70FXXIIIB_reporte_formatos($path, $namefile)
      {
         $this->load->model('tpov1/graficas/Tablas_model');
@@ -1024,8 +1028,187 @@ class Exportar extends CI_Controller
         return $filename;
     }
 
+    private function F70FXXIIIC($path, $namefile)
+    {
 
-    private function getDateTimeMD5( $filename ) {  
+        $this->load->model('tpov1/graficas/Tablas_model');
+        $this->load->model('tpoadminv1/Generales_model');
+        
+        $filename = $path . $namefile;
+        $myfile = fopen(FCPATH . $filename, 'w');
+        
+        $registros = $this->Tablas_model->F70FXXIIIC();
+        $csv_header = array('#',
+                    utf8_decode('Ejercicio'),
+                    utf8_decode('Fecha de inicio del periodo que se informa'),
+                    utf8_decode('Fecha de término del periodo que se informa'),
+                    utf8_decode('Sujeto Obligado'),
+                    utf8_decode('Tipo (catálogo)'),
+                    utf8_decode('Medio de Comunicación (catálogo)'),
+                    utf8_decode('Descripción de Unidad'),
+                    utf8_decode('Concepto o Campaña'),
+                    utf8_decode('Clave Única de Identificación de Campaña o Aviso Institucional'),
+                    utf8_decode('Autoridad Que Proporcionó la Clave Única de Identificación de Campaña o Aviso Institucional'),
+                    utf8_decode('Cobertura (catálogo)'),
+                    utf8_decode('Ámbito Geográfico de Cobertura'),
+                    utf8_decode('Sexo (catálogo)'),
+                    utf8_decode('Lugar de Residencia'),
+                    utf8_decode('Nivel Educativo'),
+                    utf8_decode('Grupo de Edad'),
+                    utf8_decode('Nivel socioeconómico'),
+                    utf8_decode('Concesionario Responsable de Publicar la Campaña o la Comunicación Correspondiente (razón social)'),
+                    utf8_decode('Distintivo y/o Nombre Comercial del Concesionario Responsable de Publicar la Campaña o Comunicación'),
+                    utf8_decode('Descripción Breve de las Razones que Justifican la Elección del Proveedor'),
+                    utf8_decode('Monto Total del Tiempo de Estado o Tiempo Fiscal Consumidos'),
+                    utf8_decode('Área administrativa Encargada de Solicitar la Difusión del Mensaje o Producto'),
+                    utf8_decode('Fecha de Inicio de Difusión del Concepto o Campaña'),
+                    utf8_decode('Fecha de Término de Difusión del Concepto o Campaña'),
+                    utf8_decode('Presupuesto Total Asignado y Ejercido de Cada Partida'),
+                    utf8_decode('Número de Factura'),
+                    utf8_decode('Área(s) Responsable(s) Que Genera(n), Posee(n), Publica(n) y Actualizan la Información'),
+                    utf8_decode('Fecha de Validación'),
+                    utf8_decode('Fecha de actualización'),
+                    utf8_decode('Nota'));
+        fputcsv($myfile, $csv_header);
+        
+        $csv = [];
+        if(sizeof($registros) > 0)
+        {
+            $count = 1;
+            foreach ($registros as $row) 
+            {
+                $csv = array(
+                    utf8_decode($count),
+                    utf8_decode($row['ejercicio']),
+                    utf8_decode($row['fecha_inicio_periodo']),
+                    utf8_decode($row['fecha_termino_periodo']),
+                    utf8_decode($row['nombre_sujeto_obligado']),
+                    utf8_decode($row['id_campana_tipoTO']),
+                    utf8_decode($row['id_servicio_categoria']),
+                    utf8_decode($row['id_servicio_unidad']),
+                    utf8_decode($row['nombre_campana_aviso']),
+                    utf8_decode($row['clave_campana']),
+                    utf8_decode($row['autoridad']),
+                    utf8_decode($row['id_campana_cobertura']),
+                    utf8_decode($row['campana_ambito_geo']),
+                    utf8_decode($row['sexo']),
+                    utf8_decode($row['lugar']),
+                    utf8_decode($row['educacion']),
+                    utf8_decode($row['grupo_edad']),
+                    utf8_decode($row['nivel_socioeconomico']),
+                    utf8_decode($row['razon_social']),
+                    utf8_decode($row['nombre_comercial']),
+                    utf8_decode($this->Generales_model->clear_html_tags($row['razones'])),
+					utf8_decode($row['monto_tiempo']),
+                    utf8_decode($row['Area 1']),
+                    utf8_decode($row['fecha_inicio']),
+                    utf8_decode($row['fecha_termino']),
+					utf8_decode($row['id_respecto_presupuesto']),
+                    utf8_decode($row['numero_factura']),
+                    utf8_decode($row['Area 2']),
+                    utf8_decode($this->Generales_model->clear_date($row['fecha_validacion'])),
+                    utf8_decode($this->Generales_model->clear_date($row['fecha_actualizacion'])),
+                    utf8_decode($this->Generales_model->clear_html_tags($row['nota']))
+                );
+                fputcsv($myfile, $csv);
+                $count += 1;
+            }
+        }
+
+        fclose($myfile);
+
+        return $filename;
+     }
+	
+     function F70FXXIIIC_tabla_333914($path, $namefile) {
+        $this->load->model('tpov1/graficas/Tablas_model');
+        $this->load->model('tpoadminv1/Generales_model');
+        
+        $filename = $path . $namefile;
+        $myfile = fopen(FCPATH . $filename, 'w');
+        
+        $registros = $this->Tablas_model->F70FXXIIIC_tabla_333914();
+        $csv_header = array(
+                    utf8_decode('ID Respecto a los recursos y el presupuesto (Periodo-Partida)'),
+                    utf8_decode('Denominación de Cada Partida'),
+                    utf8_decode('Presupuesto Total Asignado a Cada Partida'),
+                    utf8_decode('Presupuesto Ejercido Al Periodo Reportado de Cada Partida')
+                );
+        fputcsv($myfile, $csv_header);
+        
+        $csv = [];
+        if(sizeof($registros) > 0)
+        {
+            $count = 1;
+            foreach ($registros as $row) 
+            {
+                $csv = array(
+                    utf8_decode($row['id_respecto_presupuesto']),
+                    utf8_decode($row['Denominación de cada partida']),
+                    utf8_decode($row['Presupuesto total asignado a cada partida']),
+                    utf8_decode($row['Presupuesto ejercido al periodo'])
+                );
+                fputcsv($myfile, $csv);
+                $count += 1;
+            }
+        }
+
+        fclose($myfile);
+
+        return $filename;
+    }
+	
+    private function F70FXXIIID($path, $namefile)
+    {
+
+        $this->load->model('tpov1/graficas/Tablas_model');
+        $this->load->model('tpoadminv1/Generales_model');
+        
+        $filename = $path . $namefile;
+        $myfile = fopen(FCPATH . $filename, 'w');
+        
+        $registros = $this->Tablas_model->F70FXXIIID();
+        $csv_header = array('#',
+                    utf8_decode('Ejercicio'),
+                    utf8_decode('Fecha de inicio del periodo que se informa'),
+                    utf8_decode('Fecha de término del periodo que se informa'),
+					utf8_decode('Mensaje'),
+                    utf8_decode('Hipervínculo Que Dirija a La Información Relativa a La Utilización de Los Tiempos Oficiales'),
+                    utf8_decode('Área(s) Responsable(s) Que Genera(n), Posee(n), Publica(n) y Actualizan la Información'),
+                    utf8_decode('Fecha de Validación'),
+                    utf8_decode('Fecha de actualización'),
+                    utf8_decode('Nota'));
+        fputcsv($myfile, $csv_header);
+        
+        $csv = [];
+        if(sizeof($registros) > 0)
+        {
+            $count = 1;
+            foreach ($registros as $row) 
+            {
+                $csv = array(
+                    utf8_decode($count),
+                    utf8_decode($row['ejercicio']),
+                    utf8_decode($row['fecha_inicio_periodo']),
+                    utf8_decode($row['fecha_termino_periodo']),
+					utf8_decode($this->Generales_model->clear_html_tags($row['mensajeTO'])),
+                    utf8_decode($row['publicacion_segob']),
+                    utf8_decode($row['area_responsable']),
+                    utf8_decode($this->Generales_model->clear_date($row['fecha_validacion'])),
+                    utf8_decode($this->Generales_model->clear_date($row['fecha_actualizacion'])),
+                    utf8_decode($this->Generales_model->clear_html_tags($row['nota']))
+                );
+                fputcsv($myfile, $csv);
+                $count += 1;
+            }
+        }
+
+        fclose($myfile);
+
+        return $filename;
+     }
+	
+	private function getDateTimeMD5( $filename ) {  
         $file = FCPATH . 'data/archivos/' . $filename . '.csv';
         if (file_exists($file)) {
            $outstr = 'Archivo: ' . $filename . '.csv  Generado: ' . 
@@ -1037,7 +1220,7 @@ class Exportar extends CI_Controller
     }
 
     private function leemePorProveedor() {
-        return "TPO Ver 1.0a\n" .
+        return "TPO Ver 2.0\n" .
                "A continuación se detalla la exportación de la opción \"Gasto por proveedor\", " . 
                "del sitio " . base_url() . "index.php/tpov1/proveedores" .  
                ", relacionandose los archivos por medio de los ID's. \n\n" .
@@ -1098,7 +1281,7 @@ class Exportar extends CI_Controller
     }
   
     private function leemePresupuestos() {
-        return "TPO Ver 1.0a\n" .
+        return "TPO Ver 2.0\n" .
                "A continuación se detalla la exportación de la opción \"Presupuesto\", " . 
                "del sitio " . base_url() .  
                ", relacionandose los archivos por medio de los ID's. \n\n" .
@@ -1119,7 +1302,7 @@ class Exportar extends CI_Controller
     }
 
     private function leemeGastoPorServicio() {
-        return "TPO Ver 1.0a\n" .
+        return "TPO Ver 2.0\n" .
                "A continuación se detalla la exportación de la opción \"Gasto por tipo de servicio\", " . 
                "del sitio " . base_url() .  
                ", relacionandose los archivos por medio de los ID's. \n\n" .
@@ -1165,7 +1348,7 @@ class Exportar extends CI_Controller
      }
 
      private function leemeContratosyOrdenes() {
-        return "TPO Ver 1.0a\n" .
+        return "TPO Ver 2.0\n" .
                "A continuación se detalla la exportación de la opción \"Contratos y órdenes de compra\", " . 
                "del sitio " . base_url() .  
                ", relacionandose los archivos por medio de los ID's. \n\n" .
@@ -1206,7 +1389,7 @@ class Exportar extends CI_Controller
     }
 
      private function leemeSO() {
-        return "TPO Ver 1.0a\n" .
+        return "TPO Ver 2.0\n" .
                "A continuación se detalla la exportación de la opción \"Sujetos obligados\", " . 
                "del sitio " . base_url() .  
                ", relacionandose los archivos por medio de los ID's. \n\n" .
@@ -1228,7 +1411,7 @@ class Exportar extends CI_Controller
     }   
     
     private function leemeErogaciones() {
-        return "TPO Ver 1.0a\n" .
+        return "TPO Ver 2.0\n" .
                "A continuación se detalla la exportación de la opción \"Erogaciones\", " . 
                "del sitio " . base_url() .  
                ", relacionandose los archivos por medio de los ID's. \n\n" .
@@ -1247,7 +1430,7 @@ class Exportar extends CI_Controller
     }
 
     private function leemeInicio() {
-        return "TPO Ver 1.0a\r\n" .
+        return "TPO Ver 2.0\r\n" .
                "A continuación se detalla la exportación de la opción \"Inicio\", " . 
                "del sitio " . base_url() .  
                ", relacionandose los archivos por medio de los ID's. \r\n\r\n" .
@@ -1281,19 +1464,22 @@ class Exportar extends CI_Controller
     }
 
     private function leemePNT() {
-        return "TPO Ver 1.0a\n" .
+        return "TPO Ver 2.0\n" .
                "A continuación se detalla la exportación de la opción \"PNT\", " . 
                "del sitio " . base_url() .  
                ", relacionandose los archivos por medio de los ID's. \n\n" .
-        $this->leeme70FXXIIIA(). "\n\n".
-        $this->leeme70FXXIIIB(). "\n\n".
+        $this->leemeF70FXXIIIA(). "\n\n".
+        $this->leemeF70FXXIIIB(). "\n\n".
         $this->leemeF70FXXIIIB_tabla_10632(). "\n\n".
         $this->leemeF70FXXIIIB_tabla_10633(). "\n\n".
-        $this->leemeF70FXXIIIB_tabla_10656(). "\n\n";
+        $this->leemeF70FXXIIIB_tabla_10656(). "\n\n".
+		$this->leemeF70FXXIIIC(). "\n\n".
+		$this->leemeF70FXXIIIC_tabla_333914(). "\n\n".
+		$this->leemeF70FXXIIID(). "\n\n";
     }
 
-    private function leeme70FXXIIIA() {
-        return $this->getDateTimeMD5( '70FXXIIIA' ) . "70FXXIIIA\r\n
+    private function leemeF70FXXIIIA() {
+        return $this->getDateTimeMD5( 'F70FXXIIIA' ) . "F70FXXIIIA\r\n
         Ejercicio\r\n
         Denominación del documento\r\n
         Fecha de publicación en el DOF\r\n
@@ -1305,18 +1491,18 @@ class Exportar extends CI_Controller
         Nota\r\n";
     }
 
-    private function leeme70FXXIIIB() {
-        return $this->getDateTimeMD5( '70FXXIIIB' ) . "70FXXIIIB\r\n
-        Función del sujeto obligado:\r\n
-        Función del sujeto obligado:\r\n
+    private function leemeF70FXXIIIB() {
+        return $this->getDateTimeMD5( 'F70FXXIIIB' ) . "F70FXXIIIB\r\n
+        Función del sujeto obligado\r\n
+        Función del sujeto obligado\r\n
         Área administrativa encargada de solicitar el servicio\r\n
-        Clasificación de los servicios:\r\n
+        Clasificación de los servicios\r\n
         Ejercicio\r\n
         Periodo que se informa\r\n
         Tipo de servicio\r\n
         Tipo de medio\r\n
         Descripción de unidad\r\n
-        Tipo: Campaña o aviso institucional:\r\n
+        Tipo: Campaña o aviso institucional\r\n
         Nombre de la campaña o Aviso Institucional\r\n
         Año de la campaña\r\n
         Tema de la campaña o aviso institucional\r\n
@@ -1388,7 +1574,45 @@ class Exportar extends CI_Controller
         Nombre comercial\r\n";
     }
 
+    private function leemeF70FXXIIIC() {
+        return $this->getDateTimeMD5( 'F70FXXIIIC' ) . "F70FXXIIIC\r\n
+        Ejercicio\r\n
+        Denominación del documento\r\n
+        Fecha de publicación en el DOF\r\n
+        Hipervínculo al documento\r\n
+        Fecha de validación\r\n
+        Área responsable de la información\r\n
+        Año\r\n
+        Fecha de actualización\r\n
+        Nota\r\n";
+    }
 
+    private function leemeF70FXXIIIC_tabla_333914() {
+        return $this->getDateTimeMD5( 'F70FXXIIIC_tabla_333914' ) . "F70FXXIIIC_tabla_333914\r\n
+        Ejercicio\r\n
+        Denominación del documento\r\n
+        Fecha de publicación en el DOF\r\n
+        Hipervínculo al documento\r\n
+        Fecha de validación\r\n
+        Área responsable de la información\r\n
+        Año\r\n
+        Fecha de actualización\r\n
+        Nota\r\n";
+    }
+	
+	private function leemeF70FXXIIID() {
+        return $this->getDateTimeMD5( 'F70FXXIIID' ) . "F70FXXIIID\r\n
+        Ejercicio\r\n
+        Denominación del documento\r\n
+        Fecha de publicación en el DOF\r\n
+        Hipervínculo al documento\r\n
+        Fecha de validación\r\n
+        Área responsable de la información\r\n
+        Año\r\n
+        Fecha de actualización\r\n
+        Nota\r\n";
+    }
+	
     //CAMPANAS Y AVISOS
 
     function campanas(){
@@ -1792,7 +2016,7 @@ class Exportar extends CI_Controller
                     utf8_decode($this->Campana_model->dame_sos_nombre($row['id_so_solicitante'])),
                     utf8_decode($this->Campana_model->dame_tiempo_oficial_nombre($row['id_tiempo_oficial'])),
                     utf8_decode($row['nombre_campana_aviso']),
-                    utf8_decode($row['objetivo_comunicacion']),
+                    utf8_decode($this->Generales_model->clear_html_tags($row['objetivo_comunicacion'])),
                     utf8_decode($row['fecha_inicio']),
                     utf8_decode($row['fecha_termino']),
                     utf8_decode($row['fecha_inicio_to']),
@@ -1801,13 +2025,13 @@ class Exportar extends CI_Controller
                     utf8_decode($row['campana_ambito_geo']),
                     utf8_decode($row['plan_acs']),
                     utf8_decode($row['fecha_dof']),
-                    utf8_decode($row['evaluacion']),
+                    utf8_decode($this->Generales_model->clear_html_tags($row['evaluacion'])),
                     utf8_decode($row['evaluacion_documento']),
                     utf8_decode($row['fecha_validacion']),
                     utf8_decode($row['area_responsable']),
                     utf8_decode($row['periodo']),
                     utf8_decode($row['fecha_actualizacion']),
-                    utf8_decode($row['nota']),
+                    utf8_decode($this->Generales_model->clear_html_tags($row['nota'])),
                     utf8_decode($row['autoridad']),
                     utf8_decode($row['clave_campana']),
                     utf8_decode($this->Campana_model->get_estatus_name($row['active'])),
@@ -1823,7 +2047,7 @@ class Exportar extends CI_Controller
     }
 
     private function leemeCampanaAviso() {
-        return "TPO Ver 1.0a\n" .
+        return "TPO Ver 2.0\n" .
                "A continuación se detalla la exportación de la opción \"Campañas y avisos institucionales\", " . 
                "del sitio " . base_url() . "index.php/tpov1/campana_aviso" .  
                ", relacionandose los archivos por medio de los ID's. \n\n" .

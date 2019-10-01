@@ -8,8 +8,8 @@
 ?>
 <?php
     $sel_estatus = '';
-    $lista_estatus = ['-Seleccione-','Activo','En Proceso','Inactivo','Pago Emitido'];
-    $lista_estatus_ids = ['','1','3','2','4'];
+    $lista_estatus = ['-Seleccione-','Activo','Inactivo'];
+    $lista_estatus_ids = ['','1','2'];
     for($z = 0; $z < sizeof($lista_estatus_ids); $z++)
     {
         if( $registro['active'] == 'null' )

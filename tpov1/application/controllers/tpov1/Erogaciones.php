@@ -76,13 +76,8 @@ class Erogaciones extends CI_Controller
         $this->load->model('tpov1/graficas/Graficas_model');
         $this->load->model('tpov1/graficas/Tablas_model');
         
-        $ejercicio = "";
-        if(isset($_GET['id_ejercicio'])){
-            $str = $this->Generales_vp_model->limpiar_Cadena($this->input->post('id_ejercicio'));
-            $ejercicio = $this->Graficas_model->dame_nombre_ejercicio($_GET['id_ejercicio']);
-        }
-        //$str = $this->Generales_vp_model->limpiar_Cadena($this->input->post('id_ejercicio'));
-        //$ejercicio = $this->Graficas_model->dame_nombre_ejercicio($str);
+        $str = $this->Generales_vp_model->limpiar_Cadena($this->input->post('id_ejercicio'));
+        $ejercicio = $this->Graficas_model->dame_nombre_ejercicio($str);
         
         $registros = $this->Tablas_model->get_erogaciones($ejercicio);
         

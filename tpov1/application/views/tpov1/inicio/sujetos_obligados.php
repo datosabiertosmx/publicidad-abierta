@@ -282,7 +282,7 @@
         Highcharts.chart(container, {
             chart: {
                 type: 'packedbubble',
-                height: '65%'
+                height: '35%'
             },
             title: {
                 text: null

@@ -20,25 +20,6 @@
     .tooltip.bottom .tooltip-arrow {
         border-bottom-color: #ccc;
     }
-    .dataTables_processing {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 100%;
-        height: 40px;
-        margin-left: -50%;
-        margin-top: -25px;
-        padding-top: 20px;
-        text-align: center;
-        font-size: 1.2em;
-        background-color: white;
-        background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(255,255,255,0)), color-stop(25%, rgba(255,255,255,0.9)), color-stop(75%, rgba(255,255,255,0.9)), color-stop(100%, rgba(255,255,255,0)));
-        background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,0.9) 75%, rgba(255,255,255,0) 100%);
-        background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,0.9) 75%, rgba(255,255,255,0) 100%);
-        background: -ms-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,0.9) 75%, rgba(255,255,255,0) 100%);
-        background: -o-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,0.9) 75%, rgba(255,255,255,0) 100%);
-        background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,0.9) 75%, rgba(255,255,255,0) 100%);
-    }
 </style>
 <script src="https://code.highcharts.com/modules/data.js"></script>
 <script src="https://code.highcharts.com/modules/drilldown.js"></script>
@@ -150,10 +131,8 @@
 
 var table;
 var init = function(){
-    $('#container').empty();
-    get_valores_tabla_paginado();
     get_valores_meses();
-    //get_valores_tabla();
+    get_valores_tabla();
 }
 
 var get_valores_meses = function(){
@@ -446,84 +425,4 @@ var initDataTable = function(){
         });
     }
 
-    var get_valores_tabla_paginado = function(){
-        var url = '<?php echo base_url() . 'index.php/tpov1/erogaciones/get_erogaciones_tabla' ?>';
-        var dtable = $('#erogaciones').dataTable({
-            'bPaginate': true,
-            'destroy': true,
-            'bLengthChange': true,
-            'bFilter': true,
-            'bSort': true,
-            'bInfo': true,
-            'bAutoWidth': false,
-            "iDisplayStart": 0,
-            "iDisplayLength" : 10,
-            "sEcho" : 1,
-            "processing": true,
-            "serverSide": true,
-            "ajax": {
-                "url": url,
-                "data": {
-                    "id_ejercicio": $('select[name="id_ejercicio"]').val()
-                }
-            },
-            "columns": [
-                { "data": "id" },
-                { "data": "ejercicio" },
-                { "data": "trimestre" },
-                { "data": "proveedor" },
-                { "data": "numero_factura" },
-                { "data": "fecha_erogacion" },
-                { "data": "monto_ejercido" },
-                { "data": "link" },
-            ],
-            'columnDefs': [ 
-                { 'orderable': false, 'targets': [7] } 
-            ],
-            'aLengthMenu': [[10, 25, 50, 100], [10, 25, 50, 100]],  //Paginacion
-            'oLanguage': { 
-                'sSearch': 'B&uacute;squeda ',
-                'sInfoFiltered': '(filtrado de un total de _MAX_ registros)',
-                'sInfo': 'Mostrando registros del <b>_START_</b> al <b>_END_</b> de un total de <b>_TOTAL_</b> registros',
-                'sZeroRecords': 'No se encontraron resultados',
-                'EmptyTable': 'Ning&uacute;n dato disponible en esta tabla',
-                'sInfoEmpty': 'Mostrando registros del 0 al 0 de un total de 0 registros',
-                'sLoadingRecords': '<span><i class="fa fa-refresh fa-spin"></i> Cargando...</span>',
-                'sProcessing': '<span><i class="fa fa-refresh fa-spin"></i> Cargando...</span>',
-                'oPaginate': {
-                    'sFirst': 'Primero',
-                    'sLast': '&Uacute;ltimo',
-                    'sNext': 'Siguiente',
-                    'sPrevious': 'Anterior'
-                },
-                'sLengthMenu': '_MENU_ Registros por p&aacute;gina'
-            },
-            'footerCallback': function(row, data, start, end, display){
-                var api = this.api(), data;
-
-                // Remove the formatting to get integer data for summation
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[\$,]/g, '')*1 :
-                        typeof i === 'number' ?
-                            i : 0;
-                };
-
-                // Total over this page
-                pageTotal6 = api
-                    .column( 6 )
-                    .data()
-                    .reduce( function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0 );
-
-                var colum_6 = '$' + parseFloat(pageTotal6, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString(); 
-                
-                // Update footer
-                $( api.column( 6 ).footer() ).html(
-                    colum_6 
-                );
-            }
-        });
-    }
 </script>

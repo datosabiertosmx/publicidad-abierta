@@ -8,8 +8,8 @@
 ?>
 <?php
     $sel_estatus = '';
-    $lista_estatus = ['-Seleccione-','Activo','En Proceso','Inactivo','Pago Emitido'];
-    $lista_estatus_ids = ['','1','3','2','4'];
+    $lista_estatus = ['-Seleccione-','Activo','Inactivo'];
+    $lista_estatus_ids = ['','1','2'];
     for($z = 0; $z < sizeof($lista_estatus_ids); $z++)
     {
         if( $lista_estatus_ids[$z] == $registro['active'] ){
@@ -159,6 +159,24 @@
                                         <?php echo $sel_sujetos; ?>
                                     </select>
                                 </div>
+								
+								<!--Agregar fechas DGPA -->
+			                    <div class="form-group">
+			                    	<label>Fecha de inicio del período que se informa
+			                        	<i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['fecha_inicio_periodo']?>"></i>
+			                        </label>
+			                        <?php $class = "form-control datepicker";
+			            				echo form_input(array('type' => 'text', 'name' => 'fecha_inicio_periodo', 'value' => $registro['fecha_inicio_periodo'], 'class' => $class)); ?>
+                                 </div>
+			                    <div class="form-group">
+			                        <label>Fecha de término del período que se informa
+			                            <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['fecha_termino_periodo']?>"></i>
+			                        </label>
+			                        <?php $class = "form-control datepicker";
+                                        echo form_input(array('type' => 'text', 'name' => 'fecha_termino_periodo', 'value' => $registro['fecha_termino_periodo'], 'class' => $class)); ?>
+                                </div>
+			                    <!-- Fin de fechas DGPA -->
+								
                                 <div class="form-group">
                                     <label>Fecha de validaci&oacute;n
                                         <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['fecha_validacion']?>"></i>

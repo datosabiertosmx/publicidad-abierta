@@ -150,6 +150,16 @@ class Campanas extends CI_Controller
             return FALSE;
         }
     }
+    
+    function validate_tipoTO($str)
+    {
+        if($str != '0'){
+            return TRUE;
+        }
+        else{
+            return FALSE;
+        }
+    }
 
     function validate_tiempo_oficial($str)
     {
@@ -280,17 +290,6 @@ class Campanas extends CI_Controller
             default: $this->session->set_flashdata('alerta', "Hubo un error intente de nuevo");
                 break;
         }
-        
-
-
-
-
-        
-
-        //id_campana_aviso
-        //nombre_tabla
-        
-
     }
 
 
@@ -432,7 +431,7 @@ class Campanas extends CI_Controller
             'file_saved' => true,
             'file_see' => true,
             'file_load' => true, 
-            "mensaje_file_imagenes" => 'Formatos permitidos JPG y PNG.'
+            "mensaje_file_imagenes" => 'Formatos permitidos PDF, JPG y PNG.'
         );
 
         $data['scripts'] = "<script type='text/javascript'>
@@ -467,7 +466,7 @@ class Campanas extends CI_Controller
             'imagen_file_saved' => true,
             'imagen_file_see' => true,
             'imagen_file_load' => true, 
-            "imagen_mensaje_file" => 'Formatos permitidos JPG y PNG.'
+            "imagen_mensaje_file" => 'Formatos permitidos PDF, JPG y PNG.'
         );
 
 
@@ -617,7 +616,7 @@ class Campanas extends CI_Controller
                         break;
                     case 'imagen':
                         $config['upload_path'] = './data/campanas/imagenes';
-                        $extenciones = array('jpg','png');   
+                        $extenciones = array('jpg','png','pdf');   
                         $name_file = $this->Generales_model->existe_nombre_archivo('./data/campanas/imagenes/', utf8_decode($name_file));
                         break;
                     case 'video':
@@ -916,7 +915,7 @@ class Campanas extends CI_Controller
                 $size = sizeof($porciones);
                 if($size >= 2){
                     //$extenciones = array('xlsx','xls','pdf','doc','docx');
-                    $extenciones = array('png','jpg');
+                    $extenciones = array('png','jpg', 'pdf');
                     $aux = strtolower($porciones[$size-1]); 
                     if(in_array($aux, $extenciones)){
                         $name_file = $this->Generales_model->existe_nombre_archivo('./data/campanas/imagenes/', utf8_decode($name_file));
@@ -1023,7 +1022,7 @@ class Campanas extends CI_Controller
             $size = sizeof($porciones);
             if($size >= 2){
                 //$extenciones = array('xlsx','xls','pdf','doc','docx');
-                $extenciones = array('jpg','png');
+                $extenciones = array('jpg','png','pdf');
                 $aux = strtolower($porciones[$size-1]); 
                 if(in_array($aux, $extenciones)){
                     $name_file = $this->Generales_model->existe_nombre_archivo('./data/campanas/imagenes/', utf8_decode($name_file));
@@ -1281,8 +1280,8 @@ class Campanas extends CI_Controller
             'soc' => 'Indica el nombre del sujeto obligado que celebra el contrato u orden de compra con el proveedor.',
             'sos' => 'Indica el nombre del sujeto que solicitó el producto o servicio aunque éste no sea quien celebra el contrato u orden de compra con el proveedor (Ej. Sujeto obligado solicitante: Secretaría de Cultura; sujeto obligado contratante: Coordinación General de Comunicación Social).',
             'active' => 'Identifica si al campaña esta activa o inactiva.',
-
-            
+			'fecha_inicio_periodo' => 'Fecha de inicio del periodo que se informa',
+            'fecha_termino_periodo' => 'Fecha de termino del periodo que se informa',            
             'tema' => 'Indica el tema de la campa&ntilde;a o aviso institucional (Ej. Salud, Educaci&oacute;n, etc.)',
             'objetivo_institucional' => 'Objetivo institucional de la campa&ntilde;a o aviso institucional',
             'objetivo_comunicacion' => 'Objetivo de comunicaci&oacute;n de la campa&ntilde;a o aviso institucional',
@@ -1292,14 +1291,18 @@ class Campanas extends CI_Controller
             'fecha_termino' => 'Fecha de termino de la transmisi&oacute;n de la campa&ntilde;a o aviso institucional',
             'evaluacion' => 'Evaluaci&oacute;n de la campa&ntilde;a de la campa&ntilde;a y/o aviso institucional',
             'tiempo_oficial' => 'Indica si se utiliz&oacute; o no, tiempo oficial en la transmisi&oacute;n de esa campa&ntilde;a o aviso institucional ',
+            'monto_tiempo' => 'Monto total del tiempo de estado o tiempo fiscal consumidos',
+            'hora_to' => '',
+            'minutos_to' => '',
+            'segundos_to' => '',
+            'tipoTO' => '',
+            'mensajeTO' => '',
             'fecha_inicio_tiempo_oficial' => 'Fecha de inicio del uso del tiempo oficial de la campa&ntilde;a de la campa&ntilde;a o aviso institucional',
             'fecha_termino_tiempo_oficial' => 'Fecha de termino del uso del tiempo oficial de la campa&ntilde;a de la campa&ntilde;a o aviso institucional',
             'segob' => 'Hiperv&iacute;nculo a la informaci&oacute;n sobre la utilizaci&oacute;n de Tiempo Oficial, publicada por la Direcci&oacute;n General de Radio, Televisi&oacute;n y Cinematograf&iacute;a, adscrita a la Secretar&iacute;a de Gobernaci&oacute;n',
             'pacs' => 'Nombre o denominaci&oacute;n del documento del programa anual de comunicaci&oacute;n social.',
             'fecha_publicacion' => 'Fecha en la que se public&oacute; en el Diario Oficial de la Federaci&oacute;n, peri&oacute;dico o gaceta, o portal de Internet institucional correspondiente ',
-            //'evaluacion' => 'Evaluaci&oacute;n de la campa&ntilde;a y/o aviso institucional',
-            'documento' => 'Documento de evaluaci&oacute;n',
-            
+            'documento' => 'Documento de evaluaci&oacute;n',            
             'fecha_validacion' => 'Fecha de validaci&oacute;n',
             'area_responsable' => '&Aacute;rea responsable de la informaci&oacute;n',
             'anio' => 'Año en que se lleva a cabo la difusión de la campaña.',
@@ -1385,6 +1388,7 @@ class Campanas extends CI_Controller
         $data['temas'] = $this->Campana_model->dame_todos_temas();
         $data['objetivos'] = $this->Campana_model->dame_todos_objetivos();
         $data['coberturas'] = $this->Campana_model->dame_todas_coberturas();
+        $data['tiposTO'] = $this->Campana_model->dame_todos_tiposTO();
         
         // poner true para ocultar los botones
         if(!empty($data['campana']['evaluacion_documento']))
@@ -1413,7 +1417,9 @@ class Campanas extends CI_Controller
             'nombre' => 'Título de la campa&ntilde;a o aviso institucional.',
             'autoridad' => 'Autoridad que proporcion&oacute; la clave',
             'ejercicio' => 'Indica el a&ntilde;o del ejercicio presupuestario.',
-            'trimestre' => 'Indica el trimestre que se reporta (enero – marzo, abril-junio, julio-septiembre, octubre-diciembre ).',
+            'trimestre' => 'Indica el trimestre que se reporta (enero-marzo, abril-junio, julio-septiembre, octubre-diciembre).',
+            'fecha_inicio_periodo' => 'Fecha de inicio del periodo que se informa',
+            'fecha_termino_periodo' => 'Fecha de termino del periodo que se informa',
             'sos' => 'Indica el nombre del sujeto obligado que celebra el contrato u orden de compra con el proveedor.',
             'soc' => 'Indica el nombre del sujeto que solicit&oacute; el producto o servicio aunque éste no sea quien celebra el contrato u orden de compra con el proveedor (Ej. Sujeto obligado solicitante: Secretaría de Cultura sujeto obligado contratante: Coordinaci&oacute;n General de Comunicaci&oacute;n Social).',
             'tema' => 'Indica el tema de la campa&ntilde;a o aviso institucional (Ej. Salud, Educaci&oacute;n, etc).',
@@ -1424,6 +1430,12 @@ class Campanas extends CI_Controller
             'fecha_inicio' => 'Fecha de inicio de la transmisi&oacute;n de la campa&ntilde;a o aviso institucional.',
             'fecha_termino' => 'Fecha de término de la transmisi&oacute;n de la campa&ntilde;a o aviso institucional.',
             'tiempo_oficial' => 'Indica si se utiliz&oacute; o no, tiempo oficial en la transmisi&oacute;n de esa campa&ntilde;a o aviso institucional.',
+            'monto_tiempo' => 'Monto total del tiempo de estado o tiempo fiscal consumidos',
+            'hora_to' => '',
+            'minutos_to' => '',
+            'segundos_to' => '',
+            'tipoTO' => '',
+            'mensajeTO' => '',
             'fecha_inicio_to' => 'Fecha de inicio del uso de tiempo oficial de la campa&ntilde;a o aviso institucional.',
             'fecha_termino_to' => 'Fecha de término del uso de tiempo oficial de la campa&ntilde;a o aviso institucional.',
             'segob' => 'Hipervínculo a la informaci&oacute;n sobre la utilizaci&oacute;n de Tiempo Oficial, publicada por Direcci&oacute;n General de Radio, Televisi&oacute;n y Cinematografía, adscrita a la Secretaría de Gobernaci&oacute;n.',
@@ -1443,7 +1455,17 @@ class Campanas extends CI_Controller
         $data['scripts'] .= "<script type='text/javascript'>" .
                                 "$(function () {" .
                                     "tinymce.init({ selector:'textarea' });" .
-                                    "jQuery.datetimepicker.setLocale('es');". 
+                                    "jQuery.datetimepicker.setLocale('es');".
+                                    "jQuery('input[name=\"fecha_inicio_periodo\"]').datetimepicker({ " .
+                                        "timepicker:false," .
+                                        "format:'d.m.Y'," .
+                                        "scrollInput: false" .
+                                    "});" .
+                                    "jQuery('input[name=\"fecha_termino_periodo\"]').datetimepicker({ " .
+                                        "timepicker:false," .
+                                        "format:'d.m.Y'," .
+                                        "scrollInput: false" .
+                                    "});" . 
                                     "jQuery('input[name=\"fecha_inicio\"]').datetimepicker({ " .
                                         "timepicker:false," .
                                         "format:'d.m.Y'," .
@@ -1484,11 +1506,15 @@ class Campanas extends CI_Controller
                                     "});" .
                                     
                                     "$('select[name=\"id_ejercicio\"]').change(function (){" .
+                                        "limitar_fecha('#fecha_termino_periodo');" .
+                                        "limitar_fecha('#fecha_inicio_periodo');" .
                                         "limitar_fecha('#fecha_termino');" .
                                         "limitar_fecha('#fecha_inicio');" .
                                         "limitar_fecha('#fecha_dof');" .
                                      "});" .
                                     
+                                    "limitar_fecha('#fecha_termino_periodo');" .
+                                    "limitar_fecha('#fecha_inicio_periodo');" .
                                     "limitar_fecha('#fecha_inicio');" .
                                     "limitar_fecha('#fecha_termino');" .
                                     "limitar_fecha('#fecha_dof');".
@@ -1577,6 +1603,10 @@ class Campanas extends CI_Controller
         $this->form_validation->set_message('validate_objetivo','Debes seleccionar un Objetivo.');
         $this->form_validation->set_rules('id_campana_cobertura', 'Objetivo', 'required|callback_validate_cobertura');
         $this->form_validation->set_message('validate_cobertura','Debes seleccionar una cobertura.');
+        $this->form_validation->set_rules('id_campana_tipoTO', 'Tipo', 'callback_validate_tipoTO');
+        $this->form_validation->set_message('validate_tipoTO','Debes seleccionar un tipo de tiempo oficial.');
+        $this->form_validation->set_rules('fecha_inicio_periodo', 'Fecha de inicio del periodo que se informa', 'required|callback_fecha_inicio_periodo_check');
+        $this->form_validation->set_rules('fecha_termino_periodo', 'Fecha de termino del periodo que se informa', 'required|callback_fecha_termino_periodo_check');
         $this->form_validation->set_rules('fecha_inicio', 'fecha de inicio', 'callback_fecha_inicio_check');
         $this->form_validation->set_rules('fecha_termino', 'fecha de termino', 'callback_fecha_termino_check');
         $this->form_validation->set_rules('fecha_dof', 'fecha de publicación', 'callback_fecha_dof_check');
@@ -1602,6 +1632,7 @@ class Campanas extends CI_Controller
         $data['temas'] = $this->Campana_model->dame_todos_temas();
         $data['objetivos'] = $this->Campana_model->dame_todos_objetivos();
         $data['coberturas'] = $this->Campana_model->dame_todas_coberturas();
+        $data['tiposTO'] = $this->Campana_model->dame_todos_tiposTO();
         $data['registro'] = array(
             'id_presupuesto' => $this->input->post('id_presupuesto'),
             'id_ejercicio' => $this->input->post('id_ejercicio'),
@@ -1610,9 +1641,16 @@ class Campanas extends CI_Controller
             'fecha_publicacion' => $this->input->post('fecha_publicacion'),
             'file_programa_anual' => $this->input->post('file_programa_anual'),
             'fecha_validacion' => $this->input->post('fecha_validacion'),
+            'fecha_inicio_periodo' => $this->input->post('fecha_inicio_periodo'),
+            'fecha_termino_periodo' => $this->input->post('fecha_termino_periodo'),
             'area_responsable' => $this->input->post('area_responsable'),
             'anio' => $this->input->post('anio'),
             'fecha_actualizacion' => $this->input->post('fecha_actualizacion'),
+            'monto_tiempo' => $this->input->post('monto_tiempo'),
+            'hora_to' => $this->input->post('hota_to'),
+            'minutos_to' => $this->input->post('minutos_to'),
+            'segundos_to' => $this->input->post('segundos_to'),
+            'mensajeTO' => $this->input->post('mensajeTO'),
             'nota' => $this->input->post('nota'),
             'mision' => $this->input->post('mision'),
             'objetivo' => $this->input->post('objetivo'),
@@ -1634,6 +1672,8 @@ class Campanas extends CI_Controller
             'autoridad' => 'Autoridad que proporcion&oacute; la clave',
             'ejercicio' => 'Indica el a&ntilde;o del ejercicio presupuestario.',
             'trimestre' => 'Indica el trimestre que se reporta (enero – marzo, abril-junio, julio-septiembre, octubre-diciembre ).',
+            'fecha_inicio_periodo' => 'Fecha de inicio del periodo que se informa',
+            'fecha_termino_periodo' => 'Fecha de termino del periodo que se informa',
             'sos' => 'Indica el nombre del sujeto obligado que celebra el contrato u orden de compra con el proveedor.',
             'soc' => 'Indica el nombre del sujeto que solicit&oacute; el producto o servicio aunque éste no sea quien celebra el contrato u orden de compra con el proveedor (Ej. Sujeto obligado solicitante: Secretaría de Cultura sujeto obligado contratante: Coordinaci&oacute;n General de Comunicaci&oacute;n Social).',
             'tema' => 'Indica el tema de la campa&ntilde;a o aviso institucional (Ej. Salud, Educaci&oacute;n, etc).',
@@ -1644,6 +1684,12 @@ class Campanas extends CI_Controller
             'fecha_inicio' => 'Fecha de inicio de la transmisi&oacute;n de la campa&ntilde;a o aviso institucional.',
             'fecha_termino' => 'Fecha de término de la transmisi&oacute;n de la campa&ntilde;a o aviso institucional.',
             'tiempo_oficial' => 'Indica si se utiliz&oacute o no, tiempo oficial en la transmisi&oacute;n de esa campa&ntilde;a o aviso institucional.',
+            'monto_tiempo' => 'Monto total del tiempo de estado o tiempo fiscal consumidos',
+            'hora_to' => '',
+            'minutos_to' => '',
+            'segundos_to' => '',
+            'tipoTO' => '',
+            'mensajeTO' => '',
             'fecha_inicio_to' => 'Fecha de inicio del uso de tiempo oficial de la campa&ntilde;a o aviso institucional.',
             'fecha_termino_to' => 'Fecha de término del uso de tiempo oficial de la campa&ntilde;a o aviso institucional.',
             'segob' => 'Hipervínculo a la informaci&oacute;n sobre la utilizaci&oacute;n de Tiempo Oficial, publicada por Direcci&oacute;n General de Radio, Televisi&oacute;n y Cinematografía, adscrita a la Secretaría de Gobernaci&oacute;n.',
@@ -1685,6 +1731,16 @@ class Campanas extends CI_Controller
                                 "$(function () {" .
                                     "tinymce.init({ selector:'textarea' });" .
                                     "jQuery.datetimepicker.setLocale('es');". 
+                                    "jQuery('input[name=\"fecha_inicio_periodo\"]').datetimepicker({ " .
+                                        "timepicker:false," .
+                                        "format:'d.m.Y'," .
+                                        "scrollInput: false" .
+                                    "});" .
+                                    "jQuery('input[name=\"fecha_termino_periodo\"]').datetimepicker({ " .
+                                        "timepicker:false," .
+                                        "format:'d.m.Y'," .
+                                        "scrollInput: false" .
+                                    "});" .
                                     "jQuery('input[name=\"fecha_inicio\"]').datetimepicker({ " .
                                         "timepicker:false," .
                                         "format:'d.m.Y'," .
@@ -1725,11 +1781,15 @@ class Campanas extends CI_Controller
                                     "});" .
                                     
                                     "$('select[name=\"id_ejercicio\"]').change(function (){" .
+                                        "limitar_fecha('#fecha_termino_periodo');" .
+                                        "limitar_fecha('#fecha_inicio_periodo');" .
                                         "limitar_fecha('#fecha_termino');" .
                                         "limitar_fecha('#fecha_inicio');" .
                                         "limitar_fecha('#fecha_dof');" .
                                      "});" .
                                     
+                                    "limitar_fecha('#fecha_termino_periodo');" .
+                                    "limitar_fecha('#fecha_inicio_periodo');" .
                                     "limitar_fecha('#fecha_inicio');" .
                                     "limitar_fecha('#fecha_termino');" .
                                     "limitar_fecha('#fecha_dof');".
@@ -2002,29 +2062,50 @@ class Campanas extends CI_Controller
         echo json_encode( $campana );
     }
 
-
-    function fecha_inicio_check($str)
+	function fecha_inicio_periodo_check($str)
     {
-        /*
         if(empty($str))
         {
-            $this->form_validation->set_message('fecha_inicio_check', 'El campo {field} es obligatorio');
-            return FALSE;
+            $this->form_validation->set_message('fecha_inicio_periodo_check', 'El campo {field} es obligatorio');
+            return TRUE;
         }else if(preg_match("/^(0[1-9]|[12][0-9]|3[01])[.](0[1-9]|1[012])[.](19|20|21)\d\d$/", $str) != 1)
         {
-            $this->form_validation->set_message('fecha_inicio_check', 'El formato del campo {field} es incorrecto, debe ser dd.mm.yyyy');
+            $this->form_validation->set_message('fecha_inicio_periodo_check', 'El formato del campo {field} es incorrecto, debe ser dd.mm.yyyy');
             return FALSE;
         }else{
             $aux = explode('.', $str);
             if(sizeof($aux) == 3 && $aux[2] == $this->input->post('valor_ejercicio')){
                 return TRUE;
             }else{
-                $this->form_validation->set_message('fecha_inicio_check', 'El a&ntilde;o del campo {field} no corresponde con el ejercicio');
+                $this->form_validation->set_message('fecha_inicio_periodo_check', 'El a&ntilde;o del campo {field} no corresponde con el ejercicio');
                 return FALSE;
             }
         }
-        */
+    }
 
+    function fecha_termino_periodo_check($str)
+    {
+        if(empty($str))
+        {
+            $this->form_validation->set_message('fecha_termino_periodo_check', 'El campo {field} es obligatorio');
+            return TRUE;
+        }else if(preg_match("/^(0[1-9]|[12][0-9]|3[01])[.](0[1-9]|1[012])[.](19|20|21)\d\d$/", $str) != 1)
+        {
+            $this->form_validation->set_message('fecha_termino_periodo_check', 'El formato del campo {field} es incorrecto, debe ser dd.mm.yyyy');
+            return FALSE;
+        }else{
+            $aux = explode('.', $str);
+            if(sizeof($aux) == 3 && $aux[2] == $this->input->post('valor_ejercicio')){
+                return TRUE;
+            }else{
+                $this->form_validation->set_message('fecha_termino_periodo_check', 'El a&ntilde;o del campo {field} no corresponde con el ejercicio');
+                return FALSE;
+            }
+        }
+    }
+
+    function fecha_inicio_check($str)
+    {
         if(empty($str))
         {
             $this->form_validation->set_message('fecha_inicio_check', 'El campo {field} es obligatorio');
@@ -2042,9 +2123,6 @@ class Campanas extends CI_Controller
                 return FALSE;
             }
         }
-
-
-
     }
 
     function fecha_termino_check($str)
@@ -2189,6 +2267,7 @@ class Campanas extends CI_Controller
         $data['temas'] = $this->Campana_model->dame_todos_temas();
         $data['objetivos'] = $this->Campana_model->dame_todos_objetivos();
         $data['coberturas'] = $this->Campana_model->dame_todas_coberturas();
+        $data['tiposTO'] = $this->Campana_model->dame_todos_tiposTO();
 
         //texto para dialogos de ayuda
         $data['texto_ayuda'] = array(
@@ -2198,6 +2277,8 @@ class Campanas extends CI_Controller
             'autoridad' => 'Autoridad que proporcion&oacute; la clave',
             'ejercicio' => 'Indica el a&ntilde;o del ejercicio presupuestario.',
             'trimestre' => 'Indica el trimestre que se reporta (enero – marzo, abril-junio, julio-septiembre, octubre-diciembre ).',
+            'fecha_inicio_periodo' => 'Fecha de inicio del periodo que se informa',
+            'fecha_termino_periodo' => 'Fecha de termino del periodo que se informa', 
             'sos' => 'Indica el nombre del sujeto obligado que celebra el contrato u orden de compra con el proveedor.',
             'soc' => 'Indica el nombre del sujeto que solicit&oacute; el producto o servicio aunque éste no sea quien celebra el contrato u orden de compra con el proveedor (Ej. Sujeto obligado solicitante: Secretaría de Cultura sujeto obligado contratante: Coordinaci&oacute;n General de Comunicaci&oacute;n Social).',
             'tema' => 'Indica el tema de la campa&ntilde;a o aviso institucional (Ej. Salud, Educaci&oacute;n, etc).',
@@ -2208,6 +2289,12 @@ class Campanas extends CI_Controller
             'fecha_inicio' => 'Fecha de inicio de la transmisi&oacute;n de la campa&ntilde;a o aviso institucional.',
             'fecha_termino' => 'Fecha de término de la transmisi&oacute;n de la campa&ntilde;a o aviso institucional.',
             'tiempo_oficial' => 'Indica si se utiliz&oacute o no, tiempo oficial en la transmisi&oacute;n de esa campa&ntilde;a o aviso institucional.',
+            'monto_tiempo' => 'Monto total del tiempo de estado o tiempo fiscal consumidos',
+            'hora_to' => '',
+            'minutos_to' => '',
+            'segundos_to' => '',
+            'tipoTO' => '',
+            'mensajeTO' => '',
             'fecha_inicio_to' => 'Fecha de inicio del uso de tiempo oficial de la campa&ntilde;a o aviso institucional.',
             'fecha_termino_to' => 'Fecha de término del uso de tiempo oficial de la campa&ntilde;a o aviso institucional.',
             'segob' => 'Hipervínculo a la informaci&oacute;n sobre la utilizaci&oacute;n de Tiempo Oficial, publicada por Direcci&oacute;n General de Radio, Televisi&oacute;n y Cinematografía, adscrita a la Secretaría de Gobernaci&oacute;n.',
@@ -2245,7 +2332,17 @@ class Campanas extends CI_Controller
         $data['scripts'] .= "<script type='text/javascript'>" .
                                 "$(function () {" .
                                     "tinymce.init({ selector:'textarea' });" .
-                                    "jQuery.datetimepicker.setLocale('es');". 
+                                    "jQuery.datetimepicker.setLocale('es');".
+                                    "jQuery('input[name=\"fecha_inicio_periodo\"]').datetimepicker({ " .
+                                        "timepicker:false," .
+                                        "format:'d.m.Y'," .
+                                        "scrollInput: false" .
+                                    "});" .
+                                    "jQuery('input[name=\"fecha_termino_periodo\"]').datetimepicker({ " .
+                                        "timepicker:false," .
+                                        "format:'d.m.Y'," .
+                                        "scrollInput: false" .
+                                    "});" . 
                                     "jQuery('input[name=\"fecha_inicio\"]').datetimepicker({ " .
                                         "timepicker:false," .
                                         "format:'d.m.Y'," .
@@ -2286,12 +2383,17 @@ class Campanas extends CI_Controller
                                     "});" .
                                     
                                     "$('select[name=\"id_ejercicio\"]').change(function (){" .
+                                        "limitar_fecha('#fecha_termino_periodo');" .
+                                        "limitar_fecha('#fecha_inicio_periodo');" .
                                         "limitar_fecha('#fecha_termino');" .
                                         "limitar_fecha('#fecha_inicio');" .
                                         "limitar_fecha('#fecha_dof');" .
                                      "});" .
-                                     "limitar_fecha('#fecha_termino');" .
-                                     "limitar_fecha('#fecha_inicio');" .
+                                    
+                                    "limitar_fecha('#fecha_termino_periodo');" .
+                                    "limitar_fecha('#fecha_inicio_periodo');" .
+                                    "limitar_fecha('#fecha_termino');" .
+                                    "limitar_fecha('#fecha_inicio');" .
                                     "limitar_fecha('#fecha_dof');" .
                                     
                                 "});" .
@@ -2407,6 +2509,10 @@ class Campanas extends CI_Controller
         $this->form_validation->set_message('validate_objetivo','Debes seleccionar un Objetivo.');
         $this->form_validation->set_rules('id_campana_cobertura', 'Objetivo', 'required|callback_validate_cobertura');
         $this->form_validation->set_message('validate_cobertura','Debes seleccionar una cobertura.');
+        $this->form_validation->set_rules('id_campana_tipoTO', 'Tipo', 'callback_validate_tipoTO');
+        $this->form_validation->set_message('validate_tipoTO','Debes seleccionar un tipo de tiempo oficial.');
+        $this->form_validation->set_rules('fecha_inicio_periodo', 'Fecha de inicio del periodo que se informa', 'required|callback_fecha_inicio_periodo_check');
+        $this->form_validation->set_rules('fecha_termino_periodo', 'Fecha de termino del periodo que se informa', 'required|callback_fecha_termino_periodo_check');        
         $this->form_validation->set_rules('fecha_inicio', 'fecha de inicio', 'callback_fecha_inicio_check');
         $this->form_validation->set_rules('fecha_termino', 'fecha de termino', 'callback_fecha_termino_check');
         $this->form_validation->set_rules('fecha_dof', 'fecha de publicación', 'callback_fecha_dof_check');
@@ -2433,6 +2539,7 @@ class Campanas extends CI_Controller
         $data['temas'] = $this->Campana_model->dame_todos_temas();
         $data['objetivos'] = $this->Campana_model->dame_todos_objetivos();
         $data['coberturas'] = $this->Campana_model->dame_todas_coberturas();
+        $data['tiposTO'] = $this->Campana_model->dame_todos_tiposTO();
 
         $data['registro'] = array(
             'id_factura' => '',
@@ -2445,6 +2552,8 @@ class Campanas extends CI_Controller
             'id_presupuesto_concepto' => '',
             'numero_factura' => '',
             'fecha_erogacion' => '',
+            'fecha_inicio_periodo' => '',
+            'fecha_termino_periodo' => '',
             'file_factura_pdf' => '',
             'file_factura_xml' => '',
             'name_file_factura_pdf' => '',
@@ -2466,6 +2575,9 @@ class Campanas extends CI_Controller
             'autoridad' => 'Autoridad que proporcion&oacute; la clave',
             'ejercicio' => 'Indica el a&ntilde;o del ejercicio presupuestario.',
             'trimestre' => 'Indica el trimestre que se reporta (enero – marzo, abril-junio, julio-septiembre, octubre-diciembre ).',
+            'fecha_inicio_periodo' => 'Fecha de inicio del periodo que se informa',
+            'fecha_termino_periodo' => 'Fecha de termino del periodo que se informa',
+        
             'sos' => 'Indica el nombre del sujeto obligado que celebra el contrato u orden de compra con el proveedor.',
             'soc' => 'Indica el nombre del sujeto que solicit&oacute; el producto o servicio aunque éste no sea quien celebra el contrato u orden de compra con el proveedor (Ej. Sujeto obligado solicitante: Secretaría de Cultura sujeto obligado contratante: Coordinaci&oacute;n General de Comunicaci&oacute;n Social).',
             'tema' => 'Indica el tema de la campa&ntilde;a o aviso institucional (Ej. Salud, Educaci&oacute;n, etc).',
@@ -2476,6 +2588,12 @@ class Campanas extends CI_Controller
             'fecha_inicio' => 'Fecha de inicio de la transmisi&oacute;n de la campa&ntilde;a o aviso institucional.',
             'fecha_termino' => 'Fecha de término de la transmisi&oacute;n de la campa&ntilde;a o aviso institucional.',
             'tiempo_oficial' => 'Indica si se utiliz&oacute o no, tiempo oficial en la transmisi&oacute;n de esa campa&ntilde;a o aviso institucional.',
+            'monto_tiempo' => 'Monto total del tiempo de estado o tiempo fiscal consumidos',
+            'hora_to' => '',
+            'minutos_to' => '',
+            'segundos_to' => '',
+            'tipoTO' => '',
+            'mensajeTO' => '',
             'fecha_inicio_to' => 'Fecha de inicio del uso de tiempo oficial de la campa&ntilde;a o aviso institucional.',
             'fecha_termino_to' => 'Fecha de término del uso de tiempo oficial de la campa&ntilde;a o aviso institucional.',
             'segob' => 'Hipervínculo a la informaci&oacute;n sobre la utilizaci&oacute;n de Tiempo Oficial, publicada por Direcci&oacute;n General de Radio, Televisi&oacute;n y Cinematografía, adscrita a la Secretaría de Gobernaci&oacute;n.',
@@ -2522,7 +2640,17 @@ class Campanas extends CI_Controller
         $data['scripts'] .= "<script type='text/javascript'>" .
                                 "$(function () {" .
                                     "tinymce.init({ selector:'textarea' });" .
-                                    "jQuery.datetimepicker.setLocale('es');". 
+                                    "jQuery.datetimepicker.setLocale('es');".
+                                    "jQuery('input[name=\"fecha_inicio_periodo\"]').datetimepicker({ " .
+                                        "timepicker:false," .
+                                        "format:'d.m.Y'," .
+                                        "scrollInput: false" .
+                                    "});" .
+                                    "jQuery('input[name=\"fecha_termino_periodo\"]').datetimepicker({ " .
+                                        "timepicker:false," .
+                                        "format:'d.m.Y'," .
+                                        "scrollInput: false" .
+                                    "});" . 
                                     "jQuery('input[name=\"fecha_inicio\"]').datetimepicker({ " .
                                         "timepicker:false," .
                                         "format:'d.m.Y'," .
@@ -2563,11 +2691,15 @@ class Campanas extends CI_Controller
                                     "});" .
                                     
                                     "$('select[name=\"id_ejercicio\"]').change(function (){" .
+                                        "limitar_fecha('#fecha_termino_periodo');" .
+                                        "limitar_fecha('#fecha_inicio_periodo');" .
                                         "limitar_fecha('#fecha_termino');" .
                                         "limitar_fecha('#fecha_inicio');" .
                                         "limitar_fecha('#fecha_dof');" .
                                      "});" .
                                     
+                                    "limitar_fecha('#fecha_termino_periodo');" .
+                                    "limitar_fecha('#fecha_inicio_periodo');" .
                                     "limitar_fecha('#fecha_inicio');" .
                                     "limitar_fecha('#fecha_termino');" .
                                     "limitar_fecha('#fecha_dof');".

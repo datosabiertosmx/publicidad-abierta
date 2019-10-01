@@ -7,76 +7,81 @@
             <!-- /.container -->
         </div>
         <!-- /.content-wrapper -->
-        
-        <footer class="footer">
+		
+        <footer style="background: #333333; padding-bottom:10px;">
             <div class="container">
-                <div class="col-md-12 espacio">
+				<div class="row">
                     <div class="col-md-4">
+                    <br><br><br>
+                    <ul>
                         <a href="http://inicio.inai.org.mx" target="_blank">
-                            <img class="img-footer" src="<?php echo base_url() . 'dist/img/inai-footer-04.png' ?>"> 
+                            <img class="img-footer" src="<?php echo base_url() . 'dist/img/INAI.png' ?>"
+							onmouseout="this.src='<?php echo base_url() . 'dist/img/INAI.png' ?>';" 
+							onmouseover="this.src='<?php echo base_url() . 'dist/img/INAI_HOVER.png' ?>';"							
+							style="display:block; margin:auto; height:77px;"> 
                         </a>
-
-                        <a class="ainstitucion" href="http://inicio.inai.org.mx" target="_blank">inai.org.mx</a>
-                        <div class="text-footer">
-                            <p>Instituto Nacional de Transparencia, Acceso a la Información y Protección de Datos Personales</p>
-                            <p>Insurgentes Sur No. 3211 Col. Insurgentes Cuicuilco. Delegación Coyoacán, C.P. 04530</p>
-                            <p>Telinai: 01800 8354 324</p>
-                        </div>
+                        <br>
+						<h5 class="ainstitucion" style="font-size:16px; text-align:center;">En colaboración con:</h5>
+						<br>
+                        <a href="http://fundar.org.mx/" target="_blank">
+                            <img class="img-footer" src="<?php echo base_url() . 'dist/img/fundar-footer-04.png' ?>"					
+							style="display:block; margin:auto;"> 
+                        </a>
+                    </ul>                         
                     </div>
-                    <div class="col-md-4">
-                        <a href="http://fundar.org.mx" target="_blank">
-                            <img class="img-footer" src="<?php echo base_url() . 'dist/img/fundar-footer-04.png' ?>"> 
-                        </a>
-
-                        <a class="ainstitucion" href="http://fundar.org.mx" target="_blank">fundar.org.mx</a>
-                        <div class="text-footer">
-                            <p>Fundar, Centro de Análisis e Investigación A.C.</p>
-                            <p>Cerrada de Alberto Zamora 21, Col. Villa Coyoacán. Delegación Coyoacán, C.P. 04000</p>
-                            <p>Tel: +52 (55) 5554 3001</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <h3 class="h3institucion" >Social</h3>
-                        <a href="https://www.facebook.com/INAImx/" target="_blank">
-                            <img class="a-redes-footer" src="<?php echo base_url() . 'dist/img/fb-bco.png' ?>" />
-                        </a>
-                        <a href="https://twitter.com/INAImexico" target="_blank">
-                            <img class="a-redes-footer" src="<?php echo base_url() . 'dist/img/tw-bco.png' ?>" />
-                        </a>
+                    <div class="col-md-4" style="text-align:center;">
+                        <h5 class="ainstitucion" style="font-size:16px; margin-top:41px;">Síguenos:</h5>
+						<table style="margin: 0 auto;">
+							<td>
+								<a href="https://www.facebook.com/INAImx/" target="_blank">
+								<img class="a-redes-footer" src="<?php echo base_url() . 'dist/img/Facebook.png' ?>"
+									onmouseout="this.src='<?php echo base_url() . 'dist/img/Facebook.png' ?>';" 
+									onmouseover="this.src='<?php echo base_url() . 'dist/img/facebook_hover.png' ?>';"
+									style="display:block; margin:auto; height:45px;">
+								</a>
+							</td>
+							<td>
+								<a href="https://twitter.com/INAImexico" target="_blank">
+								<img class="a-redes-footer" src="<?php echo base_url() . 'dist/img/Twitter.png' ?>"
+									onmouseout="this.src='<?php echo base_url() . 'dist/img/Twitter.png' ?>';" 
+									onmouseover="this.src='<?php echo base_url() . 'dist/img/Twitter_hover.png' ?>';" 
+									style="display:block; margin:auto; height:45px;">
+								</a>
+							</td>
+						</table>
+						<br>
+						<h5 style="color:#0277bd; font-size:16px; font-weight: bold;">#PublicidadAbierta</h5>
+						
+                        <h5 class="ainstitucion" style="font-size:16px;" >Usa y mejora esta herramienta:</h5>
                         <a href="https://github.com/INAImexico" target="_blank">
-                            <img class="a-redes-footer" src="<?php echo base_url() . 'dist/img/gh-bco.png' ?>" />
+                            <img class="a-redes-footer" src="<?php echo base_url() . 'dist/img/GITHUB.png' ?>"
+							onmouseout="this.src='<?php echo base_url() . 'dist/img/GITHUB.png' ?>';" 
+							onmouseover="this.src='<?php echo base_url() . 'dist/img/GITHUB_HOVER.png' ?>';"							
+							style="display:block; margin:auto; height:45px;"/>
                         </a>
-                        <h3 class="h3interes" >Ligas de inter&eacute;s</h3>
-                        <div class="brick">
-                            <ul>
-                                <li>
-                                    <a href="https://www.plataformadetransparencia.org.mx/web/guest/sac" target="_blank">
-                                        Sistema de Solicitudes de Acceso a la Información
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://www.plataformadetransparencia.org.mx/web/guest/mi" target="_blank">
-                                        Sistema de Gestión de Medios de Impugnación
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://www.plataformadetransparencia.org.mx/web/guest/sistema-portales" target="_blank">
-                                        Sistema de Portales de Obligaciones de Transparencia
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                    </div>
+                    
+                    <div class="col-md-4" style="text-align: center; margin-top: 41px;">
+                        <h5 style="color: #999999; font-size:16px; font-weight: bold;">Sitios de interés:</h5>
+							<a href="http://www.plataformadetransparencia.org.mx/web/guest/sac" target="_blank"><h6 style="font-size:13px;">Plataforma Nacional de Transparencia<h6></a>
+                            <a href="https://micrositios.inai.org.mx/gobiernoabierto/" target="_blank"><h6 style="font-size:13px;">Gobierno Abierto y Transparencia</h6></a>
+                            <a href="https://micrositios.inai.org.mx/plandai/" target="_blank"><h6 style="font-size:13px;">Plan Nacional de Socialización del Derecho de Acceso a la Información</h6></a></
+                        <br><br><br><br><br><br>
+                        <h5 style="color: #999999; font-size:16px; font-weight: bold; margin-top:12px;">Contacto:</h5>
+                        
+                            <h6 style="font-size:13px; color: #999999">Instituto Nacional de Transparencia, Acceso a la Información y Protección de Datos Personales</h6>
+                            <h6 style="font-size:13px; color: #999999">Insurgentes Sur No. 3211 Col. Insurgentes Cuicuilco, Alcaldía Coyoacán, C.P. 04530, Ciudad de México, México</h6>
+                            <h6 style="font-size:13px; color: #999999">TELINAI 01800 8354324</h6>
+                            <h6 style="font-size:13px; color: #999999">publicidadabierta@inai.org.mx</h6>                      
                     </div>
                 </div>
-                <div class="col-md-12 espacio">
-                    <div class="pleca-footer"></div>
-                    <div class="bottomFooter">
-                        Transparencia en publicidad oficial - TPO Ver. 2.0. Es una plataforma de código abierto basada en el prototipo funcional desarrollado por el Gobierno del Estado de Oaxaca 2011 – 2016 y Fundar.
-                    </div>
-                </div>
-            </div>
+				<br>				
+				<div class="bottomFooter col-md-12" style="text-align:center; color:#999999; margin-top: 2.9em;">
+                Publicidad Abierta TPO ver.2.0. Antes Transparencia en Publicidad Oficial. Es una plataforma de código abierto basada en el prototipo funcional desarrollado por el Gobierno del Estado de Oaxaca 2011 – 2016 y Fundar.
+				</div> 				
+            </div>			
         </footer>
-    </div>
+  
     <!-- ./wrapper -->
     
     <!-- Bootstrap 3.3.2 JS -->

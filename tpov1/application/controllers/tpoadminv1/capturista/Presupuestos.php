@@ -174,6 +174,8 @@ class Presupuestos extends CI_Controller
             'fecha_publicacion' => '',
             'file_programa_anual' => '',
             'fecha_validacion' => '',
+			'fecha_inicio_periodo' => '',
+            'fecha_termino_periodo' => '',
             'area_responsable' => '',
             'anio' => '',
             'fecha_actualizacion' => '',
@@ -207,6 +209,16 @@ class Presupuestos extends CI_Controller
                                     "tinymce.init({ selector:'textarea' });" .
                                     "jQuery.datetimepicker.setLocale('es');". 
                                     "jQuery('input[name=\"fecha_validacion\"]').datetimepicker({ " .
+                                        "timepicker:false," .
+                                        "format:'d.m.Y'," .
+                                        "scrollInput: false" .
+                                    "});" .
+									"jQuery('input[name=\"fecha_inicio_periodo\"]').datetimepicker({ " .
+                                        "timepicker:false," .
+                                        "format:'d.m.Y'," .
+                                        "scrollInput: false" .
+                                    "});" .
+                                    "jQuery('input[name=\"fecha_termino_periodo\"]').datetimepicker({ " .
                                         "timepicker:false," .
                                         "format:'d.m.Y'," .
                                         "scrollInput: false" .
@@ -249,6 +261,8 @@ class Presupuestos extends CI_Controller
 
         $this->form_validation->set_rules('id_ejercicio', 'ejercicio', 'required');
         $this->form_validation->set_rules('id_sujeto_obligado', 'Sujeto obligado', 'required');
+		$this->form_validation->set_rules('fecha_inicio_periodo', 'Fecha de inicio del periodo que se informa', 'required');
+        $this->form_validation->set_rules('fecha_termino_periodo', 'Fecha de termino del periodo que se informa', 'required');
         $this->form_validation->set_rules('active', 'estatus', 'required');
         $this->form_validation->set_error_delimiters('<p>','</p>');
 
@@ -271,6 +285,8 @@ class Presupuestos extends CI_Controller
             'fecha_publicacion' => $this->input->post('fecha_publicacion'),
             'file_programa_anual' => $this->input->post('file_programa_anual'),
             'fecha_validacion' => $this->input->post('fecha_validacion'),
+			'fecha_inicio_periodo' => $this->input->post('fecha_inicio_periodo'),
+            'fecha_termino_periodo' => $this->input->post('fecha_termino_periodo'),
             'area_responsable' => $this->input->post('area_responsable'),
             'anio' => $this->input->post('anio'),
             'fecha_actualizacion' => $this->input->post('fecha_actualizacion'),
@@ -315,6 +331,16 @@ class Presupuestos extends CI_Controller
                                     "tinymce.init({ selector:'textarea' });" .
                                     "jQuery.datetimepicker.setLocale('es');". 
                                     "jQuery('input[name=\"fecha_validacion\"]').datetimepicker({ " .
+                                        "timepicker:false," .
+                                        "format:'d.m.Y'," .
+                                        "scrollInput: false" .
+                                    "});" .
+									"jQuery('input[name=\"fecha_inicio_periodo\"]').datetimepicker({ " .
+                                        "timepicker:false," .
+                                        "format:'d.m.Y'," .
+                                        "scrollInput: false" .
+                                    "});" .
+                                    "jQuery('input[name=\"fecha_termino_periodo\"]').datetimepicker({ " .
                                         "timepicker:false," .
                                         "format:'d.m.Y'," .
                                         "scrollInput: false" .
@@ -456,6 +482,16 @@ class Presupuestos extends CI_Controller
                                         "format:'d.m.Y'," .
                                         "scrollInput: false" .
                                     "});" .
+									"jQuery('input[name=\"fecha_inicio_periodo\"]').datetimepicker({ " .
+                                        "timepicker:false," .
+                                        "format:'d.m.Y'," .
+                                        "scrollInput: false" .
+                                    "});" .
+                                    "jQuery('input[name=\"fecha_termino_periodo\"]').datetimepicker({ " .
+                                        "timepicker:false," .
+                                        "format:'d.m.Y'," .
+                                        "scrollInput: false" .
+                                    "});" .
                                     "jQuery('input[name=\"fecha_actualizacion\"]').datetimepicker({ " .
                                         "timepicker:false," .
                                         "format:'d.m.Y'," .
@@ -515,6 +551,8 @@ class Presupuestos extends CI_Controller
             'fecha_publicacion' => $this->input->post('fecha_publicacion'),
             'file_programa_anual' => $this->input->post('file_programa_anual'),
             'fecha_validacion' => $this->input->post('fecha_validacion'),
+			'fecha_inicio_periodo' => $this->input->post('fecha_inicio_periodo'),
+            'fecha_termino_periodo' => $this->input->post('fecha_termino_periodo'),
             'area_responsable' => $this->input->post('area_responsable'),
             'anio' => $this->input->post('anio'),
             'fecha_actualizacion' => $this->input->post('fecha_actualizacion'),
@@ -566,6 +604,16 @@ class Presupuestos extends CI_Controller
                                     "tinymce.init({ selector:'textarea' });" .
                                     "jQuery.datetimepicker.setLocale('es');". 
                                     "jQuery('input[name=\"fecha_validacion\"]').datetimepicker({ " .
+                                        "timepicker:false," .
+                                        "format:'d.m.Y'," .
+                                        "scrollInput: false" .
+                                    "});" .
+									"jQuery('input[name=\"fecha_inicio_periodo\"]').datetimepicker({ " .
+                                        "timepicker:false," .
+                                        "format:'d.m.Y'," .
+                                        "scrollInput: false" .
+                                    "});" .
+                                    "jQuery('input[name=\"fecha_termino_periodo\"]').datetimepicker({ " .
                                         "timepicker:false," .
                                         "format:'d.m.Y'," .
                                         "scrollInput: false" .

@@ -169,6 +169,22 @@
                             </td>
                             <td class="col-sm-8" id="item_8"></td>
                         </tr>
+                        
+                        <tr class="form-group">
+                        <td class="control-label col-sm-4">
+                            <b>Fecha de inicio del periodo que se informa*</b>
+                            <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['fecha_inicio_periodo']?>"></i>
+                        </td>
+                        <td class="col-sm-8" id="item_30"></td>
+                    </tr>
+                    <tr class="form-group">
+                        <td class="control-label col-sm-4">
+                            <b>Fecha de término del periodo que se informa*</b>
+                            <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['fecha_termino_periodo']?>"></i>
+                        </td>
+                        <td class="col-sm-8" id="item_31"></td>
+                    </tr>
+                        
                         <tr class="form-group">
                             <td class="control-label col-sm-4">
                                 <b>Sujeto Obligado solicitante* </b>
@@ -235,6 +251,31 @@
                             </td>
                             <td class="col-sm-8" id="item_17"></td>
                         </tr>
+                        
+                        <tr class="form-group">
+                            <td class="control-label col-sm-4">
+                                <b>Monto total del tiempo de estado o tiempo fiscal consumidos</b>
+                                <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['monto_tiempo']?>"></i>
+                            </td>
+                            <td class="col-sm-8" id="item_34"></td>
+                        </tr>
+                        
+                        <tr class="form-group">
+                            <td class="control-label col-sm-4">
+                                <b>Tipo de tiempo oficial</b>
+                                <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['tipoTO']?>"></i>
+                            </td>
+                            <td class="col-sm-8" id="item_32"></td>
+                        </tr>
+                        
+                        <tr class="form-group">
+                            <td class="control-label col-sm-4">
+                                <b>Mensaje de tiempo oficial</b>
+                                <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['mensajeTO']?>"></i>
+                            </td>
+                            <td class="col-sm-8" id="item_33"></td>
+                        </tr>
+                        
                         <tr class="form-group">
                             <td class="control-label col-sm-4">
                                 <b>Fecha inicio tiempo oficial </b>
@@ -415,6 +456,8 @@
                     $('#myModal').find('#item_5').html(response.autoridad);
                     $('#myModal').find('#item_6').html(response.nombre_ejercicio);
                     $('#myModal').find('#item_7').html(response.nombre_trimestre);
+                    $('#myModal').find('#item_30').html(response.fecha_inicio_periodo);
+                    $('#myModal').find('#item_31').html(response.fecha_termino_periodo);
                     $('#myModal').find('#item_8').html(response.nombre_so_contratante);
                     $('#myModal').find('#item_9').html(response.nombre_so_solicitante);
                     $('#myModal').find('#item_10').html(response.nombre_tema);
@@ -425,6 +468,9 @@
                     $('#myModal').find('#item_15').html(response.fecha_inicio);
                     $('#myModal').find('#item_16').html(response.fecha_termino);
                     $('#myModal').find('#item_17').html(response.nombre_tiempo_oficial);
+                    $('#myModal').find('#item_34').html(response.monto_tiempo);
+                    $('#myModal').find('#item_32').html(response.nombre_tipoTO);
+                    $('#myModal').find('#item_33').html(response.mensajeTO);
                     $('#myModal').find('#item_18').html(response.fecha_inicio_to);
                     $('#myModal').find('#item_19').html(response.fecha_termino_to);
                     $('#myModal').find('#item_20').html(response.publicacion_segob);

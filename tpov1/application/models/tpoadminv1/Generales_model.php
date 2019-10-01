@@ -125,6 +125,8 @@ class Generales_model extends CI_Model
             'denominacion_documento' => 'Denominaci&oacute;n del documento del Programa Anual de Comunicación Social o equivalente.',
             'fecha_publicacion' => 'Fecha de publicaci&oacute;n del Programa Anual de Comunicaci&oacute;n Social.',
             'fecha_validacion' => 'Fecha de validaci&oacute;n.',
+			'fecha_inicio_periodo' => 'Fecha de inicio del periodo que se informa',
+            'fecha_termino_periodo' => 'Fecha de termino del periodo que se informa',
             'area_responsable' => '&Aacute;rea responsable de la informaci&oacute;n',
             'periodo' => 'A&ntilde;o',
             'fecha_actualizacion' => 'Fecha de actualizaci&oacute;n',

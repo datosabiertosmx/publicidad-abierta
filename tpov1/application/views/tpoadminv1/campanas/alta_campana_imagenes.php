@@ -114,7 +114,7 @@ for($z = 0; $z < sizeof($cat_tipo_liga); $z++)
                             </div>
                             <input type="text" id="name_file_agregar_imagen" placeholder="Ning&uacute;n archivo seleccionado" value="<?php echo $registro['name_file_campana_imagen']; ?>"  class="form-control" readonly/>
                             <input type="hidden" id="name_file_campana_imagen" name="name_file_campana_imagen" value="<?php echo $registro['name_file_campana_imagen']; ?>" />
-                            <input type="file" name="file_campana_imagen" id="file_campana_imagen" class="hide" accept=".jpg,.png"/>
+                            <input type="file" name="file_campana_imagen" id="file_campana_imagen" class="hide" accept=".jpg,.png,.pdf"/>
                             <div id="file_saved_agregar_imagen" class="input-group-btn" style="<?php if($control_update['file_saved']) echo 'display:none;' ?>">
                                 <button class="btn btn-danger" type="button" onclick="ImagenTriggerClick('eliminarImagen')" >Eliminar archivo</button>
                             </div>
@@ -200,7 +200,7 @@ for($z = 0; $z < sizeof($cat_tipo_liga); $z++)
                                 </div>
                             </div>
                             <input type="hidden" id="name_file_campana_edita_imagen" name="name_file_campana_edita_imagen" value="<?php echo $registro['name_file_campana_imagen_edita']; ?>" />
-                            <input type="file" name="file_campana_edita_imagen" id="file_campana_edita_imagen" class="hide" accept=".jpg,.png"/>
+                            <input type="file" name="file_campana_edita_imagen" id="file_campana_edita_imagen" class="hide" accept=".jpg,.png,.pdf"/>
                         </div>
                         <div class="form-group">
                             <p class="help-block" id="result_upload_edita2"></p>
@@ -363,7 +363,7 @@ for($z = 0; $z < sizeof($cat_tipo_liga); $z++)
                         document.getElementById("file_see_edita_imagen").style.display = "none";
                         document.getElementById("file_load_edita_imagen").style.display = "none";
                         document.getElementById("file_saved_edita_imagen").style.display = "none";
-                        document.getElementById("result_upload_edita2").innerHTML = "Formatos permitidos JPG y PNG.";
+                        document.getElementById("result_upload_edita2").innerHTML = "Formatos permitidos PDF, JPG y PNG.";
                     }
 
                     document.getElementById("btn_GuardarEditaImagen").disabled = false;

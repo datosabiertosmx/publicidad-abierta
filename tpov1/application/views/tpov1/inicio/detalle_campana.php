@@ -34,7 +34,22 @@ if($disponible == true){ /* se muestra la info*/
     {
         $fecha_termino_to = $campana['fecha_termino_to'];
     }
-
+    
+    if($campana['fecha_inicio_periodo'] == '0000-00-00'){
+    	$fecha_inicio_periodo = 'N/A';
+    }
+    else
+    {
+        $fecha_inicio_periodo = $campana['fecha_inicio_periodo'];
+    }
+    
+    if($campana['fecha_termino_periodo'] == '0000-00-00'){
+    	$fecha_termino_periodo = 'N/A';
+    }
+    else
+    {
+        $fecha_termino_periodo = $campana['fecha_termino_periodo'];
+    }    
     
     $link_file = 'No hay archivo';
     if(!empty($campana['evaluacion_documento'])){
@@ -91,7 +106,15 @@ if($disponible == true){ /* se muestra la info*/
                         <td><?php echo $campana['nombre_trimestre']?></td>
                     </tr>
                     <tr>
-                        <td>Sujeto obligado contratante*<i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['so_contratante']?>"></i></td>
+                        <td>Fecha de inicio del periodo que se informa* <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['fecha_inicio_periodo']?>"></i></td>
+                        <td><?php echo $campana['fecha_inicio_periodo']?></td>
+                    </tr>
+                    <tr>
+                        <td>Fecha de término del periodo que se informa* <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['fecha_termino_periodo']?>"></i></td>
+                        <td><?php echo $campana['fecha_termino_periodo']?></td>
+                    </tr>                    
+                    <tr>
+                        <td>Sujeto obligado contratante* <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['so_contratante']?>"></i></td>
                         <td><?php echo $campana['nombre_so_contratante'] . @$link_so_contratante?></td>
                     </tr>
 
@@ -130,6 +153,18 @@ if($disponible == true){ /* se muestra la info*/
                     <tr>
                         <td>Tiempo oficial* <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['tiempo_oficial']?>"></i></td>
                         <td><?php echo $campana['nombre_tiempo_oficial']?></td>
+                    </tr>
+                    <tr>
+                        <td>Monto total del tiempo oficial <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['monto_tiempo']?>"></i></td>
+                        <td><?php echo $campana['monto_tiempo'] ?></td>
+                    </tr>
+                    <tr>
+                        <td>Tipo de tiempo oficial <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['tipoTO']?>"></i></td>
+                        <td><?php echo $campana['nombre_tipoTO'] ?></td>
+                    </tr>
+                    <tr>
+                        <td>Mensaje sobre el tiempo oficial <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['mensajeTO']?>"></i></td>
+                        <td><?php echo $campana['mensajeTO'] ?></td>
                     </tr>
                     <tr>
                         <td>Fecha de inicio tiempo oficial <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['fecha_inicio_to']?>"></i></td>

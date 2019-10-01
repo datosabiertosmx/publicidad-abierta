@@ -17,7 +17,7 @@ header('Expires: 0'); // Proxies.
         <meta charset="UTF-8">
         <title><?php echo $title; ?></title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-        <link rel="shortcut icon" href="<?php echo base_url(); ?>dist/img/favicon.ico" />
+        <link rel="shortcut icon" href="<?php echo base_url(); ?>dist/img/pin_publicidad.png" />
         <!-- Bootstrap 3.3.2 -->
         <link href="<?php echo base_url(); ?>bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Font Awesome Icons -->
@@ -192,6 +192,9 @@ header('Expires: 0'); // Proxies.
                                     </li>
                                     <li <?php if(@$optionactive == 'busqueda_temas') { echo ' class="active"'; } ?>>
                                         <a href="<?php echo base_url(); ?>index.php/tpoadminv1/catalogos/campanas_avisos/busqueda_temas"><i class="fa fa-circle-o"></i> Temas</a>
+                                    </li>
+                                    <li <?php if(@$optionactive == 'busqueda_tiposTO') { echo ' class="active"'; } ?>>
+                                        <a href="<?php echo base_url(); ?>index.php/tpoadminv1/catalogos/campanas_avisos/busqueda_tiposTO"><i class="fa fa-circle-o"></i> Tipos tiempos oficiales</a>
                                     </li>
                                 </ul>
                             <li>

@@ -142,7 +142,23 @@
                             <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['id_sujeto_obligado']?>"></i>
                         </td>
                         <td class="col-sm-8" id="item_2"></td>
-                    </tr>    
+                    </tr>
+					
+					<tr class="form-group">
+                        <td class="control-label col-sm-4">
+                            <b>Fecha de inicio del periodo que se informa</b>
+                            <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['fecha_inicio_periodo']?>"></i>
+                        </td>
+                        <td class="col-sm-8" id="item_23"></td>
+                    </tr>
+                    <tr class="form-group">
+                        <td class="control-label col-sm-4">
+                            <b>Fecha de termino del período que se informa</b>
+                            <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['fecha_termino_periodo']?>"></i>
+                        </td>
+                        <td class="col-sm-8" id="item_24"></td>
+                    </tr>
+					
                     <tr class="form-group">
                         <td class="control-label col-sm-4">
                             <b>Fecha de validaci&oacute;n </b>
@@ -365,6 +381,8 @@
                     $('#myModal').find('#item_1').html(response.ejercicio);
                     $('#myModal').find('#item_2').html(response.nombre_sujeto_obligado);
                     $('#myModal').find('#item_3').html(response.fecha_validacion);
+					$('#myModal').find('#item_23').html(response.fecha_inicio_periodo);
+                    $('#myModal').find('#item_24').html(response.fecha_termino_periodo);
                     $('#myModal').find('#item_4').html(response.area_responsable);
                     $('#myModal').find('#item_5').html(response.anio);
                     $('#myModal').find('#item_6').html(response.fecha_actualizacion);

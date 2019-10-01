@@ -13,7 +13,7 @@
             <div class="pull-right hidden-xs">
                 <b>Versi&oacute;n</b> 2.0
             </div>
-            <strong> &copy;2015 All Rights Reserved Transparencia en publicidad oficial - Ver. 2.0 </strong>
+            <strong> &copy;2015 All Rights Reserved Publicidad abierta</strong>
         </footer>
     </div><!-- ./wrapper -->
 

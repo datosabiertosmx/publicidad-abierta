@@ -17,25 +17,6 @@
     .tooltip.top .tooltip-arrow {
         border-top-color: #ccc;
     }
-    .dataTables_processing {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 100%;
-        height: 40px;
-        margin-left: -50%;
-        margin-top: -25px;
-        padding-top: 20px;
-        text-align: center;
-        font-size: 1.2em;
-        background-color: white;
-        background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(255,255,255,0)), color-stop(25%, rgba(255,255,255,0.9)), color-stop(75%, rgba(255,255,255,0.9)), color-stop(100%, rgba(255,255,255,0)));
-        background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,0.9) 75%, rgba(255,255,255,0) 100%);
-        background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,0.9) 75%, rgba(255,255,255,0) 100%);
-        background: -ms-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,0.9) 75%, rgba(255,255,255,0) 100%);
-        background: -o-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,0.9) 75%, rgba(255,255,255,0) 100%);
-        background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,0.9) 75%, rgba(255,255,255,0) 100%);
-    }
 </style>
 <link href="<?php echo base_url(); ?>editors/tinymce/skins/lightgray/skin.min.css" rel="stylesheet" type="text/css" />
 <script src="<?php echo base_url();?>editors/tinymce/tinymce.min.js"></script>
@@ -445,8 +426,8 @@
                 'sZeroRecords': 'No se encontraron resultados',
                 'EmptyTable': 'Ning&uacute;n dato disponible en esta tabla',
                 'sInfoEmpty': 'Mostrando registros del 0 al 0 de un total de 0 registros',
-                'sLoadingRecords': '<span><i class="fa fa-refresh fa-spin"></i> Cargando...</span>',
-                'sProcessing': '<span><i class="fa fa-refresh fa-spin"></i> Cargando...</span>',
+                'sLoadingRecords': 'Cargando...',
+                'sProcessing': 'Cargando...',
                 'oPaginate': {
                     'sFirst': 'Primero',
                     'sLast': '&Uacute;ltimo',
@@ -481,65 +462,11 @@
     }
 
     var init = function(){
-
         //preparar_exportacion();
-        /*var url = $('#url').val();
+        var url = $('#url').val();
         $('#facturas').find('tbody').empty();
         $('#facturas').find('tbody').append('<tr><td colspan="13" class="text-center"><i class="fa fa-refresh fa-spin"></i> Cargando...</td></tr>');
-        buscar(url, null, set_valores_tabla, 'facturas');*/
-
-        var dtable = $('#facturas').dataTable({
-            'bPaginate': true,
-            'destroy': true,
-            'bLengthChange': true,
-            'bFilter': true,
-            'bSort': true,
-            'bInfo': true,
-            'bAutoWidth': false,
-            "iDisplayStart": 0,
-            "iDisplayLength" : 10,
-            "sEcho" : 1,
-            "processing": true,
-            "serverSide": true,
-            "ajax": 'http://inai/index.php/tpoadminv1/capturista/facturas/facturas_paginacion',
-            "columns": [
-                { "data": "id" },
-                { "data": "orden" },
-                { "data": "contrato" },
-                { "data": "ejercicio" },
-                { "data": "trimestre" },
-                { "data": "proveedor" },
-                { "data": "numero_factura" },
-                { "data": "fecha_erogacion" },
-                { "data": "monto_factura" },
-                { "data": "active" },
-                { "data": "btn_ver"},
-                { "data": "btn_editar"},
-                { "data": "btn_eliminar"}
-            ],
-            'columnDefs': [ 
-                { 'orderable': false, 'targets': [10,11,12] } 
-            ],
-            'aLengthMenu': [[10, 25, 50, 100], [10, 25, 50, 100]],  //Paginacion
-            'oLanguage': { 
-                'sSearch': 'B&uacute;squeda ',
-                'sInfoFiltered': '(filtrado de un total de _MAX_ registros)',
-                'sInfo': 'Mostrando registros del <b>_START_</b> al <b>_END_</b> de un total de <b>_TOTAL_</b> registros',
-                'sZeroRecords': 'No se encontraron resultados',
-                'EmptyTable': 'Ning&uacute;n dato disponible en esta tabla',
-                'sInfoEmpty': 'Mostrando registros del 0 al 0 de un total de 0 registros',
-                'sLoadingRecords': '<span><i class="fa fa-refresh fa-spin"></i> Cargando...</span>',
-                'sProcessing': '<span><i class="fa fa-refresh fa-spin"></i> Cargando...</span>',
-                'oPaginate': {
-                    'sFirst': 'Primero',
-                    'sLast': '&Uacute;ltimo',
-                    'sNext': 'Siguiente',
-                    'sPrevious': 'Anterior'
-                },
-                'sLengthMenu': '_MENU_ Registros por p&aacute;gina'
-            }
-        }).api();
-
+        buscar(url, null, set_valores_tabla, 'facturas');
 
     }
     

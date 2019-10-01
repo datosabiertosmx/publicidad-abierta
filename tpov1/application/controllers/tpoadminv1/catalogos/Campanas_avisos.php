@@ -292,6 +292,251 @@ class Campanas_avisos extends CI_Controller
         redirect('/tpoadminv1/catalogos/campanas_avisos/busqueda_coberturas');
     }
 
+	function busqueda_tiposTO() 
+    {
+        //Validamos que el usuario tenga acceso
+        $permiso = $this->permiso_administrador();
+
+        $this->load->model('tpoadminv1/catalogos/TiposTO_model');
+                
+        $data['title'] = "Tipo de Tiempos Oficiales";
+        $data['heading'] = $this->session->userdata('usuario_nombre');
+        $data['mensaje'] = "";
+        $data['job'] = $this->session->userdata('usuario_job');
+        $data['active'] = 'catalogos'; // solo active 
+        $data['subactive'] = 'campanas_avisos'; // class="active"
+        $data['optionactive'] = "busqueda_tiposTO"; // class="active"
+        $data['body_class'] = 'skin-blue';
+        $data['main_content'] = 'tpoadminv1/catalogos/tipoTO';
+        $print_url = base_url() . "index.php/tpoadminv1/print_ci/print_tiposTO";
+        $data['print_onclick'] = "onclick=\"window.open('" . $print_url . "', '_blank', 'location=yes,height=670,width=1020,scrollbars=yes,status=yes')\"";
+        
+        $data['tiposTO'] = $this->TiposTO_model->dame_todos_tiposTO();
+        
+        $data['path_file_csv'] = $this->TiposTO_model->descarga_tiposTO();
+        $data['name_file_csv'] = "tiposTO.csv";
+
+        $data['scripts'] = "<script type='text/javascript'>" .
+                                "$(function () {" .
+                                        
+                                    "$('#tiposTO').dataTable({" .
+                                        "'bPaginate': true," .
+                                        "'bLengthChange': true," .
+                                        "'bFilter': true," .
+                                        "'bSort': true," .
+                                        "'bInfo': true," .
+                                        "'bAutoWidth': false," .
+                                        "'columnDefs': [ " .
+                                            "{ 'orderable': false, 'targets': [3,4,5] } " .
+                                        "],". 
+                                        "'aLengthMenu': [[10, 25, 50, -1], [10, 25, 50, 'Todo']], " .   //Paginacion
+                                        "'oLanguage': { " .
+                                            "'sSearch': 'B&uacute;squeda '," .
+                                            "'sInfoFiltered': '(filtrado de un total de _MAX_ registros)'," .
+                                            "'sInfo': 'Mostrando registros del <b>_START_</b> al <b>_END_</b> de un total de <b>_TOTAL_</b> registros'," .
+                                            "'sZeroRecords': 'No se encontraron resultados'," .
+                                            "'EmptyTable': 'Ning&uacute;n dato disponible en esta tabla'," .
+                                            "'sInfoEmpty': 'Mostrando registros del 0 al 0 de un total de 0 registros'," .
+                                            "'oPaginate': {" .
+                                                "'sFirst': 'Primero'," .
+                                                "'sLast': '&Uacute;ltimo'," .
+                                                "'sNext': 'Siguiente'," .
+                                                "'sPrevious': 'Anterior'" .
+                                            "}," .
+                                            "'sLengthMenu': '_MENU_ Registros por p&aacute;gina'" .
+                                        "}" .
+                                    "});" .
+                                    "setTimeout(function() { " .
+                                        "$('.alert').alert('close');" .
+                                    "}, 3000);" .
+                                "});" .
+                            "</script>";
+        
+        $this->load->view('tpoadminv1/includes/template', $data);
+    }
+
+    function get_tipoTO()
+    {
+        //Validamos que el usuario tenga acceso
+        $permiso = $this->permiso_administrador();
+        
+        $this->load->model('tpoadminv1/catalogos/TiposTO_model');
+        $tipoTO = $this->TiposTO_model->dame_tipoTO_id($this->uri->segment(5));
+
+        header('Content-type: application/json');
+        
+        echo json_encode( $tipoTO );
+    }
+
+    function agregar_tipoTO()
+    {
+        //Validamos que el usuario tenga acceso
+        $permiso = $this->permiso_administrador();
+        
+        $this->load->model('tpoadminv1/catalogos/TiposTO_model');
+
+        $data['title'] = "Agregar Tipo";
+        $data['heading'] = $this->session->userdata('usuario_nombre');
+        $data['mensaje'] = "";
+        $data['job'] = $this->session->userdata('usuario_job');
+        $data['active'] = 'catalogos'; // solo active 
+        $data['subactive'] = 'campanas_avisos'; // class="active"
+        $data['optionactive'] = "busqueda_tiposTO"; // class="active"
+        $data['body_class'] = 'skin-blue';
+        $data['main_content'] = 'tpoadminv1/catalogos/agregar_tipoTO';
+
+        $data['tipoTO_nombre'] = '';
+        $data['tipoTO_estatus'] = 'null';
+
+        $data['scripts'] = "";
+
+        $this->load->view('tpoadminv1/includes/template', $data);
+    }
+
+    function validate_agregar_tipoTO()
+    {
+        //Validamos que el usuario tenga acceso
+        $permiso = $this->permiso_administrador();
+        
+        $this->load->model('tpoadminv1/catalogos/TiposTO_model');
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('nombre_campana_tipoTO', 'Ingresa un nombre', 'required|min_length[3]');
+        $this->form_validation->set_rules('active', 'Seleccione un estatus valido', 'required');
+        $this->form_validation->set_error_delimiters('<p>','</p>');
+
+        $data['title'] = "Agregar tipo";
+        $data['heading'] = $this->session->userdata('usuario_nombre');
+        $data['mensaje'] = "";
+        $data['job'] = $this->session->userdata('usuario_job');
+        $data['active'] = 'catalogos'; // solo active 
+        $data['subactive'] = 'campanas_avisos'; // class="active"
+        $data['optionactive'] = "busqueda_tiposTO"; // class="active"
+        $data['body_class'] = 'skin-blue';
+        $data['main_content'] = 'tpoadminv1/catalogos/agregar_tipoTO';
+        
+        $data['tipoTO_nombre'] = $this->input->post('nombre_campana_tipoTO');
+        $data['tipoTO_estatus'] = $this->input->post('active');
+    
+        if ($this->form_validation->run() == FALSE) 
+        {
+            $this->load->view('tpoadminv1/includes/template', $data);
+        }else
+        {
+            $redict = true;
+            $agregar = $this->TiposTO_model->agregar_tipoTO();
+            if($agregar == 1){
+                $this->session->set_flashdata('exito', "El tipo " . $this->input->post('nombre_campana_tipoTO') . " se ha creado correctamente");
+            }else if($agregar == 2){
+                $this->session->set_flashdata('alert', "El valor ya se encuentra registrado");
+                $this->load->view('tpoadminv1/includes/template', $data);
+                $redict = false;
+            }else{
+                $this->session->set_flashdata('error', "El tipo " . $this->input->post('nombre_campana_tipoTO') . " no se pudo agregar");
+            }
+            if($redict)
+            {
+                redirect('/tpoadminv1/catalogos/campanas_avisos/busqueda_tiposTO');
+            } 
+        }
+    }
+
+    function editar_tipoTO()
+    {
+        //Validamos que el usuario tenga acceso
+        $permiso = $this->permiso_administrador();
+        
+        $this->load->model('tpoadminv1/catalogos/TiposTO_model');
+                
+        $data['title'] = "Editar tipo";
+        $data['heading'] = $this->session->userdata('usuario_nombre');
+        $data['mensaje'] = "";
+        $data['job'] = $this->session->userdata('usuario_job');
+        $data['active'] = 'catalogos'; // solo active 
+        $data['subactive'] = 'campanas_avisos'; // class="active"
+        $data['optionactive'] = "busqueda_tiposTO"; // class="active"
+        $data['body_class'] = 'skin-blue';
+        $data['main_content'] = 'tpoadminv1/catalogos/editar_tipoTO';
+        
+        $data['tipoTO'] = $this->TiposTO_model->dame_tipoTO_id($this->uri->segment(5));
+
+        $data['scripts'] = "";
+
+        $this->load->view('tpoadminv1/includes/template', $data);
+    }
+
+    function validate_editar_tipoTO()
+    {
+        //Validamos que el usuario tenga acceso
+        $permiso = $this->permiso_administrador();
+        
+        $this->load->model('tpoadminv1/catalogos/TiposTO_model');
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('nombre_campana_tipoTO', 'Ingresa un nombre', 'required|min_length[3]');
+        $this->form_validation->set_error_delimiters('<p>','</p>');
+
+        $data['title'] = "Tipos";
+        $data['heading'] = $this->session->userdata('usuario_nombre');
+        $data['mensaje'] = "";
+        $data['job'] = $this->session->userdata('usuario_job');
+        $data['active'] = 'catalogos'; // solo active 
+        $data['subactive'] = 'campanas_avisos'; // class="active"
+        $data['optionactive'] = "busqueda_tiposTO"; // class="active"
+        $data['body_class'] = 'skin-blue';
+        $data['main_content'] = 'tpoadminv1/catalogos/editar_tipoTO';
+        
+        $data['tipoTO'] = $this->TiposTO_model->dame_tipoTO_id($this->input->post('id_campana_tipoTO'));
+
+        if ($this->form_validation->run() == FALSE) 
+        {
+            $this->load->view('tpoadminv1/includes/template', $data);
+        }else
+        {
+            $redict = true;
+            $editar = $this->TiposTO_model->editar_tipoTO();
+            if($editar == 1){
+                $this->session->set_flashdata('exito', "EL tipo " . $this->input->post('nombre_campana_tipoTO') . " se ha editado correctamente");
+            }else if($editar == 2){
+                $this->session->set_flashdata('alert', "El valor ya se encuentra registrado");
+                $this->load->view('tpoadminv1/includes/template', $data);
+                $redict = false;
+            }else{
+                $this->session->set_flashdata('error', "El tipo " . $this->input->post('nombre_campana_tipoTO') . " no se pudo editar");
+            }
+            
+            if($redict)
+            {
+                redirect('/tpoadminv1/catalogos/campanas_avisos/busqueda_tiposTO');
+            }
+        }
+    }
+
+    function eliminar_tipoTO()
+    {
+        //Validamos que el usuario tenga acceso
+        $permiso = $this->permiso_administrador();
+        
+        $this->load->model('tpoadminv1/catalogos/TiposTO_model');
+        $this->load->model('tpoadminv1/catalogos/Catalogos_model');
+
+        $existe_foreign = $this->Catalogos_model->exist_register_foreign($this->uri->segment(5), 'id_campana_tipoTO', 'tab_campana_aviso');
+
+        if($existe_foreign){
+            $this->session->set_flashdata('alert', "Este registro no puede ser eliminado, ya que se encuentra ligado a registros de campañas/avisos institucionales.");
+        }else{
+            $eliminar = $this->TiposTO_model->eliminar_tipoTO($this->uri->segment(5));
+
+            if($eliminar == 1){
+                $this->session->set_flashdata('exito', "Registro eliminado correctamente");
+            }else {
+                $this->session->set_flashdata('error', "Registro no se pudo eliminar");
+            }
+        }
+        redirect('/tpoadminv1/catalogos/campanas_avisos/busqueda_tiposTO');
+    }
+
+
     function busqueda_objetivos()
     {
         //Validamos que el usuario tenga acceso
