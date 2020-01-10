@@ -26,36 +26,6 @@ class Facturas_Model extends CI_Model
         return $this->db->count_all('tab_facturas');
     }
 
-    function get_params_dynamics(){
-
-        $params = array(
-            'column' => 'id',
-            'columnDir' => 'asc',
-            'sEcho' => 1,
-            'search' => ''
-        );
-
-        if(isset( $_GET['order'][0]['dir'] ) && isset( $_GET['order'][0]['column'] )){
-            //obtiene type order
-            $params['columnDir'] = $_GET['order'][0]['dir'];
-            $orderColumn = intval($_GET['order'][0]['column']);
-
-            if(isset( $_GET['columns'][$orderColumn]['data'] )){
-                $params['column'] = $_GET['columns'][$orderColumn]['data']; 
-            }
-        }
-
-        if(isset($_GET['draw'])){
-            $params['sEcho'] = intval($_GET['draw']);
-        }
-
-        if(isset($_GET['search']['value'])){
-            $params['search'] = $_GET['search']['value'];
-        }
-
-        return $params;
-    }
-
     function dame_paginacion_facturas($activos, $iDisplayStart, $iDisplayLength)
     {
         $this->load->model('tpoadminv1/catalogos/Catalogos_model');
@@ -65,131 +35,50 @@ class Facturas_Model extends CI_Model
         $this->load->model('tpoadminv1/Generales_model');
         $this->load->model('tpoadminv1/capturista/Ordenes_compra_model');
 
+        $this->db->limit($iDisplayLength, $iDisplayStart);
+        //$this->db->limit(10, 1);
+
+        $query = $this->db->get('tab_facturas');
         
-        $params = $this->get_params_dynamics();
         $iTotal = $this->Facturas_model->dame_total_facturas();
-        if ($this->db->table_exists('vlista_facturas')){
-            if($params['column'] != 'id'){
-                $this->db->order_by($params['column'], $params['columnDir']); 
-            }else{
-                $this->db->order_by('id_factura', $params['columnDir']); 
-            }
+        $output = array(
+            'sEcho' => intval($_GET['sEcho']),
+            'iTotalRecords' => $iTotal,
+            'iTotalDisplayRecords' => $iTotal,
+            'aaData' => array()
+        );
 
-            if($params['search'] != ''){
-                $this->db->like('contrato', $params['search']); 
-                $this->db->or_like('orden', $params['search']); 
-                $this->db->or_like('ejercicio', $params['search']); 
-                $this->db->or_like('trimestre', $params['search']); 
-                $this->db->or_like('proveedor', $params['search']); 
-                $this->db->or_like('numero_factura', $params['search']); 
-                $this->db->or_like('fecha_erogacion', $params['search']);
-                $this->db->or_like('monto_factura', $params['search']);  
-                $this->db->or_like('active', $params['search']);  
-            }
-
-            $this->db->limit($iDisplayLength, $iDisplayStart);
-            $query = $this->db->get('vlista_facturas');
-
-            $output = array(
-                'sEcho' => $params['sEcho'],
-                'iTotalRecords' => $iTotal,
-                'iTotalDisplayRecords' => $iTotal,
-                'orderDir' => $params['columnDir'],
-                'orderColumn' => $params['column'],
-                'search' => $params['search'],
-                'aaData' => array()
-            );
-
-            if($query->num_rows() > 0)
+        if($query->num_rows() > 0)
+        {
+            $c_replace = array('\'', '"');
+            $array_items = array();
+            $cont = 0;
+            $numeracion = $iDisplayStart;
+            foreach ($query->result_array() as $row) 
             {
-                $c_replace = array('\'', '"');
-                $array_items = array();
-                $cont = 0;
-                $numeracion = $iDisplayStart;
-                if($params['columnDir'] == 'desc'){
-                    $rest = $params['sEcho'] - 1;
-                    $numeracion = $iTotal - $iDisplayStart;
-                }
-                foreach ($query->result_array() as $row) 
-                {
-                    $url_editar =  base_url() . "index.php/tpoadminv1/capturista/facturas/editar_factura/". $row['id_factura']; 
-                        
-                    if($params['columnDir'] == 'desc'){
-                        $array_items['id'] = $numeracion--;
-                    }else{
-                        $array_items['id'] = ++$numeracion;
-                    }
-                    //$array_items['id_factura'] = $row['id_factura'];
-                    $array_items['orden'] = $row['orden'];
-                    $array_items['contrato'] = $row['contrato'];
-                    $array_items['ejercicio'] = $row['ejercicio'];
-                    $array_items['trimestre'] = $row['trimestre'];
-                    $array_items['proveedor'] = $row['proveedor'];
-                    $array_items['numero_factura'] = $row['numero_factura'];
-                    $array_items['fecha_erogacion'] = $row['fecha_erogacion'];
-                    $array_items['monto_factura'] = $this->Generales_model->money_format("%.2n",$row['monto_factura']);
-                    $array_items['active'] = $row['active'];
-                    $array_items['btn_ver'] = "<span class='btn-group btn btn-info btn-sm' onclick=\"abrirModal(" . $row['id_factura'] . ")\"> <i class='fa fa-search'></i></span>";
-                    $array_items['btn_editar'] = "<a href='" . $url_editar . "'><button class='btn btn-warning btn-sm' title='Editar'><i class=\"fa fa-edit\"></i></button></a>";
-                    $array_items['btn_eliminar'] = "<span class='btn-group btn btn-danger btn-sm' onclick=\"eliminarModal(" . $row['id_factura'] . ", '". str_replace($c_replace, "", $row['numero_factura']) . "')\"> <i class='fa fa-close'></i></span>";
-                    
-                    $output['aaData'][] = $array_items;
-                    $cont++;
-                }
-        
+                $url_editar =  base_url() . "index.php/tpoadminv1/capturista/facturas/editar_factura/". $row['id_factura']; 
+                $array_items['id'] = ++$numeracion;
+                $array_items['id_factura'] = $row['id_factura'];
+                $array_items['orden'] = $this->Ordenes_compra_model->dame_nombre_orden_compra($row['id_orden_compra']);
+                $array_items['contrato'] = $this->Contratos_model->dame_nombre_contrato($row['id_contrato']);
+                $array_items['ejercicio'] = $this->Catalogos_model->dame_nombre_ejercicio($row['id_ejercicio']);
+                $array_items['proveedor'] = $this->Proveedores_model->dame_nombre_proveedor($row['id_proveedor']);
+                $array_items['trimestre'] = $this->Catalogos_model->dame_nombre_trimestre($row['id_trimestre']);
+                $array_items['numero_factura'] = $row['numero_factura'];
+                $array_items['fecha_erogacion'] = $this->Generales_model->dateToString($row['fecha_erogacion']);
+                $array_items['monto_factura'] = $this->Generales_model->money_format("%.2n", $this->get_monto_factura($row['id_factura']));;
+                $array_items['active'] = $this->Generales_model->get_estatus_name($row['active']);
+                $array_items['btn_ver'] = "<span class='btn-group btn btn-info btn-sm' onclick=\"abrirModal(" . $row['id_factura'] . ")\"> <i class='fa fa-search'></i></span>";
+                $array_items['btn_editar'] = "<a href='" . $url_editar . "'><button class='btn btn-warning btn-sm' title='Editar'><i class=\"fa fa-edit\"></i></button></a>";
+                $array_items['btn_eliminar'] = "<span class='btn-group btn btn-danger btn-sm' onclick=\"eliminarModal(" . $row['id_factura'] . ", '". str_replace($c_replace, "", $row['numero_factura']) . "')\"> <i class='fa fa-close'></i></span>";
+                $output['aaData'][] = $array_items;
+                $cont++;
             }
-            return $output;
-        }else{
-            if($params['column'] != 'id'){
-                $this->order_by($params['column'], $params['columnDir']);
-                
-            }
-            $this->db->limit($iDisplayLength, $iDisplayStart);
             
-            $query = $this->db->get('tab_facturas');
-            
-            $output = array(
-                'sEcho' => $params['sEcho'],
-                'iTotalRecords' => $iTotal,
-                'iTotalDisplayRecords' => $iTotal,
-                'orderDir' => $params['columnDir'],
-                'orderColumn' => $params['column'],
-                'aaData' => array()
-            );
-    
-            if($query->num_rows() > 0)
-            {
-                $c_replace = array('\'', '"');
-                $array_items = array();
-                $cont = 0;
-                $numeracion = $iDisplayStart;
-                foreach ($query->result_array() as $row) 
-                {
-                    $url_editar =  base_url() . "index.php/tpoadminv1/capturista/facturas/editar_factura/". $row['id_factura']; 
-                    $array_items['id'] = ++$numeracion;
-                    //$array_items['id_factura'] = $row['id_factura'];
-                    $array_items['orden'] = $this->Ordenes_compra_model->dame_nombre_orden_compra($row['id_orden_compra']);
-                    $array_items['contrato'] = $this->Contratos_model->dame_nombre_contrato($row['id_contrato']);
-                    $array_items['ejercicio'] = $this->Catalogos_model->dame_nombre_ejercicio($row['id_ejercicio']);
-                    $array_items['trimestre'] = $this->Catalogos_model->dame_nombre_trimestre($row['id_trimestre']);
-                    $array_items['proveedor'] = $this->Proveedores_model->dame_nombre_proveedor($row['id_proveedor']);
-                    $array_items['numero_factura'] = $row['numero_factura'];
-                    $array_items['fecha_erogacion'] = $this->Generales_model->dateToString($row['fecha_erogacion']);
-                    $array_items['monto_factura'] = $this->Generales_model->money_format("%.2n", $this->get_monto_factura($row['id_factura']));;
-                    $array_items['active'] = $this->Generales_model->get_estatus_name($row['active']);
-                    $array_items['btn_ver'] = "<span class='btn-group btn btn-info btn-sm' onclick=\"abrirModal(" . $row['id_factura'] . ")\"> <i class='fa fa-search'></i></span>";
-                    $array_items['btn_editar'] = "<a href='" . $url_editar . "'><button class='btn btn-warning btn-sm' title='Editar'><i class=\"fa fa-edit\"></i></button></a>";
-                    $array_items['btn_eliminar'] = "<span class='btn-group btn btn-danger btn-sm' onclick=\"eliminarModal(" . $row['id_factura'] . ", '". str_replace($c_replace, "", $row['numero_factura']) . "')\"> <i class='fa fa-close'></i></span>";
-                    
-                    $output['aaData'][] = $array_items;
-                    $cont++;
-                }
-    
-            }
-    
-            //print_r($output);
-            return $output;
-        }   
+        }
+
+        //print_r($output);
+        return $output;
     }
 
     function dame_todas_facturas($activos)

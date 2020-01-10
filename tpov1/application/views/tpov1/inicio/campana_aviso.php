@@ -463,7 +463,7 @@
             Highcharts.chart('container2', {
                 chart: {
                     type: 'packedbubble',
-                    height: '65%'
+                    height: '35%'
                 },
                 title: {
                     text: ''//response['name']

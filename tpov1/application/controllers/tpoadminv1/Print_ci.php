@@ -83,6 +83,32 @@ class Print_CI extends CI_Controller
         $this->load->view('tpoadminv1/includes/print_template', $data);
     }
 
+    function print_tiposTO(){
+         //Validamos que el usuario tenga acceso
+        $this->permiso_administrador();
+
+        $this->load->model('tpoadminv1/catalogos/TiposTO_model');
+        
+        $data['title'] = "Tipo de Tiempo Oficial";
+        $data['registros'] = $this->TiposTO_model->dame_todos_tiposTO();
+        
+        //lista de nombre de las columnas como se carga en el array de registros
+        $data['registros_columnas'] = array(
+            'id_campana_tipoTO',
+            'nombre_campana_tipoTO',
+            'active'
+        );
+        //lista de nombre de los <th> para la tabla, debe ser el mismo numero de registros que el array de registros_columnas
+        $data['nombre_columnas'] = array(
+            '#',
+            'Tipo de Tiempo Oficial',
+            'Estatus'
+        );
+
+        $this->load->view('tpoadminv1/includes/print_template', $data);
+    }
+
+
     function print_objetivos(){
 
         //Validamos que el usuario tenga acceso

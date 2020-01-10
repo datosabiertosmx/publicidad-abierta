@@ -12,7 +12,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-15"> 
         <title><?php echo $title; ?></title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-        <link rel="shortcut icon" href="<?php echo base_url(); ?>dist/img/favicon.ico" />
+        <link rel="shortcut icon" href="<?php echo base_url(); ?>dist/img/pin_publicidad.png" />
         <!-- Bootstrap 3.3.2 -->
         <link href="<?php echo base_url(); ?>bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Font Awesome Icons -->
@@ -61,4 +61,4 @@
     }
 
     </style>
-<body class="<?php echo $body_class; ?> body_back" style="background-image: url(<?php echo base_url(); ?>dist/img/tpobk.jpg);">
+<body class="<?php echo $body_class; ?> body_back" style="background: #333333;">
