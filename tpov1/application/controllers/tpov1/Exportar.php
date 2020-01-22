@@ -478,7 +478,7 @@ class Exportar extends CI_Controller
         $this->load->model('tpoadminv1/Generales_model');
         $filename = $path . $namefile;
         $myfile = fopen(FCPATH . $filename, 'w');
-        $this->db->where('ejercicio', '2018');
+
         $query = $this->db->get('vout_facturas');
         $csv_header = array('#',
                     utf8_decode('Número de factura'),
