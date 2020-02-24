@@ -315,6 +315,8 @@ header('Expires: 0'); // Proxies.
                             <i class="fa fa-database"></i> Campañas y avisos institucionales
                         </a>
                     </li>
+                    <?php } if($this->session->userdata('usuario_rol') == '2' 
+                        && ($this->session->userdata('usuario_id_so_atribucion') == 1 || $this->session->userdata('usuario_id_so_atribucion') == 3)){ ?>
                     <li class=" <?php if($active == 'contratos') { echo ' active'; } ?>">
                         <a href="<?php echo base_url(); ?>index.php/tpoadminv1/capturista/contratos/busqueda_contratos">
                             <i class="fa fa-bookmark-o"></i> Contratos
