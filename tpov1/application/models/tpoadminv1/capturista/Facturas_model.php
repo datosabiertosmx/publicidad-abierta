@@ -828,7 +828,22 @@ class Facturas_Model extends CI_Model
 
         return false;
     }    
+	
+	function last_id_factura()
+    {
+        $query_str = 'select * from tab_facturas order by id_factura desc limit 1'; 
+        
+        $query = $this->db->query($query_str);
 
+        if ($query->num_rows() > 0)
+        {
+            foreach ($query->result_array() as $row) { }
+            return $row['id_factura'];
+        }else{
+            return 0;
+        }   
+    }
+	
     function get_monto_factura_by_idejercicio($id_ejercicio){
         $sqltext = 'select 
                 count(*) as total,

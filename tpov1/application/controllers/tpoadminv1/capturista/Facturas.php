@@ -621,7 +621,13 @@ class Facturas extends CI_Controller
             }
             if($redict)
             {
-                redirect('/tpoadminv1/capturista/facturas/busqueda_facturas');
+                $id = $this->Facturas_model->last_id_factura();
+                if($id != 0){
+                    $this->session->set_flashdata('tab_flag', "desglose");
+                    redirect('/tpoadminv1/capturista/facturas/editar_factura/'.$id);
+                }else{
+                    redirect('/tpoadminv1/capturista/facturas/busqueda_facturas');
+                }
             } 
         }
     }
