@@ -7,33 +7,25 @@
 ?>
 <?php
 
-//print_r($this->input->post('id_campana_aviso'));
+	$sel_camp_tipo = '<option value="0">- Selecciona -</option>';
+	for($z = 0; $z < sizeof($camp_tipo); $z++)
+	{
+	    if($campana['id_campana_tipo'] == $camp_tipo[$z]['id_campana_tipo']){
+	        $sel_camp_tipo .= '<option value="'.$camp_tipo[$z]['id_campana_tipo'].'" selected>' . $camp_tipo[$z]['nombre_campana_tipo'] . '</option>';
+	    }else{
+	        $sel_camp_tipo .= '<option value="'.$camp_tipo[$z]['id_campana_tipo'].'">' . $camp_tipo[$z]['nombre_campana_tipo'] . '</option>';
+	    }
+	}
 
-//print_r($this->session);
-
-//if($this->session->userdata('usuario_nombre'))
-
-
-$sel_camp_tipo = '<option value="0">- Selecciona -</option>';
-for($z = 0; $z < sizeof($camp_tipo); $z++)
-{
-    if($campana['id_campana_tipo'] == $camp_tipo[$z]['id_campana_tipo']){
-        $sel_camp_tipo .= '<option value="'.$camp_tipo[$z]['id_campana_tipo'].'" selected>' . $camp_tipo[$z]['nombre_campana_tipo'] . '</option>';
-    }else{
-        $sel_camp_tipo .= '<option value="'.$camp_tipo[$z]['id_campana_tipo'].'">' . $camp_tipo[$z]['nombre_campana_tipo'] . '</option>';
-    }
-}
-
-$sel_camp_subtipo = '<option value="0">- Selecciona -</option>';
-for($z = 0; $z < sizeof($camp_subtipo); $z++)
-{
-    if($campana['id_campana_subtipo'] == $camp_subtipo[$z]['id_campana_subtipo']){
-        $sel_camp_subtipo .= '<option value="'.$camp_subtipo[$z]['id_campana_subtipo'].'" selected>' . $camp_subtipo[$z]['nombre_campana_subtipo'] . '</option>';
-    }else{
-        $sel_camp_subtipo .= '<option value="'.$camp_subtipo[$z]['id_campana_subtipo'].'">' . $camp_subtipo[$z]['nombre_campana_subtipo'] . '</option>';
-    }
-}
-
+	$sel_camp_subtipo = '<option value="0">- Selecciona -</option>';
+	for($z = 0; $z < sizeof($camp_subtipo); $z++)
+	{
+	    if($campana['id_campana_subtipo'] == $camp_subtipo[$z]['id_campana_subtipo']){
+	        $sel_camp_subtipo .= '<option value="'.$camp_subtipo[$z]['id_campana_subtipo'].'" selected>' . $camp_subtipo[$z]['nombre_campana_subtipo'] . '</option>';
+	    }else{
+	        $sel_camp_subtipo .= '<option value="'.$camp_subtipo[$z]['id_campana_subtipo'].'">' . $camp_subtipo[$z]['nombre_campana_subtipo'] . '</option>';
+	    }
+	}
 
     $sel_ejercicios = '<option value="0">- Selecciona -</option>';
     for($z = 0; $z < sizeof($ejercicios); $z++)
@@ -45,7 +37,6 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
         }
     }
 
-
     $sel_trimestre = '<option value="0">- Selecciona -</option>';
     for($z = 0; $z < sizeof($trimestres); $z++)
     {
@@ -55,7 +46,6 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
             $sel_trimestre .= '<option value="'.$trimestres[$z]['id_trimestre'].'">' . $trimestres[$z]['trimestre'] . '</option>';
         }
     }
-
 
     $sel_estatus = '';
     $lista_estatus = ['-Seleccione-','Activo','Inactivo'];
@@ -69,7 +59,6 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
         }   
     }
 
-
     $sel_ejercicios = '<option value="0">-Seleccione-</option>';
     for($z = 0; $z < sizeof($ejercicios); $z++)
     {
@@ -80,28 +69,25 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
         }
     }
 
-
-    $sel_so_solicitante = '<option value="0">-Seleccione-</option>';
-    for($z = 0; $z < sizeof($sujetos); $z++)
+	$sel_so_solicitantes = '<option value="0">-Seleccione-</option>';
+    for($z = 0; $z < sizeof($so_solicitantes); $z++)
     {
-        if($campana['id_so_solicitante'] == $sujetos[$z]['id_sujeto_obligado']){
-            $sel_so_solicitante .= '<option value="'.$sujetos[$z]['id_sujeto_obligado'].'" selected>' . $sujetos[$z]['nombre_sujeto_obligado'] . '</option>';
+        if($campana['id_so_solicitante'] == $so_solicitantes[$z]['id_sujeto_obligado']){
+            $sel_so_solicitantes .= '<option value="'.$so_solicitantes[$z]['id_sujeto_obligado'].'" selected>' . $so_solicitantes[$z]['nombre_sujeto_obligado'] . '</option>';
         }else{
-            $sel_so_solicitante .= '<option value="'.$sujetos[$z]['id_sujeto_obligado'].'">' . $sujetos[$z]['nombre_sujeto_obligado'] . '</option>';
+            $sel_so_solicitantes .= '<option value="'.$so_solicitantes[$z]['id_sujeto_obligado'].'">' . $so_solicitantes[$z]['nombre_sujeto_obligado'] . '</option>';
         }
     }
 
-
-    $sel_so_contratante = '<option value="0">-Seleccione-</option>';
-    for($z = 0; $z < sizeof($sujetos); $z++)
+    $sel_so_contratantes = '<option value="0">-Seleccione-</option>';
+    for($z = 0; $z < sizeof($so_contratantes); $z++)
     {
-        if($campana['id_so_contratante'] == $sujetos[$z]['id_sujeto_obligado']){
-            $sel_so_contratante .= '<option value="'.$sujetos[$z]['id_sujeto_obligado'].'" selected>' . $sujetos[$z]['nombre_sujeto_obligado'] . '</option>';
+        if($campana['id_so_contratante'] == $so_contratantes[$z]['id_sujeto_obligado']){
+            $sel_so_contratantes .= '<option value="'.$so_contratantes[$z]['id_sujeto_obligado'].'" selected>' . $so_contratantes[$z]['nombre_sujeto_obligado'] . '</option>';
         }else{
-            $sel_so_contratante .= '<option value="'.$sujetos[$z]['id_sujeto_obligado'].'">' . $sujetos[$z]['nombre_sujeto_obligado'] . '</option>';
+            $sel_so_contratantes .= '<option value="'.$so_contratantes[$z]['id_sujeto_obligado'].'">' . $so_contratantes[$z]['nombre_sujeto_obligado'] . '</option>';
         }
     }
-
 
     $sel_camp_tema = '<option value="0">-Seleccione-</option>';
     for($z = 0; $z < sizeof($temas); $z++)
@@ -113,8 +99,6 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
         }
     }
 
-
-
     $sel_objetivo = '<option value="0">-Seleccione-</option>';
     for($z = 0; $z < sizeof($objetivos); $z++)
     {
@@ -124,7 +108,6 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
             $sel_objetivo .= '<option value="'.$objetivos[$z]['id_campana_objetivo'].'">' . $objetivos[$z]['campana_objetivo'] . '</option>';
         }
     }
-
 
     $sel_cobertura = '<option value="0">-Seleccione-</option>';
     for($z = 0; $z < sizeof($coberturas); $z++)
@@ -230,9 +213,6 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
             $error_tipoTO = !empty(form_error('id_campana_tipoTO', '<div class="text-danger">', '</div>'));            
             $error_tiempo_oficial = !empty(form_error('id_campana_objetivo', '<div class="text-danger">', '</div>'));
             $error_fecha_pub = !empty(form_error('id_campana_objetivo', '<div class="text-danger">', '</div>'));
-
-
-
             $error_e = !empty(form_error('id_ejercicio', '<div class="text-danger">', '</div>'));
             $error_so = !empty(form_error('id_sujeto_obligado', '<div class="text-danger">', '</div>'));
             $error_active = !empty(form_error('active', '<div class="text-danger">', '</div>'));
@@ -253,9 +233,6 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
                 <li>
                 <li class="<?php if($this->session->flashdata('tab_flag')) echo 'active' ?>">
                     <a href="#tab_2" data-toggle="tab" onclick="verificar(<?php echo $this->session->userdata('id_campana_aviso')?>);">Grupo de edad </a>
-                    <!--
-                        <a href="#tab_2" data-toggle="tab" onclick="verificar();">Grupo de edad </a>
-                    -->
                 <li>
                 <li class="<?php if($this->session->flashdata('tab_flag')) echo 'active' ?>">
                     <a href="#tab_3" data-toggle="tab" onclick="lugar(<?php echo $this->session->userdata('id_campana_aviso')?>);">Lugar</a>
@@ -287,10 +264,7 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
                         <div class="box">
                             <div class="box-header">
                             </div><!-- /.box-header -->
-                            <div class="box-body">
-                                
-                                <!--<div class="callout callout-info"><h4>Campa&ntilde;as y Avisos</h4></div>-->
-                                
+                            <div class="box-body">                                
                                 <div class="form-group">
                                     <label>Tipo* 
                                         <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['tipo']?>"></i>
@@ -309,7 +283,6 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
                                         </select>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
                                     <label>Nombre* 
                                         <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['nombre']?>"></i>
@@ -371,7 +344,7 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
                                         <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['soc']?>"></i>
                                     </label>
                                     <select name="id_so_contratante" class="form-control <?php if($error_so) echo 'has-error' ?>">
-                                        <?php echo $sel_so_contratante; ?>
+                                        <?php echo $sel_so_contratantes; ?>
                                     </select>
                                 </div>                                
                                 <div class="form-group">
@@ -379,7 +352,7 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
                                         <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['sos']?>"></i>
                                     </label>
                                     <select name="id_so_solicitante" class="form-control <?php if($error_so) echo 'has-error' ?>">
-                                        <?php echo $sel_so_solicitante; ?>
+                                        <?php echo $sel_so_solicitantes; ?>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -480,21 +453,20 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
                                 
                         <script type="text/javascript">
 
-						function monto_TO() {
-						
-						    hora_to=document.getElementById('hora_to').value;
-						    minutos_to=document.getElementById('minutos_to').value;
-						    segundos_to=document.getElementById('segundos_to').value;
-						
-						    monto_tiempo=hora_to+':'+minutos_to+':'+segundos_to;
-						
-						    document.getElementById('monto_tiempo').value=monto_tiempo;
+							function monto_TO() {
 							
-                       	}
+							    hora_to=document.getElementById('hora_to').value;
+							    minutos_to=document.getElementById('minutos_to').value;
+							    segundos_to=document.getElementById('segundos_to').value;
+							
+							    monto_tiempo=hora_to+':'+minutos_to+':'+segundos_to;
+							
+							    document.getElementById('monto_tiempo').value=monto_tiempo;
+								
+	                       	}
 						
 						</script>    
-                                
-                                
+                                                              
                                 <div class="form-group">
                                     <label>Tipo de tiempo oficial
                                         <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['tipoTO']?>"></i>
@@ -587,7 +559,6 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
                                 <div class="form-group">
                                     <p class="help-block" id="result_upload"><?php echo $control_update['mensaje_file_documento']; ?> </p>
                                 </div>
-
 
                                 <div class="form-group">
                                     <label>Estatus*
@@ -694,22 +665,12 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
 
                     </form>
                 </div>
-
-
-
-
-                
-                
-                
-            
+           
         </div>
         <!-- nav tabs custom-->
 
     </div>
 </section>
-
-
-
 
 
 <!-- Modal Details-->
@@ -822,7 +783,6 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
 </div>
 
 
-
 <!-- Modal -->
 
 <div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="false" href="#">
@@ -844,13 +804,6 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
 
 
 <script type="text/javascript">
@@ -1046,7 +999,6 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
             $('#myTab a[href="' + activeTab + '"]').tab('show');
         }
     });
-
 
 
     var eliminarModal = function(id, id2 ,name){
@@ -1315,7 +1267,6 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
 
                                                 /*Match found */
                                             }
-
 
 
                                             //alert('EXITO VIDEO');
@@ -1679,7 +1630,6 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
                         }
 
 
-
                         $('#file_by_save_audio_edita').show();
                         $('#file_saved_audio_edita').hide();
                         $('#file_load_audio_edita').hide();
@@ -1701,14 +1651,6 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
                                     });
                                 }
         }
-
-    
-
-
-    
-
-
-    
 
 
     //FIN FUNCIONES REVISADAS
@@ -1753,19 +1695,6 @@ for($z = 0; $z < sizeof($camp_subtipo); $z++)
             });
         }
     }
-
-    
-
-
-    
-
-    
-
-
-    
-
-
-
 
     var upload_file_imagen2 = function (){
         if($("input[name='imagen_file']")[0].files.length > 0){

@@ -66,26 +66,26 @@ for($z = 0; $z < sizeof($lista_estatus_ids); $z++)
 }
 
 //Sujeto obligado solicitante
-$sel_so_solicitante = '<option value="0">-Seleccione-</option>';
-for($z = 0; $z < sizeof($sujetos); $z++)
-{
-    if($this->input->post('id_so_solicitante') == $sujetos[$z]['id_sujeto_obligado']){
-        $sel_so_solicitante .= '<option value="'.$sujetos[$z]['id_sujeto_obligado'].'" selected>' . $sujetos[$z]['nombre_sujeto_obligado'] . '</option>';
-    }else{
-        $sel_so_solicitante .= '<option value="'.$sujetos[$z]['id_sujeto_obligado'].'">' . $sujetos[$z]['nombre_sujeto_obligado'] . '</option>';
+$sel_so_solicitantes = '<option value="0">-Seleccione-</option>';
+    for($z = 0; $z < sizeof($so_solicitantes); $z++)
+    {
+        if($this->input->post('id_so_solicitante') == $so_solicitantes[$z]['id_sujeto_obligado']){
+            $sel_so_solicitantes .= '<option value="'.$so_solicitantes[$z]['id_sujeto_obligado'].'" selected>' . $so_solicitantes[$z]['nombre_sujeto_obligado'] . '</option>';
+        }else{
+            $sel_so_solicitantes .= '<option value="'.$so_solicitantes[$z]['id_sujeto_obligado'].'">' . $so_solicitantes[$z]['nombre_sujeto_obligado'] . '</option>';
+        }
     }
-}
 
 //Sujeto obligado contratante
-$sel_so_contratante = '<option value="0">-Seleccione-</option>';
-for($z = 0; $z < sizeof($sujetos); $z++)
-{
-    if($this->input->post('id_so_contratante') == $sujetos[$z]['id_sujeto_obligado']){
-        $sel_so_contratante .= '<option value="'.$sujetos[$z]['id_sujeto_obligado'].'" selected>' . $sujetos[$z]['nombre_sujeto_obligado'] . '</option>';
-    }else{
-        $sel_so_contratante .= '<option value="'.$sujetos[$z]['id_sujeto_obligado'].'">' . $sujetos[$z]['nombre_sujeto_obligado'] . '</option>';
+$sel_so_contratantes = '<option value="0">-Seleccione-</option>';
+    for($z = 0; $z < sizeof($so_contratantes); $z++)
+    {
+        if($this->input->post('id_so_contratante') == $so_contratantes[$z]['id_sujeto_obligado']){
+            $sel_so_contratantes .= '<option value="'.$so_contratantes[$z]['id_sujeto_obligado'].'" selected>' . $so_contratantes[$z]['nombre_sujeto_obligado'] . '</option>';
+        }else{
+            $sel_so_contratantes .= '<option value="'.$so_contratantes[$z]['id_sujeto_obligado'].'">' . $so_contratantes[$z]['nombre_sujeto_obligado'] . '</option>';
+        }
     }
-}
 
 //Tema
 $sel_camp_tema = '<option value="0">-Seleccione-</option>';
@@ -340,7 +340,7 @@ for($z = 0; $z < sizeof($tiposTO); $z++)
                                         <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['soc']?>"></i>
                                     </label>
                                     <select name="id_so_contratante" class="form-control <?php if($error_soc) echo 'has-error' ?>">
-                                        <?php echo $sel_so_contratante; ?>
+                                        <?php echo $sel_so_contratantes; ?>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -348,7 +348,7 @@ for($z = 0; $z < sizeof($tiposTO); $z++)
                                         <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['soc']?>"></i>
                                     </label>
                                     <select name="id_so_solicitante" class="form-control <?php if($error_sos) echo 'has-error' ?>">
-                                        <?php echo $sel_so_solicitante; ?>
+                                        <?php echo $sel_so_solicitantes; ?>
                                     </select>
                                 </div>
                                 <div class="form-group">

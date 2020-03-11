@@ -522,73 +522,7 @@ class Campanas extends CI_Controller
         $this->load->view('tpoadminv1/campanas/alta_campana_videos',$data);
     }
 
-    function alta_camp_videos2()
-    {
-        $data['id_campana_aviso'] = $_GET['id_campana_aviso'];
-
-        $this->load->model('tpoadminv1/campanas/Campana_model');
-        $data['cat_tipo_liga'] = $this->Campana_model->dame_todos_tipos_ligas($data['id_campana_aviso']);
-        
-        $data['videos'] = $this->Campana_model->dame_videos_campana_id($data['id_campana_aviso']);
-
-        $data['registro'] = array(
-            'id_presupuesto' => '',
-            'id_ejercicio' => '',
-            'id_sujeto_obligado' => '',
-            'denominacion' => '',
-            'fecha_publicacion' => '',
-            'file_programa_video' => '',
-            'fecha_validacion' => '',
-            'area_responsable' => '',
-            'anio' => '',
-            'fecha_actualizacion' => '',
-            'nota' => '',
-            'mision' => '',
-            'objetivo' => '',
-            'metas' => '',
-            'temas' => '',
-            'programas' => '',
-            'objetivo_transversal' => '',
-            'conjunto_campanas' => '',
-            'nota_planeacion' => '',
-            'name_file_programa_video' => '',
-            'active' => 'null'
-        );
-        
-
-
-        // poner true para ocultar los botones
-        $data['control_update'] = array (
-            'file_by_save' => false,
-            'file_saved' => true,
-            'file_see' => true,
-            'file_load' => true, 
-            'mensaje_file_videos' => 'Formatos permitidos AVI, MPEG, MOV y WMV'
-        );
-
-
-        $data['scripts'] = "<script type='text/javascript'>
-                                $(function () {
-                                $('select').change(function(){
-                                        $(this).removeClass('has-error');
-                                    });
-                                    $('input[type=\"text\"]').change(function(){
-                                        $(this).removeClass('has-error');
-                                    });
-                                    
-                                });
-                            </script>";
     
-
-        $this->load->view('tpoadminv1/campanas/alta_campana_videos',$data);
-
-    }
-    
-
-
-
-    
-
     function upload_file2()
     {
 
@@ -1265,7 +1199,6 @@ class Campanas extends CI_Controller
         
         $data['path_file_csv'] = ''; //$this->Facturas_model->descarga_facturas();
         $data['name_file_csv'] = "campanasyavisos.csv";
-        //$serviceSide = base_url() . "index.php/tpoadminv1/capturista/facturas/lista_facturas";
         $serviceSide = base_url() . "index.php/tpoadminv1/campanas/campanas/lista_campanas";
 
         $data['serviceSide'] = $serviceSide;
@@ -1384,7 +1317,9 @@ class Campanas extends CI_Controller
         $data['camp_subtipo'] = $this->Campana_model->dame_todos_camp_subtipos();
         $data['ejercicios'] = $this->Campana_model->dame_todos_ejercicios(true);
         $data['trimestres'] = $this->Campana_model->dame_todos_trimestres();
-        $data['sujetos'] = $this->Campana_model->dame_todos_sujetos();
+        //$data['sujetos'] = $this->Campana_model->dame_todos_sujetos();
+        $data['so_contratantes'] = $this->Campana_model->dame_todos_so_contratantes(true);
+        $data['so_solicitantes'] = $this->Campana_model->dame_todos_so_solicitantes(true);
         $data['temas'] = $this->Campana_model->dame_todos_temas();
         $data['objetivos'] = $this->Campana_model->dame_todos_objetivos();
         $data['coberturas'] = $this->Campana_model->dame_todas_coberturas();
@@ -1628,7 +1563,9 @@ class Campanas extends CI_Controller
         $data['camp_subtipo'] = $this->Campana_model->dame_todos_camp_subtipos();
         $data['ejercicios'] = $this->Campana_model->dame_todos_ejercicios(true);
         $data['trimestres'] = $this->Campana_model->dame_todos_trimestres();
-        $data['sujetos'] = $this->Campana_model->dame_todos_sujetos();
+        //$data['sujetos'] = $this->Campana_model->dame_todos_sujetos();
+        $data['so_contratantes'] = $this->Campana_model->dame_todos_so_contratantes(true);
+        $data['so_solicitantes'] = $this->Campana_model->dame_todos_so_solicitantes(true);
         $data['temas'] = $this->Campana_model->dame_todos_temas();
         $data['objetivos'] = $this->Campana_model->dame_todos_objetivos();
         $data['coberturas'] = $this->Campana_model->dame_todas_coberturas();
@@ -1636,7 +1573,9 @@ class Campanas extends CI_Controller
         $data['registro'] = array(
             'id_presupuesto' => $this->input->post('id_presupuesto'),
             'id_ejercicio' => $this->input->post('id_ejercicio'),
-            'id_sujeto_obligado' => $this->input->post('id_sujeto_obligado'),
+            //'id_sujeto_obligado' => $this->input->post('id_sujeto_obligado'),
+            'id_so_contratante' => $this->input->post('id_so_contratante'),
+            'id_so_solicitante' => $this->input->post('id_so_solicitante'),
             'denominacion' => $this->input->post('denominacion'),
             'fecha_publicacion' => $this->input->post('fecha_publicacion'),
             'file_programa_anual' => $this->input->post('file_programa_anual'),
@@ -2263,7 +2202,9 @@ class Campanas extends CI_Controller
         $data['camp_subtipo'] = $this->Campana_model->dame_todos_camp_subtipos();
         $data['ejercicios'] = $this->Campana_model->dame_todos_ejercicios(true);
         $data['trimestres'] = $this->Campana_model->dame_todos_trimestres();
-        $data['sujetos'] = $this->Campana_model->dame_todos_sujetos();
+        //$data['sujetos'] = $this->Campana_model->dame_todos_sujetos();
+        $data['so_contratantes'] = $this->Campana_model->dame_todos_so_contratantes(true);
+        $data['so_solicitantes'] = $this->Campana_model->dame_todos_so_solicitantes(true);
         $data['temas'] = $this->Campana_model->dame_todos_temas();
         $data['objetivos'] = $this->Campana_model->dame_todos_objetivos();
         $data['coberturas'] = $this->Campana_model->dame_todas_coberturas();
@@ -2535,7 +2476,9 @@ class Campanas extends CI_Controller
         $data['camp_subtipo'] = $this->Campana_model->dame_todos_camp_subtipos();
         $data['ejercicios'] = $this->Campana_model->dame_todos_ejercicios(true);
         $data['trimestres'] = $this->Campana_model->dame_todos_trimestres();
-        $data['sujetos'] = $this->Campana_model->dame_todos_sujetos();
+        //$data['sujetos'] = $this->Campana_model->dame_todos_sujetos();
+        $data['so_contratantes'] = $this->Campana_model->dame_todos_so_contratantes(true);
+        $data['so_solicitantes'] = $this->Campana_model->dame_todos_so_solicitantes(true);
         $data['temas'] = $this->Campana_model->dame_todos_temas();
         $data['objetivos'] = $this->Campana_model->dame_todos_objetivos();
         $data['coberturas'] = $this->Campana_model->dame_todas_coberturas();
@@ -2549,6 +2492,7 @@ class Campanas extends CI_Controller
             'id_ejercicio' => '',
             'id_trimestre' => '',
             'id_so_contratante' => '',
+            'id_so_solicitante' => '',
             'id_presupuesto_concepto' => '',
             'numero_factura' => '',
             'fecha_erogacion' => '',

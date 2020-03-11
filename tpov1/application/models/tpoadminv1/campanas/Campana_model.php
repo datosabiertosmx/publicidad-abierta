@@ -86,9 +86,11 @@ class Campana_Model extends CI_Model
                 $array_camp_avisos[$cont]['fecha_inicio_periodo'] = $row['fecha_inicio_periodo'];
                 $array_camp_avisos[$cont]['fecha_termino_periodo'] = $row['fecha_termino_periodo'];
                 $array_camp_avisos[$cont]['id_so_contratante'] = $row['id_so_contratante'];
-                $array_camp_avisos[$cont]['nombre_so_contratante'] = $this->dame_soc_nombre($row['id_so_contratante']);
+                //$array_camp_avisos[$cont]['nombre_so_contratante'] = $this->dame_soc_nombre($row['id_so_contratante']);
+                $array_camp_avisos[$cont]['nombre_so_contratante'] = $this->dame_nombre_contratante($row['id_so_contratante']);
                 $array_camp_avisos[$cont]['id_so_solicitante'] = $row['id_so_solicitante'];
-                $array_camp_avisos[$cont]['nombre_so_solicitante'] = $this->dame_sos_nombre($row['id_so_solicitante']);
+                //$array_camp_avisos[$cont]['nombre_so_solicitante'] = $this->dame_sos_nombre($row['id_so_solicitante']);
+                $array_camp_avisos[$cont]['nombre_so_solicitante'] = $this->dame_nombre_solicitante($row['id_so_solicitante']);
                 $array_camp_avisos[$cont]['id_tiempo_oficial'] = $row['id_tiempo_oficial'];
                 $array_camp_avisos[$cont]['nombre_campana_aviso'] = $row['nombre_campana_aviso'];
                 $array_camp_avisos[$cont]['objetivo_comunicacion'] = $row['objetivo_comunicacion'];
@@ -806,9 +808,11 @@ class Campana_Model extends CI_Model
                 $array_camp_avisos[$cont]['fecha_inicio_periodo'] = $row['fecha_inicio_periodo'];
                 $array_camp_avisos[$cont]['fecha_termino_periodo'] = $row['fecha_termino_periodo'];
                 $array_camp_avisos[$cont]['id_so_contratante'] = $row['id_so_contratante'];
-                $array_camp_avisos[$cont]['nombre_so_contratante'] = $this->dame_soc_nombre($row['id_so_contratante']);
+                //$array_camp_avisos[$cont]['nombre_so_contratante'] = $this->dame_soc_nombre($row['id_so_contratante']);
+                $array_camp_avisos[$cont]['nombre_so_contratante'] = $this->dame_nombre_contratante($row['id_so_contratante']);
                 $array_camp_avisos[$cont]['id_so_solicitante'] = $row['id_so_solicitante'];
-                $array_camp_avisos[$cont]['nombre_so_solicitante'] = $this->dame_sos_nombre($row['id_so_solicitante']);
+                //$array_camp_avisos[$cont]['nombre_so_solicitante'] = $this->dame_sos_nombre($row['id_so_solicitante']);
+                $array_camp_avisos[$cont]['nombre_so_solicitante'] = $this->dame_nombre_solicitante($row['id_so_solicitante']);
                 $array_camp_avisos[$cont]['id_tiempo_oficial'] = $row['id_tiempo_oficial'];
                 $array_camp_avisos[$cont]['nombre_campana_aviso'] = $row['nombre_campana_aviso'];
                 $array_camp_avisos[$cont]['objetivo_comunicacion'] = $row['objetivo_comunicacion'];
@@ -908,36 +912,34 @@ class Campana_Model extends CI_Model
         }
     }
 
-    function dame_soc_nombre($id_so_contratante)
-    {
-        //$this->db->where('id_campana_tipo', $id_tipo);
-        $this->db->where('id_sujeto_obligado', $id_so_contratante);
-        $this->db->where('active', '1');
-        $query = $this->db->get('tab_sujetos_obligados');
+    function dame_nombre_contratante($id){
+        $this->db->select('nombre_sujeto_obligado');
+        $this->db->where('id_sujeto_obligado', $id);
         
-        if($query->num_rows() > 0)
+        $query = $this->db->get('vso_contratante');
+        
+        if ($query->num_rows() == 1)
         {
-            foreach ($query->result_array() as $row){
-            }
-            
+            foreach ($query->result_array() as $row) { }
             return $row['nombre_sujeto_obligado'];
+        }else{
+            return '';
         }
     }
 
 
-    function dame_sos_nombre($id_so_solicitante)
-    {
-        //$this->db->where('id_campana_tipo', $id_tipo);
-        $this->db->where('id_sujeto_obligado', $id_so_solicitante);
-        $this->db->where('active', '1');
-        $query = $this->db->get('tab_sujetos_obligados');
+    function dame_nombre_solicitante($id){
+        $this->db->select('nombre_sujeto_obligado');
+        $this->db->where('id_sujeto_obligado', $id);
         
-        if($query->num_rows() > 0)
+        $query = $this->db->get('vso_solicitante');
+        
+        if ($query->num_rows() == 1)
         {
-            foreach ($query->result_array() as $row){
-            }
-            
+            foreach ($query->result_array() as $row) { }
             return $row['nombre_sujeto_obligado'];
+        }else{
+            return '';
         }
     }
 
@@ -986,8 +988,8 @@ class Campana_Model extends CI_Model
                     utf8_decode($this->dame_trimestre_nombre($row['id_trimestre'])),
                     utf8_decode($row['fecha_inicio_periodo']),
                     utf8_decode($row['fecha_termino_periodo']),
-                    utf8_decode($this->dame_sos_nombre($row['id_so_solicitante'])),
-                    utf8_decode($this->dame_soc_nombre($row['id_so_contratante'])),
+                    utf8_decode($this->dame_nombre_solicitante($row['id_so_solicitante'])),
+                    utf8_decode($this->dame_nombre_contratante($row['id_so_contratante'])),
                     utf8_decode($this->get_estatus_name($row['active']))
                 );
                 fputcsv($myfile, $csv);
@@ -1715,9 +1717,11 @@ class Campana_Model extends CI_Model
                 $camp_aviso['fecha_inicio_periodo'] = $this->Generales_model->dateToString($row['fecha_inicio_periodo']);
                 $camp_aviso['fecha_termino_periodo'] = $this->Generales_model->dateToString($row['fecha_termino_periodo']);
                 $camp_aviso['id_so_solicitante'] = $row['id_so_solicitante'];
-                $camp_aviso['nombre_so_solicitante'] = $this->dame_sos_nombre($row['id_so_solicitante']);
+                //$camp_aviso['nombre_so_solicitante'] = $this->dame_sos_nombre($row['id_so_solicitante']);
+                $camp_aviso['nombre_so_solicitante'] = $this->dame_nombre_solicitante($row['id_so_solicitante']);
                 $camp_aviso['id_so_contratante'] = $row['id_so_contratante'];
-                $camp_aviso['nombre_so_contratante'] = $this->dame_soc_nombre($row['id_so_contratante']);
+                //$camp_aviso['nombre_so_contratante'] = $this->dame_soc_nombre($row['id_so_contratante']);
+                $camp_aviso['nombre_so_contratante'] = $this->dame_nombre_contratante($row['id_so_contratante']);
                 $camp_aviso['id_tiempo_oficial'] = $row['id_tiempo_oficial'];
                 $camp_aviso['nombre_tiempo_oficial'] = $this->dame_tiempo_oficial_nombre($row['id_tiempo_oficial']);
                 $camp_aviso['id_campana_tipoTO'] = $row['id_campana_tipoTO'];
@@ -1804,9 +1808,11 @@ class Campana_Model extends CI_Model
                     'fecha_inicio_periodo' => $row['fecha_inicio_periodo'],
                     'fecha_termino_periodo' => $row['fecha_termino_periodo'],
                     'id_so_solicitante' => $row['id_so_solicitante'],
-                    'nombre_so_solicitante' => $this->dame_sos_nombre($row['id_so_solicitante']),
+                    //'nombre_so_solicitante' => $this->dame_sos_nombre($row['id_so_solicitante']),
+                    'nombre_so_solicitante' => $this->dame_nombre_solicitante($row['id_so_solicitante']),
                     'id_so_contratante' => $row['id_so_contratante'],
-                    'nombre_so_contratante' => $this->dame_soc_nombre($row['id_so_contratante']),
+                    //'nombre_so_contratante' => $this->dame_soc_nombre($row['id_so_contratante']),
+                    'nombre_so_contratante' => $this->dame_nombre_contratante($row['id_so_contratante']),
                     'id_tiempo_oficial' => $row['id_tiempo_oficial'],
                     'nombre_tiempo_oficial' => $this->dame_tiempo_oficial_nombre($row['id_tiempo_oficial']),
                     'id_campana_tipoTO' => $row['id_campana_tipoTO'],
@@ -2030,9 +2036,11 @@ class Campana_Model extends CI_Model
                     'fecha_inicio_periodo' => $row['fecha_inicio_periodo'],
                     'fecha_termino_periodo' => $row['fecha_termino_periodo'],
                     'id_so_solicitante' => $row['id_so_solicitante'],
-                    'nombre_so_solicitante' => $this->dame_sos_nombre($row['id_so_solicitante']),
+                    //'nombre_so_solicitante' => $this->dame_sos_nombre($row['id_so_solicitante']),
+                    'nombre_so_solicitante' => $this->dame_nombre_solicitante($row['id_so_solicitante']),
                     'id_so_contratante' => $row['id_so_contratante'],
-                    'nombre_so_contratante' => $this->dame_soc_nombre($row['id_so_contratante']),
+                    //'nombre_so_contratante' => $this->dame_soc_nombre($row['id_so_contratante']),
+                    'nombre_so_contratante' => $this->dame_nombre_contratante($row['id_so_contratante']),
                     'id_tiempo_oficial' => $row['id_tiempo_oficial'],
                     'nombre_tiempo_oficial' => $this->dame_tiempo_oficial_nombre($row['id_tiempo_oficial']),
                     'id_campana_tipoTO' => $row['id_campana_tipoTO'],
@@ -2789,24 +2797,52 @@ class Campana_Model extends CI_Model
     }
 
 
-    function dame_todos_sujetos()
-    {
-        $this->db->where('active', '1');
-        $this->db->order_by('nombre_sujeto_obligado', 'ASC');
-        $query = $this->db->get('tab_sujetos_obligados');
+    function dame_todos_so_contratantes($activos){
         
-        if($query->num_rows() > 0)
+        if($activos == true){
+            $this->db->order_by('nombre_sujeto_obligado', 'ASC');
+            $this->db->where('active', '1');
+        }
+        $query = $this->db->get('vso_contratante');
+        
+
+        if ($query->num_rows() > 0)
         {
-            $array_sujetos = [];
+            $array_items = [];
             $cont = 0;
-            foreach ($query->result_array() as $row) 
-            {
-                $array_sujetos[$cont]['id_sujeto_obligado'] = $row['id_sujeto_obligado'];
-                $array_sujetos[$cont]['nombre_sujeto_obligado'] = $row['nombre_sujeto_obligado'];
-                $array_sujetos[$cont]['active'] = $row['active'];
+
+            foreach ($query->result_array() as $row) {
+                $array_items[$cont]['id_sujeto_obligado'] = $row['id_sujeto_obligado'];
+                $array_items[$cont]['nombre_sujeto_obligado'] = $row['nombre_sujeto_obligado'];
                 $cont++;
             }
-            return $array_sujetos;
+            return $array_items;
+        }else{
+            return '';
+        }
+    }
+
+    function dame_todos_so_solicitantes($activos){
+        
+        if($activos == true){
+            $this->db->order_by('nombre_sujeto_obligado', 'ASC');
+            $this->db->where('active', '1');
+        }
+        $query = $this->db->get('vso_solicitante');
+        
+        if ($query->num_rows() > 0)
+        {
+            $array_items = [];
+            $cont = 0;
+
+            foreach ($query->result_array() as $row) {
+                $array_items[$cont]['id_sujeto_obligado'] = $row['id_sujeto_obligado'];
+                $array_items[$cont]['nombre_sujeto_obligado'] = $row['nombre_sujeto_obligado'];
+                $cont++;
+            }
+            return $array_items;
+        }else{
+            return '';
         }
     }
 
