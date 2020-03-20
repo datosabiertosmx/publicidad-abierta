@@ -807,21 +807,20 @@ class Facturas_Model extends CI_Model
         if(!empty($factura_desglose)){
             $monto_conciderado = floatval($factura_desglose['monto_desglose']);
         }
-        //$cad = "entro ";
+        
         if(!empty($factura) && $factura['id_contrato'] > 1){
             $montos = $this->Contratos_model->getMontosContrato_id($factura['id_contrato']);
-            //$cad .= $factura['id_contrato'];
+           
             if(!empty($montos)){
-                $monto_total = floatval($montos['monto_total']) + floatval($montos['monto_modificado']);
-                
+                $monto_totalc = floatval($montos['monto_contrato']) + floatval($montos['monto_modificado']);
+
                 $monto_ejercido = floatval($montos['monto_pagado']);
                 $monto_agregar = floatval($cantidad) * floatval($precio_unitario);
 
                 $monto_a_ejercer = $monto_agregar + ($monto_ejercido - $monto_conciderado); 
 
-                //$cad = $cad . " - total: " . $monto_total . " - a ejercer " . $monto_a_ejercer . " - agregar" . $monto_agregar;
-                if($monto_a_ejercer > $monto_total){
-                   return true; // regresa como invalido cuando el monto a ejercer es 
+                if($monto_a_ejercer > $monto_totalc){
+                   return true; // regresa como invalido cuando el monto a ejercer es mayor al monto total
                 }
             }
         }
