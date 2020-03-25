@@ -68,7 +68,7 @@ class Ordenes_compra_Model extends CI_Model
             $this->db->where('id_proveedor', $id_proveedor);
         }
 
-        if(!empty($id_contrato))
+        if($id_contrato == 1)
         {
             $this->db->where('id_contrato', $id_contrato);
         }
