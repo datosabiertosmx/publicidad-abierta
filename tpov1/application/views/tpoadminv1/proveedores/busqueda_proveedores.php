@@ -76,7 +76,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Personalidad jur&iacute;dica  <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['id_personalidad_juridica']?>"></i></th>
-                                <th>Nombre raz&oacute;n social <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['nombre_razon_social']?>"></i></th>
+                                <th>Nombre o raz&oacute;n social <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['nombre_razon_social']?>"></i></th>
                                 <th>Nombre comercial <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['nombre_comercial']?>"></i></th>
                                 <th>R.F.C <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['rfc']?>"></i></th>
                                 <th>Estatus <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['active']?>"></i></th>
@@ -273,9 +273,6 @@
     }
 
     var abrirModal = function(id){
-        //$('#myModal').find('#item_1').html(name);
-        //$('#myModal').find('#item_2').html(active);
-        //$('#myModal').modal('show'); 
 
         $.ajax({
             url: '<?php echo base_url() . 'index.php/tpoadminv1/capturista/proveedores/get_proveedor/' ?>'+id,

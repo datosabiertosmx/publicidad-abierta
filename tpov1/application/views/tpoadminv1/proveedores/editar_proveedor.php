@@ -112,14 +112,43 @@
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <input type="hidden" value="<?php echo $registro['id_proveedor']; ?>" class="form-control" name="id_proveedor"/>
-                    <div class="form-group">
+                    
+					<div class="form-group">
                         <label>Personalidad jur&iacute;dica* 
                             <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['id_personalidad_juridica']?>"></i>
                         </label>
-                        <select name="id_personalidad_juridica" class="form-control <?php if($error_ipj) echo 'validation-error' ?>">
-                            <?php echo $sel_personalidad; ?>
+                        <select name="id_personalidad_juridica" id="id_personalidad_juridica" class="form-control <?php if($error_ipj) echo 'validation-error' ?>" onchange="javascript:moral_fisica();">
+                            <?php echo $sel_personalidad; ?> 
                         </select>
-                    </div> 
+                    </div>
+					
+						<script type="text/javascript">
+							function moral_fisica() {
+								id_personalidad_juridica=document.getElementById('id_personalidad_juridica').value;						
+								document.getElementById("id_personalidad_juridica").value=id_personalidad_juridica;		
+															
+								if (id_personalidad_juridica == 1) 
+								{									
+									document.getElementById("nombre_comercial").value = '';
+									document.getElementById("nombre_comercial").disabled = true;
+									document.getElementById("primer_apellido").disabled = false;
+									document.getElementById("segundo_apellido").disabled = false;
+									document.getElementById("nombres").disabled = false;
+								}
+								else if (id_personalidad_juridica == 2)
+								{
+									document.getElementById("nombre_comercial").disabled = false;
+									document.getElementById("primer_apellido").value = '';
+									document.getElementById("primer_apellido").disabled = true;
+									document.getElementById("segundo_apellido").value = '';
+									document.getElementById("segundo_apellido").disabled = true;
+									document.getElementById("nombres").value = '';
+									document.getElementById("nombres").disabled = true;
+								}
+							}
+							window.onload = moral_fisica;
+						</script>
+					
                     <div class="form-group">
                         <label>Nombre o raz&oacute;n social*
                             <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['nombre_razon_social']?>"></i>
@@ -132,7 +161,7 @@
                             <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['nombre_comercial']?>"></i>
                         </label>
                         <?php $class = "form-control";  if($error_nc)  $class = "form-control validation-error";  
-                            echo form_input(array('type' => 'text', 'name' => 'nombre_comercial', 'value' => $registro['nombre_comercial'], 'class' => $class)); ?>
+                            echo form_input(array('type' => 'text', 'name' => 'nombre_comercial', 'id' => 'nombre_comercial', 'value' => $registro['nombre_comercial'], 'class' => $class)); ?>
                     </div>
                     <div class="form-group">
                         <label>R.F.C.*
@@ -142,22 +171,22 @@
                             echo form_input(array('type' => 'text', 'name' => 'rfc', 'value' => $registro['rfc'], 'class' => $class)); ?>
                     </div>
                     <div class="form-group">
-                        <label>Primer apellido
+                        <label>Primer apellido*
                             <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['primer_apellido']?>"></i>
                         </label>
-                        <?php echo form_input(array('type' => 'text', 'name' => 'primer_apellido', 'value' => $registro['primer_apellido'], 'class' => 'form-control')); ?>
+                        <?php echo form_input(array('type' => 'text', 'name' => 'primer_apellido', 'id' => 'primer_apellido', 'value' => $registro['primer_apellido'], 'class' => 'form-control')); ?>
                     </div>
                     <div class="form-group">
-                        <label>Segundo apellido
+                        <label>Segundo apellido*
                             <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['segundo_apellido']?>"></i>
                         </label>
-                        <?php echo form_input(array('type' => 'text', 'name' => 'segundo_apellido', 'value' => $registro['segundo_apellido'], 'class' => 'form-control')); ?>
+                        <?php echo form_input(array('type' => 'text', 'name' => 'segundo_apellido', 'id' => 'segundo_apellido', 'value' => $registro['segundo_apellido'], 'class' => 'form-control')); ?>
                     </div>
                     <div class="form-group">
-                        <label>Nombres
+                        <label>Nombre(s)*
                             <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['nombres']?>"></i>
                         </label>
-                        <?php echo form_input(array('type' => 'text', 'name' => 'nombres', 'value' => $registro['nombres'], 'class' => 'form-control')); ?>
+                        <?php echo form_input(array('type' => 'text', 'name' => 'nombres', 'id' => 'nombres', 'value' => $registro['nombres'], 'class' => 'form-control')); ?>
                     </div>
                     <div class="form-group">
                         <label>Fecha de validaci&oacute;n

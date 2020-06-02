@@ -227,56 +227,6 @@ class Facturas extends CI_Controller
         
         $this->load->view('tpoadminv1/includes/template', $data);
 
-        /* esto se utiliza para cuando se pagina la informacion, pero se deben implementa el sort, search y mas elementos
-        "/*$('#facturas').dataTable({" .
-                                        "'bProcessing': true," .
-                                        "'bServerSide': true," .
-                                        "'sAjaxSource': '" . $serviceSide . "'," .
-                                        "'bPaginate': true," .
-                                        "'bLengthChange': true," .
-                                        "'bFilter': true," .
-                                        "'bSort': true," .
-                                        "'bInfo': true," .
-                                        "'bAutoWidth': false," .
-                                        "'columnDefs': [ " .
-                                            "{ 'orderable': false, 'targets': [10,11,12] } " .
-                                        "],".
-                                        "'aLengthMenu': [[10, 25, 50, 100], [10, 25, 50, 100]], " .   //Paginacion
-                                        "'oLanguage': { " .
-                                            "'sSearch': 'B&uacute;squeda '," .
-                                            "'sInfoFiltered': '(filtrado de un total de _MAX_ registros)'," .
-                                            "'sInfo': 'Mostrando registros del <b>_START_</b> al <b>_END_</b> de un total de <b>_TOTAL_</b> registros'," .
-                                            "'sZeroRecords': 'No se encontraron resultados'," .
-                                            "'EmptyTable': 'Ning&uacute;n dato disponible en esta tabla'," .
-                                            "'sInfoEmpty': 'Mostrando registros del 0 al 0 de un total de 0 registros'," .
-                                            "'sLoadingRecords': 'Cargando...',".
-                                            "'sProcessing': 'Cargando...',".
-                                            "'oPaginate': {" .
-                                                "'sFirst': 'Primero'," .
-                                                "'sLast': '&Uacute;ltimo'," .
-                                                "'sNext': 'Siguiente'," .
-                                                "'sPrevious': 'Anterior'" .
-                                            "}," .
-                                            "'sLengthMenu': '_MENU_ Registros por p&aacute;gina'" .
-                                        "}," .
-                                        "'aoColumns' : [" .
-                                            "{ 'mData' : 'id'}," .
-                                            "{ 'mData' : 'contrato'}," .
-                                            "{ 'mData' : 'orden'}," .
-                                            "{ 'mData' : 'ejercicio'}," .
-                                            "{ 'mData' : 'trimestre'}," .
-                                            "{ 'mData' : 'proveedor'}," .
-                                            "{ 'mData' : 'numero_factura'}," .
-                                            "{ 'mData' : 'fecha_erogacion'}," .
-                                            "{ 'mData' : 'monto_factura'}," .
-                                            "{ 'mData' : 'active'}," .
-                                            "{ 'mData' : 'btn_ver'}," .
-                                            "{ 'mData' : 'btn_editar'}," .
-                                            "{ 'mData' : 'btn_eliminar'}," .
-                                        "]".
-                                    "});
-        */
-
     }
 
     function get_factura()
@@ -621,7 +571,13 @@ class Facturas extends CI_Controller
             }
             if($redict)
             {
-                redirect('/tpoadminv1/capturista/facturas/busqueda_facturas');
+                $id = $this->Facturas_model->last_id_factura();
+                if($id != 0){
+                    $this->session->set_flashdata('tab_flag', "desglose");
+                    redirect('/tpoadminv1/capturista/facturas/editar_factura/'.$id);
+                }else{
+                    redirect('/tpoadminv1/capturista/facturas/busqueda_facturas');
+                }
             } 
         }
     }

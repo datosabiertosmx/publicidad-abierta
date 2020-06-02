@@ -474,34 +474,17 @@
                     $('#myModal').find('#item_18').html(response.fecha_inicio_to);
                     $('#myModal').find('#item_19').html(response.fecha_termino_to);
                     $('#myModal').find('#item_20').html(response.publicacion_segob);
-                    $('#myModal').find('#item_21').html(response.plan_acs);
+                    $('#myModal').find('#item_21').html(response.denominacion);
                     $('#myModal').find('#item_22').html(response.fecha_dof);
                     $('#myModal').find('#item_23').html(response.evaluacion);
                     $('#myModal').find('#item_24').html(response.active_nombre);
                     $('#myModal').find('#item_25').html(response.fecha_validacion);
                     $('#myModal').find('#item_26').html(response.area_responsable);
-                    $('#myModal').find('#item_27').html(response.nombre_ejercicio);
+                    $('#myModal').find('#item_27').html(response.periodo);
                     $('#myModal').find('#item_28').html(response.fecha_actualizacion);
                     $('#myModal').find('#item_29').html(response.nota);
                     $('#myModal').modal('show'); 
 
-                    /*
-                    if(response.name_file_factura_pdf){
-                        var html = '<a href="' + response.path_file_factura_pdf + '" download>'+ response.name_file_factura_pdf +'</a>' 
-                        $('#myModal').find('#item_10').html(html);
-                    }else{
-                        $('#myModal').find('#item_10').html('No hay archivo');
-                    }
-
-                    if(response.name_file_factura_xml){
-                        var html = '<a href="' + response.name_file_factura_xml + '" download>'+ response.name_file_factura_xml +'</a>' 
-                        $('#myModal').find('#item_11').html(html);
-                    }else{
-                        $('#myModal').find('#item_11').html('No hay archivo');
-                    }
-                    
-                    $('#myModal').modal('show');
-                */
                 }
             }
         });

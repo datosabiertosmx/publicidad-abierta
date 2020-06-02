@@ -82,7 +82,7 @@ class Proveedores extends CI_Controller
             'rfc' => 'Registro Federal de Contribuyentes de la persona f&iacute;sica o moral  proveedora del producto o servicio',
             'primer_apellido' => 'Primer apellido',
             'segundo_apellido' => 'Segundo apellido',
-            'nombres' => 'Nombres',
+            'nombres' => 'Nombre',
             'fecha_validacion' => 'Fecha de validaci&oacute;n',
             'area_responsable' => '&Aacute;rea responsable de la informaci&oacute;n',
             'periodo' => 'A&ntilde;o',
@@ -176,7 +176,7 @@ class Proveedores extends CI_Controller
             'rfc' => 'Registro Federal de Contribuyentes de la persona f&iacute;sica o moral  proveedora del producto o servicio',
             'primer_apellido' => 'Primer apellido',
             'segundo_apellido' => 'Segundo apellido',
-            'nombres' => 'Nombres',
+            'nombres' => 'Nombre(s)',
             'fecha_validacion' => 'Fecha de validaci&oacute;n',
             'area_responsable' => '&Aacute;rea responsable de la informaci&oacute;n',
             'periodo' => 'A&ntilde;o',
@@ -218,9 +218,9 @@ class Proveedores extends CI_Controller
 
         $this->form_validation->set_rules('id_personalidad_juridica', 'personalidad jur&iacute;dica', 'required');
         $this->form_validation->set_rules('nombre_razon_social', 'Nombre o raz&oacute;n social', 'trim|required');
-        $this->form_validation->set_rules('nombre_comercial', 'Nombre comercial', 'trim|required');
+      //  $this->form_validation->set_rules('nombre_comercial', 'Nombre comercial', 'trim|required');
         $this->form_validation->set_rules('rfc', '', 'trim|required');
-        $this->form_validation->set_rules('active', 'estatus', 'required');
+        $this->form_validation->set_rules('active', 'estatus', 'trim|required');
         $this->form_validation->set_error_delimiters('<p>','</p>');
 
         $data['title'] = "Agregar proveedor";
@@ -260,7 +260,7 @@ class Proveedores extends CI_Controller
             'rfc' => 'Registro Federal de Contribuyentes de la persona f&iacute;sica o moral  proveedora del producto o servicio',
             'primer_apellido' => 'Primer apellido',
             'segundo_apellido' => 'Segundo apellido',
-            'nombres' => 'Nombres',
+            'nombres' => 'Nombre(s)',
             'fecha_validacion' => 'Fecha de validaci&oacute;n',
             'area_responsable' => '&Aacute;rea responsable de la informaci&oacute;n',
             'periodo' => 'A&ntilde;o',
@@ -346,7 +346,7 @@ class Proveedores extends CI_Controller
             'rfc' => 'Registro Federal de Contribuyentes de la persona f&iacute;sica o moral  proveedora del producto o servicio',
             'primer_apellido' => 'Primer apellido',
             'segundo_apellido' => 'Segundo apellido',
-            'nombres' => 'Nombres',
+            'nombres' => 'Nombre(s)',
             'fecha_validacion' => 'Fecha de validaci&oacute;n',
             'area_responsable' => '&Aacute;rea responsable de la informaci&oacute;n',
             'periodo' => 'A&ntilde;o',
@@ -387,7 +387,7 @@ class Proveedores extends CI_Controller
 
         $this->form_validation->set_rules('id_personalidad_juridica', 'personalidad jur&iacute;dica', 'required');
         $this->form_validation->set_rules('nombre_razon_social', 'Nombre o raz&oacute;n social', 'trim|required');
-        $this->form_validation->set_rules('nombre_comercial', 'Nombre comercial', 'trim|required');
+       // $this->form_validation->set_rules('nombre_comercial', 'Nombre comercial', 'trim|required');
         $this->form_validation->set_rules('rfc', '', 'trim|required');
         $this->form_validation->set_rules('active', 'estatus', 'required');
         $this->form_validation->set_error_delimiters('<p>','</p>');
@@ -428,7 +428,7 @@ class Proveedores extends CI_Controller
             'rfc' => 'Registro Federal de Contribuyentes de la persona f&iacute;sica o moral  proveedora del producto o servicio',
             'primer_apellido' => 'Primer apellido',
             'segundo_apellido' => 'Segundo apellido',
-            'nombres' => 'Nombres',
+            'nombres' => 'Nombre(s)',
             'fecha_validacion' => 'Fecha de validaci&oacute;n',
             'area_responsable' => '&Aacute;rea responsable de la informaci&oacute;n',
             'periodo' => 'A&ntilde;o',

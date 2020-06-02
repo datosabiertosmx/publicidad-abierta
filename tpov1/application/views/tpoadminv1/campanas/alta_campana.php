@@ -66,26 +66,26 @@ for($z = 0; $z < sizeof($lista_estatus_ids); $z++)
 }
 
 //Sujeto obligado solicitante
-$sel_so_solicitante = '<option value="0">-Seleccione-</option>';
-for($z = 0; $z < sizeof($sujetos); $z++)
-{
-    if($this->input->post('id_so_solicitante') == $sujetos[$z]['id_sujeto_obligado']){
-        $sel_so_solicitante .= '<option value="'.$sujetos[$z]['id_sujeto_obligado'].'" selected>' . $sujetos[$z]['nombre_sujeto_obligado'] . '</option>';
-    }else{
-        $sel_so_solicitante .= '<option value="'.$sujetos[$z]['id_sujeto_obligado'].'">' . $sujetos[$z]['nombre_sujeto_obligado'] . '</option>';
+$sel_so_solicitantes = '<option value="0">-Seleccione-</option>';
+    for($z = 0; $z < sizeof($so_solicitantes); $z++)
+    {
+        if($this->input->post('id_so_solicitante') == $so_solicitantes[$z]['id_sujeto_obligado']){
+            $sel_so_solicitantes .= '<option value="'.$so_solicitantes[$z]['id_sujeto_obligado'].'" selected>' . $so_solicitantes[$z]['nombre_sujeto_obligado'] . '</option>';
+        }else{
+            $sel_so_solicitantes .= '<option value="'.$so_solicitantes[$z]['id_sujeto_obligado'].'">' . $so_solicitantes[$z]['nombre_sujeto_obligado'] . '</option>';
+        }
     }
-}
 
 //Sujeto obligado contratante
-$sel_so_contratante = '<option value="0">-Seleccione-</option>';
-for($z = 0; $z < sizeof($sujetos); $z++)
-{
-    if($this->input->post('id_so_contratante') == $sujetos[$z]['id_sujeto_obligado']){
-        $sel_so_contratante .= '<option value="'.$sujetos[$z]['id_sujeto_obligado'].'" selected>' . $sujetos[$z]['nombre_sujeto_obligado'] . '</option>';
-    }else{
-        $sel_so_contratante .= '<option value="'.$sujetos[$z]['id_sujeto_obligado'].'">' . $sujetos[$z]['nombre_sujeto_obligado'] . '</option>';
+$sel_so_contratantes = '<option value="0">-Seleccione-</option>';
+    for($z = 0; $z < sizeof($so_contratantes); $z++)
+    {
+        if($this->input->post('id_so_contratante') == $so_contratantes[$z]['id_sujeto_obligado']){
+            $sel_so_contratantes .= '<option value="'.$so_contratantes[$z]['id_sujeto_obligado'].'" selected>' . $so_contratantes[$z]['nombre_sujeto_obligado'] . '</option>';
+        }else{
+            $sel_so_contratantes .= '<option value="'.$so_contratantes[$z]['id_sujeto_obligado'].'">' . $so_contratantes[$z]['nombre_sujeto_obligado'] . '</option>';
+        }
     }
-}
 
 //Tema
 $sel_camp_tema = '<option value="0">-Seleccione-</option>';
@@ -130,6 +130,17 @@ for($z = 0; $z < sizeof($tiposTO); $z++)
         $sel_tipoTO .= '<option value="'.$tiposTO[$z]['id_campana_tipoTO'].'">' . $tiposTO[$z]['nombre_campana_tipoTO'] . '</option>';
     }
 }
+
+//Documentos_PACS
+$sel_pacs = '<option value="0">- Selecciona -</option>';
+for($z = 0; $z < sizeof($docpacs); $z++)
+	{
+		if($this->input->post('id_presupuesto') == $docpacs[$z]['id_presupuesto']){
+			$sel_pacs .= '<option value="'.$docpacs[$z]['id_presupuesto'].'" selected>' . $docpacs[$z]['denominacion'] . '</option>';
+		}else{
+			$sel_pacs .= '<option value="'.$docpacs[$z]['id_presupuesto'].'">' . $docpacs[$z]['denominacion'] . '</option>';
+		}
+	}
 ?>
 
 <style>
@@ -340,7 +351,7 @@ for($z = 0; $z < sizeof($tiposTO); $z++)
                                         <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['soc']?>"></i>
                                     </label>
                                     <select name="id_so_contratante" class="form-control <?php if($error_soc) echo 'has-error' ?>">
-                                        <?php echo $sel_so_contratante; ?>
+                                        <?php echo $sel_so_contratantes; ?>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -348,7 +359,7 @@ for($z = 0; $z < sizeof($tiposTO); $z++)
                                         <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['soc']?>"></i>
                                     </label>
                                     <select name="id_so_solicitante" class="form-control <?php if($error_sos) echo 'has-error' ?>">
-                                        <?php echo $sel_so_solicitante; ?>
+                                        <?php echo $sel_so_solicitantes; ?>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -438,21 +449,21 @@ for($z = 0; $z < sizeof($tiposTO); $z++)
 									</table>
                                 </div>
                              
-                             <script type="text/javascript">
+								<script type="text/javascript">
 
-						function monto_TO() {
-						
-						    hora_to=document.getElementById('hora_to').value;
-						    minutos_to=document.getElementById('minutos_to').value;
-						    segundos_to=document.getElementById('segundos_to').value;
-						
-						    monto_tiempo=hora_to+':'+minutos_to+':'+segundos_to;
-						
-						    document.getElementById('monto_tiempo').value=monto_tiempo;
-												
-						}
-						
-						</script>
+									function monto_TO() {
+									
+										hora_to=document.getElementById('hora_to').value;
+										minutos_to=document.getElementById('minutos_to').value;
+										segundos_to=document.getElementById('segundos_to').value;
+									
+										monto_tiempo=hora_to+':'+minutos_to+':'+segundos_to;
+									
+										document.getElementById('monto_tiempo').value=monto_tiempo;
+															
+									}
+									
+								</script>
 						   
                                 <div class="form-group">
                                     <label>Tipo de tiempo oficial
@@ -499,8 +510,9 @@ for($z = 0; $z < sizeof($tiposTO); $z++)
                                     <label>Documento del PACS
                                         <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['pacs']?>"></i>
                                     </label>
-                                    <?php $class = "form-control";
-                                            echo form_input(array('type' => 'text', 'name' => 'plan_acs', 'value' => $this->input->post('plan_acs'), 'class' => $class)); ?>
+									<select name="id_presupuesto" id="id_presupuesto" class="form-control">
+                                        <?php echo $sel_pacs; ?>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label>Fecha publicaci&oacute;n*

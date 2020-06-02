@@ -62,12 +62,12 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Cap&iacute;tulo</th>
                                 <th>Concepto</th>
-                                <th>Partida</th>
+                                <th>Partida genérica</th>
+                                <th>Partida específica</th>
                                 <th>Denominaci&oacute;n</th>
                                 <th>Descripci&oacute;n</th>
-                                <th>Captura</th>
+
                                 <th>Estatus</th>
                                 <th style="width: 12px;"></th>
                                 <th style="width: 12px;"></th>
@@ -86,7 +86,7 @@
                                     echo '<td>' . $presupuestos[$z]['partida'] . '</td>';
                                     echo '<td>' . $presupuestos[$z]['denominacion'] . '</td>';
                                     echo '<td>' . $presupuestos[$z]['descripcion'] . '</td>';
-                                    echo '<td>' . $presupuestos[$z]['id_captura'] . '</td>';
+
                                     echo '<td>' . $presupuestos[$z]['active'] . '</td>';
                                     echo "<td> <span class='btn-group btn btn-info btn-sm' onclick=\"abrirModal(" . $presupuestos[$z]['id_presupesto_concepto'] . ")\"> <i class='fa fa-search'></i></span></td>";
                                     echo '<td>' . anchor("tpoadminv1/catalogos/catalogos/editar_presupuesto/".$presupuestos[$z]['id_presupesto_concepto'], "<button class='btn btn-warning btn-sm' title='Editar'><i class=\"fa fa-edit\"></i></button></td>"); 
@@ -118,17 +118,17 @@
             <table id="table_modal" class="table form-horizontal">
                 <tbody>
                     <tr class="form-group">
-                        <td class="control-label col-sm-4"><b>Capitulo* </b>
+                        <td class="control-label col-sm-4"><b>Concepto* </b>
                         </td>
                         <td class="col-sm-8" id="item_1"></td>
                     </tr>        
                     <tr class="form-group">
-                        <td class="control-label col-sm-4"><b>Concepto* </b>
+                        <td class="control-label col-sm-4"><b>Partida genérica* </b>
                         </td>
                         <td class="col-sm-8" id="item_2"></td>
                     </tr>           
                     <tr class="form-group">
-                        <td class="control-label col-sm-4"><b>Partida* </b>
+                        <td class="control-label col-sm-4"><b>Partida específica* </b>
                         </td>
                         <td class="col-sm-8" id="item_3"></td>
                     </tr>     

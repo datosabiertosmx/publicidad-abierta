@@ -74,13 +74,14 @@ class Contratos_Model extends CI_Model
         
             $montos = array(
                 'monto_modificado' => 0,
-                'monto_total' =>  floatval($contrato['monto_contrato']),
+                'monto_contrato' =>  floatval($contrato['monto_contrato']),
                 'monto_pagado' => $this->obtener_monto_pagado($id_contrato)
             );
     
             if(isset($registros))
             {
-                $mm = 0;
+                $monto_convenio = 0;
+				$mm = 0;
                 $mt = 0;
                 for($z = 0; $z < sizeof($registros); $z++)
                 {
@@ -907,8 +908,6 @@ class Contratos_Model extends CI_Model
     /** get facturas **/
 
     function obtener_monto_pagado($id_contrato){
-        /*$query_string = "select SUM(a.monto_desglose) as monto_pagado FROM tab_facturas_desglose a, tab_facturas b 
-                WHERE a.id_factura = b.id_factura and b.id_contrato = " . $id_contrato;*/
 
         $query_string = "
             select 

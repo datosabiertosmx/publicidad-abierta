@@ -65,7 +65,7 @@
         <div class="text-center">
             ©2015 All Rights Reserved <br>
             Publicidad abierta
-        </div>
+			</div>
     </div><!-- /.login-box-body -->
 </div><!-- /.login-box -->
 <script type='text/javascript'> 

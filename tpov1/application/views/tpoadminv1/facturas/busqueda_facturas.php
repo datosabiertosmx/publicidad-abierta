@@ -94,28 +94,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                               /* $c_replace = array('\'', '"');
-                                for($z = 0; $z < sizeof($registros); $z++)
-                                {
-                                    echo '<tr>';
-                                    echo '<td>' . $registros[$z]['id'] . '</td>';
-                                    echo '<td>' . $registros[$z]['contrato'] . '</td>';
-                                    echo '<td>' . $registros[$z]['orden'] . '</td>';
-                                    echo '<td>' . $registros[$z]['ejercicio'] . '</td>';
-                                    echo '<td>' . $registros[$z]['trimestre'] . '</td>';
-                                    echo '<td>' . $registros[$z]['proveedor'] . '</td>';
-                                    echo '<td>' . $registros[$z]['numero_factura'] . '</td>';
-                                    echo '<td>' . $registros[$z]['fecha_erogacion'] . '</td>';
-                                    echo '<td>' . $registros[$z]['monto_factura'] . '</td>';
-                                    echo '<td>' . $registros[$z]['active'] . '</td>';
-                                    echo "<td> <span class='btn-group btn btn-info btn-sm' onclick=\"abrirModal(" . $registros[$z]['id_factura'] . ")\"> <i class='fa fa-search'></i></span></td>";
-                                    echo '<td>' . anchor("tpoadminv1/capturista/ordenes_compra/editar_orden_compra/".$registros[$z]['id_factura'], "<button class='btn btn-warning btn-sm' title='Editar'><i class=\"fa fa-edit\"></i></button></td>"); 
-                                    echo "<td> <span class='btn-group btn btn-danger btn-sm' onclick=\"eliminarModal(" . $registros[$z]['id_factura'] . ", '". str_replace($c_replace, "", $registros[$z]['numero_factura']) . "')\"> <i class='fa fa-close'></i></span></td>";
-                                    
-                                    echo '</tr>';
-                                }*/
-                            ?>
                         </tbody>
                     </table>
                 </div><!-- /.box-body -->

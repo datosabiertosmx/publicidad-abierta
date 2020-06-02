@@ -807,28 +807,42 @@ class Facturas_Model extends CI_Model
         if(!empty($factura_desglose)){
             $monto_conciderado = floatval($factura_desglose['monto_desglose']);
         }
-        //$cad = "entro ";
+        
         if(!empty($factura) && $factura['id_contrato'] > 1){
             $montos = $this->Contratos_model->getMontosContrato_id($factura['id_contrato']);
-            //$cad .= $factura['id_contrato'];
+           
             if(!empty($montos)){
-                $monto_total = floatval($montos['monto_total']) + floatval($montos['monto_modificado']);
-                
+                $monto_totalc = floatval($montos['monto_contrato']) + floatval($montos['monto_modificado']);
+
                 $monto_ejercido = floatval($montos['monto_pagado']);
                 $monto_agregar = floatval($cantidad) * floatval($precio_unitario);
 
                 $monto_a_ejercer = $monto_agregar + ($monto_ejercido - $monto_conciderado); 
 
-                //$cad = $cad . " - total: " . $monto_total . " - a ejercer " . $monto_a_ejercer . " - agregar" . $monto_agregar;
-                if($monto_a_ejercer > $monto_total){
-                   return true; // regresa como invalido cuando el monto a ejercer es 
+                if($monto_a_ejercer > $monto_totalc){
+                   return true; // regresa como invalido cuando el monto a ejercer es mayor al monto total
                 }
             }
         }
 
         return false;
     }    
+	
+	function last_id_factura()
+    {
+        $query_str = 'select * from tab_facturas order by id_factura desc limit 1'; 
+        
+        $query = $this->db->query($query_str);
 
+        if ($query->num_rows() > 0)
+        {
+            foreach ($query->result_array() as $row) { }
+            return $row['id_factura'];
+        }else{
+            return 0;
+        }   
+    }
+	
     function get_monto_factura_by_idejercicio($id_ejercicio){
         $sqltext = 'select 
                 count(*) as total,

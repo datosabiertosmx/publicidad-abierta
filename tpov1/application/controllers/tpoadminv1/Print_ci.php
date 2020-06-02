@@ -516,7 +516,7 @@ class Print_CI extends CI_Controller
 
         $this->load->model('tpoadminv1/catalogos/Catalogos_model');
         
-        $data['title'] = "Conceptos";
+        $data['title'] = "Partidas presupuestarias";
         $data['registros'] = $this->Catalogos_model->dame_todos_presupuestos();
         
         //lista de nombre de las columnas como se carga en el array de registros
@@ -533,9 +533,9 @@ class Print_CI extends CI_Controller
         //lista de nombre de los <th> para la tabla, debe ser el mismo numero de registros que el array de registros_columnas
         $data['nombre_columnas'] = array(
             '#',
-            'Cap&iacute;tulo',
             'Concepto',
-            'Partida',
+            'Partida genérica',
+            'Partida específica',
             'Denominaci&oacute;n',
             'Descripci&oacute;n',
             'Captura',

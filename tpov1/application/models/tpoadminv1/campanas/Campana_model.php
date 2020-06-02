@@ -55,12 +55,10 @@ class Campana_Model extends CI_Model
         }
     }
 
-
     function dame_todas_campanas()
     {
         $estatus = array('1', '2','3','4');
         $this->db->where_in('active', $estatus);
-        //$this->db->limit('100');
         $this->db->order_by('id_campana_aviso', 'desc');
         $query = $this->db->get('tab_campana_aviso');
         
@@ -86,9 +84,11 @@ class Campana_Model extends CI_Model
                 $array_camp_avisos[$cont]['fecha_inicio_periodo'] = $row['fecha_inicio_periodo'];
                 $array_camp_avisos[$cont]['fecha_termino_periodo'] = $row['fecha_termino_periodo'];
                 $array_camp_avisos[$cont]['id_so_contratante'] = $row['id_so_contratante'];
-                $array_camp_avisos[$cont]['nombre_so_contratante'] = $this->dame_soc_nombre($row['id_so_contratante']);
+                //$array_camp_avisos[$cont]['nombre_so_contratante'] = $this->dame_soc_nombre($row['id_so_contratante']);
+                $array_camp_avisos[$cont]['nombre_so_contratante'] = $this->dame_nombre_contratante($row['id_so_contratante']);
                 $array_camp_avisos[$cont]['id_so_solicitante'] = $row['id_so_solicitante'];
-                $array_camp_avisos[$cont]['nombre_so_solicitante'] = $this->dame_sos_nombre($row['id_so_solicitante']);
+                //$array_camp_avisos[$cont]['nombre_so_solicitante'] = $this->dame_sos_nombre($row['id_so_solicitante']);
+                $array_camp_avisos[$cont]['nombre_so_solicitante'] = $this->dame_nombre_solicitante($row['id_so_solicitante']);
                 $array_camp_avisos[$cont]['id_tiempo_oficial'] = $row['id_tiempo_oficial'];
                 $array_camp_avisos[$cont]['nombre_campana_aviso'] = $row['nombre_campana_aviso'];
                 $array_camp_avisos[$cont]['objetivo_comunicacion'] = $row['objetivo_comunicacion'];
@@ -97,6 +97,7 @@ class Campana_Model extends CI_Model
                 $array_camp_avisos[$cont]['fecha_inicio_to'] = $row['fecha_inicio_to'];
                 $array_camp_avisos[$cont]['fecha_termino_to'] = $row['fecha_termino_to'];
                 $array_camp_avisos[$cont]['id_campana_tipoTO'] = $row['id_campana_tipoTO'];
+				$array_camp_avisos[$cont]['id_presupuesto'] = $row['id_presupuesto'];
                 $array_camp_avisos[$cont]['monto_tiempo'] = $row['monto_tiempo'];
                 $array_camp_avisos[$cont]['hora_to'] = $row['hora_to'];
                 $array_camp_avisos[$cont]['minutos_to'] = $row['minutos_to'];
@@ -121,9 +122,6 @@ class Campana_Model extends CI_Model
             return $array_camp_avisos;
         }
     }
-
-
-
 
     function descarga_campanas()
     {
@@ -165,7 +163,6 @@ class Campana_Model extends CI_Model
             $count = 1;
             foreach ($query->result_array() as $row) 
             {
-                //$montos = $this->getMontos($row['id_contrato'], $row['monto_contrato']);
                 $csv = array(
                     utf8_decode($count),
                     utf8_decode($this->Catalogos_model->dame_nombre_ejercicio($row['id_ejercicio'])),
@@ -194,7 +191,6 @@ class Campana_Model extends CI_Model
 
         return $filename;
     }
-
 
     function guardar_bitacora($accion)
     {
@@ -272,7 +268,6 @@ class Campana_Model extends CI_Model
 
     function dame_edades_campana_id($id_campana_aviso)
     {
-        //$this->db->where('id_poblacion_grupo_edad !=', '5');
         $this->db->where('id_campana_aviso', $id_campana_aviso);
         $query = $this->db->get('rel_campana_grupo_edad');
         
@@ -292,12 +287,9 @@ class Campana_Model extends CI_Model
         }
     }
 
-
     function dame_grupos_dif_campana()
     {
-        //$id_campana_aviso = $this->input->post('id_campana_aviso');
         $id_campana_aviso = '2961';
-
         //Omitir los grupos de edades con los que la campana ya cuenta
         $this->db->where('id_poblacion_grupo_edad !=', '5');
         $this->db->where('id_campana_aviso', $id_campana_aviso);
@@ -305,8 +297,6 @@ class Campana_Model extends CI_Model
         
         if($query->num_rows() > 0)
         {
-            //$array_edades_camp = array();
-            
             $array_edades_camp = '';
 
             foreach ($query->result_array() as $row) 
@@ -328,7 +318,6 @@ class Campana_Model extends CI_Model
                 foreach ($query->result_array() as $row) 
                 {
                     if (in_array($row['id_poblacion_grupo_edad'], $edades_usadas)) {
-                        //echo "Existe ".$row['id_poblacion_grupo_edad'];
                     }
                     else
                     {
@@ -341,8 +330,6 @@ class Campana_Model extends CI_Model
             }
         }
     }
-
-
 
     function dame_lugares_campana_id($id_campana_aviso)
     {
@@ -363,7 +350,6 @@ class Campana_Model extends CI_Model
             return $array_lugares_camp;
         }
     }
-
 
     function dame_niveles_campana_id($id_campana_aviso)
     {
@@ -386,7 +372,6 @@ class Campana_Model extends CI_Model
         }
     }
 
-
     function dame_niveles_educativos_campana_id($id_campana_aviso)
     {
         $this->db->where('id_campana_aviso', $id_campana_aviso);
@@ -408,10 +393,8 @@ class Campana_Model extends CI_Model
         }
     }
 
-
     function dame_sexos_campana_id($id_campana_aviso)
     {
-        //$this->db->where('id_poblacion_grupo_edad !=', '5');
         $this->db->where('id_campana_aviso', $id_campana_aviso);
         $query = $this->db->get('rel_campana_sexo');
         
@@ -431,10 +414,8 @@ class Campana_Model extends CI_Model
         }
     }
 
-
     function dame_audios_campana_id($id_campana_aviso)
     {
-        //$this->db->where('id_poblacion_grupo_edad !=', '5');
         $this->db->where('id_campana_aviso', $id_campana_aviso);
         $query = $this->db->get('rel_campana_maudio');
         
@@ -458,11 +439,8 @@ class Campana_Model extends CI_Model
         }
     }
 
-
-
     function dame_imagenes_campana_id($id_campana_aviso)
     {
-        //$this->db->where('id_poblacion_grupo_edad !=', '5');
         $this->db->where('id_campana_aviso', $id_campana_aviso);
         $query = $this->db->get('rel_campana_mimagenes');
         
@@ -484,7 +462,6 @@ class Campana_Model extends CI_Model
             return $array_imagenes_camp;
         }
     }
-
 
     function dame_videos_campana_id($id_campana_aviso)
     {
@@ -563,8 +540,24 @@ class Campana_Model extends CI_Model
             return '';
         }
     }
-
-
+	
+	function dame_docs_nombre($id)
+    {
+        $this->db->select('denominacion');
+        $this->db->where('id_presupuesto', $id);
+        $query = $this->db->get('vtab_presupuesto_PACS');
+        
+        if ($query->num_rows() == 1)
+        {
+            foreach ($query->result_array() as $row){
+            }
+            return $row['denominacion'];
+        }else
+        {
+            return '';
+        }
+    }
+	
     function dame_tiempo_oficial_nombre($id)
     {
         if ($id == 1)
@@ -592,7 +585,6 @@ class Campana_Model extends CI_Model
         }
     }
 
-
     function dame_nombre_nivel($id_nivel)
     {
         $this->db->where('id_poblacion_nivel', $id_nivel);
@@ -608,7 +600,6 @@ class Campana_Model extends CI_Model
             return $row['nombre_poblacion_nivel'];
         }
     }
-
 
     function dame_nombre_nivel_educativo($id_nivel_educativo)
     {
@@ -626,7 +617,6 @@ class Campana_Model extends CI_Model
         }
     }
 
-
     function dame_nombre_sexo($id_sexo)
     {
         $this->db->where('id_poblacion_sexo', $id_sexo);
@@ -643,7 +633,6 @@ class Campana_Model extends CI_Model
         }
     }
 
-
     function dame_nombre_liga($id_tipo_liga)
     {
         $this->db->where('id_tipo_liga', $id_tipo_liga);
@@ -659,7 +648,6 @@ class Campana_Model extends CI_Model
         }
     }
 
-
     function dame_nombre_campana($id_campana_aviso)
     {
         $this->db->where('id_campana_aviso', $id_campana_aviso);
@@ -673,7 +661,6 @@ class Campana_Model extends CI_Model
             return $row['nombre_campana_aviso'];
         }
     }
-
 
     function dame_todos_niveles()
     {
@@ -694,7 +681,6 @@ class Campana_Model extends CI_Model
             return $array_camp_nivel;
         }  
     }
-
 
     function dame_todos_niveles_educativos()
     {
@@ -736,7 +722,6 @@ class Campana_Model extends CI_Model
         }  
     }
 
-
     function dame_todos_tipos_ligas()
     {
         $this->db->where('active', '1');
@@ -775,7 +760,6 @@ class Campana_Model extends CI_Model
         }  
     }
 
-
     function dame_todas_campanas_avisos()
     {
         $estatus = array('1', '2','3','4');
@@ -806,13 +790,16 @@ class Campana_Model extends CI_Model
                 $array_camp_avisos[$cont]['fecha_inicio_periodo'] = $row['fecha_inicio_periodo'];
                 $array_camp_avisos[$cont]['fecha_termino_periodo'] = $row['fecha_termino_periodo'];
                 $array_camp_avisos[$cont]['id_so_contratante'] = $row['id_so_contratante'];
-                $array_camp_avisos[$cont]['nombre_so_contratante'] = $this->dame_soc_nombre($row['id_so_contratante']);
+                //$array_camp_avisos[$cont]['nombre_so_contratante'] = $this->dame_soc_nombre($row['id_so_contratante']);
+                $array_camp_avisos[$cont]['nombre_so_contratante'] = $this->dame_nombre_contratante($row['id_so_contratante']);
                 $array_camp_avisos[$cont]['id_so_solicitante'] = $row['id_so_solicitante'];
-                $array_camp_avisos[$cont]['nombre_so_solicitante'] = $this->dame_sos_nombre($row['id_so_solicitante']);
+                //$array_camp_avisos[$cont]['nombre_so_solicitante'] = $this->dame_sos_nombre($row['id_so_solicitante']);
+                $array_camp_avisos[$cont]['nombre_so_solicitante'] = $this->dame_nombre_solicitante($row['id_so_solicitante']);
                 $array_camp_avisos[$cont]['id_tiempo_oficial'] = $row['id_tiempo_oficial'];
                 $array_camp_avisos[$cont]['nombre_campana_aviso'] = $row['nombre_campana_aviso'];
                 $array_camp_avisos[$cont]['objetivo_comunicacion'] = $row['objetivo_comunicacion'];
                 $array_camp_avisos[$cont]['id_campana_tipoTO'] = $row['id_campana_tipoTO'];
+				$array_camp_avisos[$cont]['id_presupuesto'] = $row['id_presupuesto'];
                 $array_camp_avisos[$cont]['monto_tiempo'] = $row['monto_tiempo'];
                 $array_camp_avisos[$cont]['hora_to'] = $row['hora_to'];
                 $array_camp_avisos[$cont]['minutos_to'] = $row['minutos_to'];
@@ -842,7 +829,6 @@ class Campana_Model extends CI_Model
         }
     }
 
-
     function dame_camp_tipo_nombre($id_tipo)
     {
         $this->db->where('id_campana_tipo', $id_tipo);
@@ -860,7 +846,6 @@ class Campana_Model extends CI_Model
 
     function dame_camp_subtipo_nombre($id_subtipo)
     {
-        //$this->db->where('id_campana_tipo', $id_tipo);
         $this->db->where('id_campana_subtipo', $id_subtipo);
         $this->db->where('active', '1');
         $query = $this->db->get('cat_campana_subtipos');
@@ -874,10 +859,8 @@ class Campana_Model extends CI_Model
         }
     }
 
-
     function dame_ejercicio_nombre($id_ejercicio)
     {
-        //$this->db->where('id_campana_tipo', $id_tipo);
         $this->db->where('id_ejercicio', $id_ejercicio);
         $this->db->where('active', '1');
         $query = $this->db->get('cat_ejercicios');
@@ -890,11 +873,9 @@ class Campana_Model extends CI_Model
             return $row['ejercicio'];
         }
     }
-
     
     function dame_trimestre_nombre($id_trimestre)
     {
-        //$this->db->where('id_campana_tipo', $id_tipo);
         $this->db->where('id_trimestre', $id_trimestre);
         $this->db->where('active', '1');
         $query = $this->db->get('cat_trimestres');
@@ -908,40 +889,36 @@ class Campana_Model extends CI_Model
         }
     }
 
-    function dame_soc_nombre($id_so_contratante)
-    {
-        //$this->db->where('id_campana_tipo', $id_tipo);
-        $this->db->where('id_sujeto_obligado', $id_so_contratante);
-        $this->db->where('active', '1');
-        $query = $this->db->get('tab_sujetos_obligados');
+    function dame_nombre_contratante($id){
+        $this->db->select('nombre_sujeto_obligado');
+        $this->db->where('id_sujeto_obligado', $id);
         
-        if($query->num_rows() > 0)
+        $query = $this->db->get('vso_contratante');
+        
+        if ($query->num_rows() == 1)
         {
-            foreach ($query->result_array() as $row){
-            }
-            
+            foreach ($query->result_array() as $row) { }
             return $row['nombre_sujeto_obligado'];
+        }else{
+            return '';
         }
     }
 
-
-    function dame_sos_nombre($id_so_solicitante)
-    {
-        //$this->db->where('id_campana_tipo', $id_tipo);
-        $this->db->where('id_sujeto_obligado', $id_so_solicitante);
-        $this->db->where('active', '1');
-        $query = $this->db->get('tab_sujetos_obligados');
+    function dame_nombre_solicitante($id){
+        $this->db->select('nombre_sujeto_obligado');
+        $this->db->where('id_sujeto_obligado', $id);
         
-        if($query->num_rows() > 0)
+        $query = $this->db->get('vso_solicitante');
+        
+        if ($query->num_rows() == 1)
         {
-            foreach ($query->result_array() as $row){
-            }
-            
+            foreach ($query->result_array() as $row) { }
             return $row['nombre_sujeto_obligado'];
+        }else{
+            return '';
         }
-    }
-
-
+    }	
+	
     function descarga_campanas_avisos()
     {
         $filename = 'dist/csv/campanasyavisos.csv';
@@ -949,8 +926,6 @@ class Campana_Model extends CI_Model
         
         $estatus = array('1', '2','3','4');
         $this->db->where_in('active', $estatus);
-        //$this->db->limit('100');
-        //$this->db->order_by('id_campana_aviso', 'desc');
         $query = $this->db->get('tab_campana_aviso');
 
         $csv_header = array('#',
@@ -986,8 +961,8 @@ class Campana_Model extends CI_Model
                     utf8_decode($this->dame_trimestre_nombre($row['id_trimestre'])),
                     utf8_decode($row['fecha_inicio_periodo']),
                     utf8_decode($row['fecha_termino_periodo']),
-                    utf8_decode($this->dame_sos_nombre($row['id_so_solicitante'])),
-                    utf8_decode($this->dame_soc_nombre($row['id_so_contratante'])),
+                    utf8_decode($this->dame_nombre_solicitante($row['id_so_solicitante'])),
+                    utf8_decode($this->dame_nombre_contratante($row['id_so_contratante'])),
                     utf8_decode($this->get_estatus_name($row['active']))
                 );
                 fputcsv($myfile, $csv);
@@ -999,7 +974,6 @@ class Campana_Model extends CI_Model
 
         return $filename;
     }
-
 
     function dame_edad_rel_id($id_rel)
     {
@@ -1061,7 +1035,6 @@ class Campana_Model extends CI_Model
         }
     }
 
-
     function dame_tipo_liga_video_rel_id($id_rel)
     {
         $this->db->where('id_campana_mvideo', $id_rel);
@@ -1076,8 +1049,7 @@ class Campana_Model extends CI_Model
             return $grupo_edad;
         }
     }
-
-    
+ 
     function tipo_liga_audio_rel_id($id_rel)
     {
         $this->db->where('id_campana_maudio', $id_rel);
@@ -1092,7 +1064,6 @@ class Campana_Model extends CI_Model
             return $tipo_liga_audio;
         }
     }
-
 
     function tipo_liga_imagen_rel_id($id_rel)
     {
@@ -1155,7 +1126,6 @@ class Campana_Model extends CI_Model
 
     function campana_id_alta_educacion($id_campana_aviso)
     {
-        //$this->db->where('id_rel_campana_grupo_edad', $id_rel);
         $this->db->where('id_campana_aviso', $id_campana_aviso);
         $query = $this->db->get('rel_campana_nivel_educativo');
         
@@ -1197,8 +1167,6 @@ class Campana_Model extends CI_Model
             return 0;
         }
     }
-
-
 
     function campana_id_edades($id_rel, $id_campana_aviso)
     {
@@ -1257,7 +1225,6 @@ class Campana_Model extends CI_Model
         return $array_niveles_camp;
     }
 
-
     function campana_id_sexo($id_rel, $id_campana_aviso)
     {
         $this->db->where('id_rel_campana_sexo !=', $id_rel);
@@ -1277,7 +1244,6 @@ class Campana_Model extends CI_Model
         return $array_sexos_camp;
     }
 
-
     function dame_todas_edades_alta()
     {
         $this->db->where('active', '1');
@@ -1295,7 +1261,6 @@ class Campana_Model extends CI_Model
         }
         return $array_edades;
     }
-
 
     function dame_todos_niveles_alta()
     {
@@ -1316,7 +1281,6 @@ class Campana_Model extends CI_Model
         return $array_niveles_alta;
     }
 
-
     function dame_todos_educacion_alta()
     {
         $this->db->where('active', '1');
@@ -1334,7 +1298,6 @@ class Campana_Model extends CI_Model
         }
         return $array_niveles_alta;
     }
-
 
     function dame_todos_sexo_alta()
     {
@@ -1354,15 +1317,11 @@ class Campana_Model extends CI_Model
         return $array_sexo_alta;
     }
 
-
-
     function dame_opciones_edad_alta($id_campana_aviso)
     {
         $sel_cat_edad = '';
         $edades_guardadas = $this->campana_id_alta_edades($id_campana_aviso);
         $todas_edades = $this->dame_todas_edades_alta($id_campana_aviso);
-        
-        //$edades_disponibles = array_diff($todas_edades, $edades_guardadas);
 
         if($edades_guardadas != 0)
         {
@@ -1381,7 +1340,6 @@ class Campana_Model extends CI_Model
         
         return $sel_cat_edad;
     }
-
 
     function dame_opciones_edad_edita($id_rel, $id_campana_aviso)
     {
@@ -1408,7 +1366,6 @@ class Campana_Model extends CI_Model
         return $sel_cat_edad;
     }
     
-
     function dame_opciones_tipo_liga_video($id_rel)
     {
         $sel_tipo_liga = '';
@@ -1426,10 +1383,7 @@ class Campana_Model extends CI_Model
             {
                 $sel_tipo_liga .= '<option value="'.$detalle_tipo['id_tipo_liga'].'">' . $detalle_tipo['tipo_liga'] . '</option>';
             }
-        }
-
-        
-        
+        }       
         return $sel_tipo_liga;
     }
 
@@ -1452,10 +1406,8 @@ class Campana_Model extends CI_Model
                 $sel_tipo_liga .= '<option value="'.$detalle_tipo['id_tipo_liga'].'">' . $detalle_tipo['tipo_liga'] . '</option>';
             }
         }
-
         return $sel_tipo_liga;
     }
-
 
     //OPCIONES IMAGEN EDITA
     function tipo_liga_imagen($id_rel)
@@ -1480,7 +1432,6 @@ class Campana_Model extends CI_Model
         return $sel_tipo_liga;
     }
 
-
     function dame_opciones_edad_edita2($id_rel, $id_campana_aviso)
     {
         $edades_guardadas = $this->campana_id_edades($id_rel, $id_campana_aviso);
@@ -1495,7 +1446,6 @@ class Campana_Model extends CI_Model
             {
                 if($edades_guardadas != '')
                 {
-
                     foreach ($edades_guardadas as $edad)
                     {
                         if($edad != $row['id_poblacion_grupo_edad'])
@@ -1521,12 +1471,9 @@ class Campana_Model extends CI_Model
                     }
                 }
             }
-
             return $sel_cat_edad;
         }
     }
-
-
 
     function dame_opciones_nivel_alta($id_campana_aviso)
     {
@@ -1547,8 +1494,7 @@ class Campana_Model extends CI_Model
         {
             $detalle_nivel = $this->dame_nivel_id($nivel_disp);
             $sel_cat_nivel .= '<option value="'.$detalle_nivel['id_poblacion_nivel'].'">' . $detalle_nivel['nombre_poblacion_nivel'] . '</option>';
-        }
-        
+        }       
         return $sel_cat_nivel;
     }
 
@@ -1577,7 +1523,6 @@ class Campana_Model extends CI_Model
         return $sel_cat_nivel;
     }
 
-
     function dame_opciones_educacion_alta($id_campana_aviso)
     {
         $sel_cat_educacion = '';
@@ -1601,7 +1546,6 @@ class Campana_Model extends CI_Model
         
         return $sel_cat_educacion;
     }
-
 
     function dame_opciones_educacion_edita($id_rel, $id_campana_aviso)
     {
@@ -1627,8 +1571,7 @@ class Campana_Model extends CI_Model
         
         return $sel_cat_educacion;
     }
-    
-    
+      
     function dame_opciones_sexo_alta($id_campana_aviso)
     {
         $sel_cat_sexo = '';
@@ -1652,14 +1595,9 @@ class Campana_Model extends CI_Model
         
         return $sel_cat_sexo;
     }
-
     
     function dame_opciones_sexo_edita($id_rel, $id_campana_aviso)
     {
-        //$educacion_guardados = $this->campana_id_nivel_educativo($id_rel, $id_campana_aviso);
-        //$todos_educacion = $this->dame_todos_educacion_alta($id_campana_aviso);
-
-
         $sel_cat_sexo = '';
         $sexos_guardados = $this->campana_id_sexo($id_rel, $id_campana_aviso);
         $todos_sexos = $this->dame_todos_sexo_alta($id_campana_aviso);
@@ -1678,11 +1616,9 @@ class Campana_Model extends CI_Model
             {
                 $sel_cat_sexo .= '<option value="'.$detalle_sexo['id_poblacion_sexo'].'">' . $detalle_sexo['nombre_poblacion_sexo'] . '</option>';
             }
-        }
-        
+        }       
         return $sel_cat_sexo;
     }
-
 
     function dame_campana_id($id_campana)
     {
@@ -1715,13 +1651,17 @@ class Campana_Model extends CI_Model
                 $camp_aviso['fecha_inicio_periodo'] = $this->Generales_model->dateToString($row['fecha_inicio_periodo']);
                 $camp_aviso['fecha_termino_periodo'] = $this->Generales_model->dateToString($row['fecha_termino_periodo']);
                 $camp_aviso['id_so_solicitante'] = $row['id_so_solicitante'];
-                $camp_aviso['nombre_so_solicitante'] = $this->dame_sos_nombre($row['id_so_solicitante']);
+                //$camp_aviso['nombre_so_solicitante'] = $this->dame_sos_nombre($row['id_so_solicitante']);
+                $camp_aviso['nombre_so_solicitante'] = $this->dame_nombre_solicitante($row['id_so_solicitante']);
                 $camp_aviso['id_so_contratante'] = $row['id_so_contratante'];
-                $camp_aviso['nombre_so_contratante'] = $this->dame_soc_nombre($row['id_so_contratante']);
+                //$camp_aviso['nombre_so_contratante'] = $this->dame_soc_nombre($row['id_so_contratante']);
+                $camp_aviso['nombre_so_contratante'] = $this->dame_nombre_contratante($row['id_so_contratante']);
                 $camp_aviso['id_tiempo_oficial'] = $row['id_tiempo_oficial'];
                 $camp_aviso['nombre_tiempo_oficial'] = $this->dame_tiempo_oficial_nombre($row['id_tiempo_oficial']);
                 $camp_aviso['id_campana_tipoTO'] = $row['id_campana_tipoTO'];
                 $camp_aviso['nombre_tipoTO'] = $this->dame_tipoTO_nombre($row['id_campana_tipoTO']);
+				$camp_aviso['denominacion'] = $this->dame_docs_nombre($row['id_presupuesto']);
+				$camp_aviso['id_presupuesto'] = $row['id_presupuesto'];
                 $camp_aviso['nombre_campana_aviso'] = $row['nombre_campana_aviso'];
                 $camp_aviso['objetivo_comunicacion'] = $row['objetivo_comunicacion'];
                 $camp_aviso['monto_tiempo'] = $row['monto_tiempo'];
@@ -1755,7 +1695,6 @@ class Campana_Model extends CI_Model
         }
     }
 
-
     function dame_campana_nombre($id_campana)
     {
         $estatus = array('1', '2','3','4');
@@ -1773,7 +1712,6 @@ class Campana_Model extends CI_Model
             return $nombre_campana;
         }
     }
-
 
     function dame_eliminar_campana_id($id)
     {
@@ -1804,13 +1742,17 @@ class Campana_Model extends CI_Model
                     'fecha_inicio_periodo' => $row['fecha_inicio_periodo'],
                     'fecha_termino_periodo' => $row['fecha_termino_periodo'],
                     'id_so_solicitante' => $row['id_so_solicitante'],
-                    'nombre_so_solicitante' => $this->dame_sos_nombre($row['id_so_solicitante']),
+                    //'nombre_so_solicitante' => $this->dame_sos_nombre($row['id_so_solicitante']),
+                    'nombre_so_solicitante' => $this->dame_nombre_solicitante($row['id_so_solicitante']),
                     'id_so_contratante' => $row['id_so_contratante'],
-                    'nombre_so_contratante' => $this->dame_soc_nombre($row['id_so_contratante']),
+                    //'nombre_so_contratante' => $this->dame_soc_nombre($row['id_so_contratante']),
+                    'nombre_so_contratante' => $this->dame_nombre_contratante($row['id_so_contratante']),
                     'id_tiempo_oficial' => $row['id_tiempo_oficial'],
                     'nombre_tiempo_oficial' => $this->dame_tiempo_oficial_nombre($row['id_tiempo_oficial']),
                     'id_campana_tipoTO' => $row['id_campana_tipoTO'],
                     'nombre_tipoTO' => $this->dame_tipoTO_nombre($row['id_campana_tipoTO']),
+					'id_presupuesto' => $row['id_presupuesto'],
+					'denominacion' => $this->dame_docs_nombre($row['id_presupuesto']),
                     'nombre_campana_aviso' => $row['nombre_campana_aviso'],
                     'objetivo_comunicacion' => $row['objetivo_comunicacion'],
                     'monto_tiempo' => $row['monto_tiempo'],
@@ -1845,7 +1787,6 @@ class Campana_Model extends CI_Model
             return '';
         }
     }
-
 
     function dame_nombre_atributo_eliminado($id_rel, $atributo)
     {
@@ -1998,9 +1939,6 @@ class Campana_Model extends CI_Model
         }
     }
 
-
-
-
     function dame_eliminar_rel_edad($id_rel)
     {
         $this->load->model('tpoadminv1/campanas/Campana_model');
@@ -2030,13 +1968,17 @@ class Campana_Model extends CI_Model
                     'fecha_inicio_periodo' => $row['fecha_inicio_periodo'],
                     'fecha_termino_periodo' => $row['fecha_termino_periodo'],
                     'id_so_solicitante' => $row['id_so_solicitante'],
-                    'nombre_so_solicitante' => $this->dame_sos_nombre($row['id_so_solicitante']),
+                    //'nombre_so_solicitante' => $this->dame_sos_nombre($row['id_so_solicitante']),
+                    'nombre_so_solicitante' => $this->dame_nombre_solicitante($row['id_so_solicitante']),
                     'id_so_contratante' => $row['id_so_contratante'],
-                    'nombre_so_contratante' => $this->dame_soc_nombre($row['id_so_contratante']),
+                    //'nombre_so_contratante' => $this->dame_soc_nombre($row['id_so_contratante']),
+                    'nombre_so_contratante' => $this->dame_nombre_contratante($row['id_so_contratante']),
                     'id_tiempo_oficial' => $row['id_tiempo_oficial'],
                     'nombre_tiempo_oficial' => $this->dame_tiempo_oficial_nombre($row['id_tiempo_oficial']),
                     'id_campana_tipoTO' => $row['id_campana_tipoTO'],
                     'nombre_tipoTO' => $this->dame_tipoTO_nombre($row['id_campana_tipoTO']),
+					'id_presupuesto' => $row['id_presupuesto'],
+					'denominacion' => $this->dame_docs_nombre($row['id_presupuesto']),
                     'nombre_campana_aviso' => $row['nombre_campana_aviso'],
                     'objetivo_comunicacion' => $row['objetivo_comunicacion'],
                     'monto_tiempo' => $row['monto_tiempo'],
@@ -2072,8 +2014,6 @@ class Campana_Model extends CI_Model
         }
     }
 
-
-
     function eliminar_campana($id)
     {
         $reg_eliminado = $this->dame_eliminar_campana_id($id);
@@ -2106,7 +2046,6 @@ class Campana_Model extends CI_Model
         }
 
         //Dependiendo si se esta dando de alta una campana o un aviso, validaremos la existencia de ellas en la BD
-
         //Validamos la existencia de la campana
         if($this->input->post('id_campana_tipo') == '1')
         {
@@ -2169,6 +2108,7 @@ class Campana_Model extends CI_Model
             'id_so_solicitante' => $this->input->post('id_so_solicitante'),
             'id_tiempo_oficial' => $this->input->post('id_tiempo_oficial'),
             'id_campana_tipoTO' => $this->input->post('id_campana_tipoTO'),
+			'id_presupuesto' => $this->input->post('id_presupuesto'),
             'nombre_campana_aviso' => $this->input->post('nombre_campana_aviso'),
             'objetivo_comunicacion' => $this->input->post('objetivo_comunicacion'),
             'monto_tiempo' => $this->input->post('monto_tiempo'),
@@ -2220,10 +2160,6 @@ class Campana_Model extends CI_Model
             }
         }
     }
-
-
-
-
 
     //Guardamos los detalles de las pestañas
     function guarda_rel_camp()
@@ -2406,7 +2342,6 @@ class Campana_Model extends CI_Model
         }
     }
 
-
     //Actualizamos los detalles de las pestanas
     function actualiza_rel_camp()
     {
@@ -2455,7 +2390,6 @@ class Campana_Model extends CI_Model
             case 'nivel':
                     
                 $data_act = array(
-                    //'id_campana_aviso' => $this->input->post('id_campana_aviso'),
                     'id_poblacion_nivel' => $this->input->post('id_poblacion_nivel'),
                 );
 
@@ -2512,12 +2446,9 @@ class Campana_Model extends CI_Model
                         return 1;   //is correct
                     }
                 }
-
                 break;
             
-
-            case 'audios':
-                    
+            case 'audios':                   
                 $data_act = array(
                     'id_tipo_liga' => $this->input->post('id_tipo_liga_edita'),
                     'nombre_campana_maudio' => $this->input->post('nombre_campana_maudio_edita'),
@@ -2537,10 +2468,9 @@ class Campana_Model extends CI_Model
                         return 1;   //is correct
                     }
                 }
-
                 break;
-            case 'imagenes':
-                    
+				
+            case 'imagenes':                   
                 $data_act = array(
                     'id_tipo_liga' => $this->input->post('id_tipo_liga_edita'),
                     'nombre_campana_mimagen' => $this->input->post('nombre_campana_mimagen_edita'),
@@ -2560,11 +2490,9 @@ class Campana_Model extends CI_Model
                         return 1;   //is correct
                     }
                 }
-
                 break;
 
-            case 'videos':
-                    
+            case 'videos':                    
                 $data_act = array(
                     'id_tipo_liga' => $this->input->post('id_tipo_liga_edita'),
                     'nombre_campana_mvideo' => $this->input->post('nombre_campana_mvideo_edita'),
@@ -2584,14 +2512,12 @@ class Campana_Model extends CI_Model
                         return 1;   //is correct
                     }
                 }
-
                 break;
 
             default: 'No hay nada a modificar';
                 break;
         }
     }
-
 
     //Eliminamos los detalles de las pestanas
     function elimina_rel_camp($id_rel, $atributo)
@@ -2613,11 +2539,9 @@ class Campana_Model extends CI_Model
                 {
                     return 0; // sometime is wrong
                 }
-
                 break;
 
-            case 'lugar':
-                    
+            case 'lugar':                    
                 $reg_eliminado = $this->dame_nombre_atributo_eliminado($id_rel, $atributo);
                 
                 $this->db->where('id_campana_lugar', $id_rel);
@@ -2633,8 +2557,7 @@ class Campana_Model extends CI_Model
                 }
                 break;
 
-            case 'nivel':
-                    
+            case 'nivel':                    
                 $reg_eliminado = $this->dame_nombre_atributo_eliminado($id_rel, $atributo);
                 
                 $this->db->where('id_rel_campana_nivel', $id_rel);
@@ -2650,8 +2573,7 @@ class Campana_Model extends CI_Model
                 }
                 break;
 
-            case 'educacion':
-                    
+            case 'educacion':                    
                 $reg_eliminado = $this->dame_nombre_atributo_eliminado($id_rel, $atributo);
                     
                 $this->db->where('id_rel_campana_nivel_educativo', $id_rel);
@@ -2667,8 +2589,7 @@ class Campana_Model extends CI_Model
                 }
                 break;
 
-            case 'sexo':
-                        
+            case 'sexo':                        
                 $reg_eliminado = $this->dame_nombre_atributo_eliminado($id_rel, $atributo);
                         
                 $this->db->where('id_rel_campana_sexo', $id_rel);
@@ -2682,11 +2603,9 @@ class Campana_Model extends CI_Model
                 {
                     return 0; // sometime is wrong
                 }
-
                 break;
 
-            case 'audios':
-                    
+            case 'audios':                    
                 $reg_eliminado = $this->dame_nombre_atributo_eliminado($id_rel, $atributo);
                             
                 $this->db->where('id_campana_maudio', $id_rel);
@@ -2699,12 +2618,10 @@ class Campana_Model extends CI_Model
                 }else
                 {
                     return 0; // sometime is wrong
-                }
-                
+                }                
                 break;
 
-            case 'imagenes':
-                    
+            case 'imagenes':                    
                 $reg_eliminado = $this->dame_nombre_atributo_eliminado($id_rel, $atributo);
                                 
                 $this->db->where('id_campana_mimagen', $id_rel);
@@ -2717,12 +2634,10 @@ class Campana_Model extends CI_Model
                 }else
                 {
                     return 0; // sometime is wrong
-                }
-                
+                }                
                 break;
 
-            case 'videos':
-                    
+            case 'videos':                  
                 $reg_eliminado = $this->dame_nombre_atributo_eliminado($id_rel, $atributo);
                                     
                 $this->db->where('id_campana_mvideo', $id_rel);
@@ -2736,14 +2651,12 @@ class Campana_Model extends CI_Model
                 {
                     return 0; // sometime is wrong
                 }    
-
                 break;
-
+				
             default: return 'Guardar valor';
                 break;
         }
     }
-
 
     function dame_todos_camp_tipos()
     {
@@ -2788,25 +2701,51 @@ class Campana_Model extends CI_Model
         }
     }
 
-
-    function dame_todos_sujetos()
-    {
-        $this->db->where('active', '1');
-        $this->db->order_by('nombre_sujeto_obligado', 'ASC');
-        $query = $this->db->get('tab_sujetos_obligados');
+    function dame_todos_so_contratantes($activos){
         
-        if($query->num_rows() > 0)
+        if($activos == true){
+            $this->db->order_by('nombre_sujeto_obligado', 'ASC');
+            $this->db->where('active', '1');
+        }
+        $query = $this->db->get('vso_contratante');        
+
+        if ($query->num_rows() > 0)
         {
-            $array_sujetos = [];
+            $array_items = [];
             $cont = 0;
-            foreach ($query->result_array() as $row) 
-            {
-                $array_sujetos[$cont]['id_sujeto_obligado'] = $row['id_sujeto_obligado'];
-                $array_sujetos[$cont]['nombre_sujeto_obligado'] = $row['nombre_sujeto_obligado'];
-                $array_sujetos[$cont]['active'] = $row['active'];
+
+            foreach ($query->result_array() as $row) {
+                $array_items[$cont]['id_sujeto_obligado'] = $row['id_sujeto_obligado'];
+                $array_items[$cont]['nombre_sujeto_obligado'] = $row['nombre_sujeto_obligado'];
                 $cont++;
             }
-            return $array_sujetos;
+            return $array_items;
+        }else{
+            return '';
+        }
+    }
+
+    function dame_todos_so_solicitantes($activos){
+        
+        if($activos == true){
+            $this->db->order_by('nombre_sujeto_obligado', 'ASC');
+            $this->db->where('active', '1');
+        }
+        $query = $this->db->get('vso_solicitante');
+        
+        if ($query->num_rows() > 0)
+        {
+            $array_items = [];
+            $cont = 0;
+
+            foreach ($query->result_array() as $row) {
+                $array_items[$cont]['id_sujeto_obligado'] = $row['id_sujeto_obligado'];
+                $array_items[$cont]['nombre_sujeto_obligado'] = $row['nombre_sujeto_obligado'];
+                $cont++;
+            }
+            return $array_items;
+        }else{
+            return '';
         }
     }
 
@@ -2831,7 +2770,6 @@ class Campana_Model extends CI_Model
         }
     }
 
-    
     function dame_todos_objetivos()
     {
         $this->db->where('active', '1');
@@ -2852,7 +2790,6 @@ class Campana_Model extends CI_Model
             return $array_objetivos;
         }
     }
-
 
     function dame_todas_coberturas()
     {
@@ -2896,10 +2833,29 @@ class Campana_Model extends CI_Model
         }
     }
     
+	function dame_todos_docpacs()
+    {
+        $this->db->order_by('denominacion', 'ASC');
+        $query = $this->db->get('vtab_presupuesto_PACS');
+        
+        if($query->num_rows() > 0)
+        {
+            $array_docpacs = [];
+            $cont = 0;
+			foreach ($query->result_array() as $row)
+			{
+				$array_docpacs[$cont]['id_presupuesto'] = $row['id_presupuesto'];
+                $array_docpacs[$cont]['id_ejercicio'] = $row['id_ejercicio'];
+                $array_docpacs[$cont]['denominacion'] = $row['denominacion'];
+                $cont++;
+			}           
+            return $array_docpacs;
+        }
+    }
+	
     function dame_subtipo()
     {
         $id_tipo = $this->input->post('id_campana_tipo');
-        //$id_tipo = '1';
 
         $this->db->where('id_campana_tipo', $id_tipo);
         $this->db->where('active', '1');
@@ -2925,13 +2881,9 @@ class Campana_Model extends CI_Model
         }
     }
 
-
     function dame_subtipo_post()
     {
         $id_tipo = $this->input->post('id_campana_tipo');
-        
-        //$id_tipo = '1';
-
         $this->db->where('id_campana_tipo', $id_tipo);
         $this->db->where('active', '1');
         $this->db->order_by('nombre_campana_subtipo', 'ASC');
@@ -2983,13 +2935,6 @@ class Campana_Model extends CI_Model
 
     function dame_todas_edades()
     {
-        //$this->db->where('usuario_estatus', 'A');
-        //$this->db->or_where('usuario_estatus', 'I');
-        
-        //$estatus = array('A', 'I');
-        //$this->db->where_in('usuario_estatus', $estatus);
-        
-        //$this->db->where('active', '1');
         $query = $this->db->get('cat_poblacion_grupo_edad');
         
         if($query->num_rows() > 0)
@@ -3030,7 +2975,6 @@ class Campana_Model extends CI_Model
                 fputcsv($myfile, $csv);
             }
         }
-
         fclose($myfile);
 
         return $filename;
@@ -3137,13 +3081,6 @@ class Campana_Model extends CI_Model
 
     function dame_todas_socioeconomicos()
     {
-        //$this->db->where('usuario_estatus', 'A');
-        //$this->db->or_where('usuario_estatus', 'I');
-        
-        //$estatus = array('A', 'I');
-        //$this->db->where_in('usuario_estatus', $estatus);
-        
-        //$this->db->where('active', '1');
         $query = $this->db->get('cat_poblacion_nivel');
         
         if($query->num_rows() > 0)
@@ -3276,13 +3213,6 @@ class Campana_Model extends CI_Model
 
     function dame_todas_educacion()
     {
-        //$this->db->where('usuario_estatus', 'A');
-        //$this->db->or_where('usuario_estatus', 'I');
-        
-        //$estatus = array('A', 'I');
-        //$this->db->where_in('usuario_estatus', $estatus);
-        
-        //$this->db->where('active', '1');
         $query = $this->db->get('cat_poblacion_nivel_educativo');
         
         if($query->num_rows() > 0)
@@ -3303,7 +3233,6 @@ class Campana_Model extends CI_Model
     function alta_campana()
     {
         //Dependiendo si se esta dando de alta una campana o un aviso, validaremos la existencia de ellas en la BD
-
         //Validamos la existencia de la campana
         if($this->input->post('id_campana_tipo') == '1')
         {
@@ -3348,11 +3277,11 @@ class Campana_Model extends CI_Model
             }
         }
 
-
         $data = array(
             'id_campana_aviso' => '0',
             'id_campana_cobertura' => $this->input->post('id_campana_cobertura'),
             'id_campana_tipoTO' => $this->input->post('id_campana_tipoTO'),
+			'id_presupuesto' => $this->input->post('id_presupuesto'),
             'id_campana_tipo' => $this->input->post('id_campana_tipo'),
             'id_campana_subtipo' => $this->input->post('id_campana_subtipo'),
             'id_campana_tema' => $this->input->post('id_campana_tema'),
@@ -3541,13 +3470,6 @@ class Campana_Model extends CI_Model
 
     function dame_todos_sexo()
     {
-        //$this->db->where('usuario_estatus', 'A');
-        //$this->db->or_where('usuario_estatus', 'I');
-        
-        //$estatus = array('A', 'I');
-        //$this->db->where_in('usuario_estatus', $estatus);
-        
-        //$this->db->where('active', '1');
         $query = $this->db->get('cat_poblacion_sexo');
         
         if($query->num_rows() > 0)
@@ -3652,7 +3574,6 @@ class Campana_Model extends CI_Model
 
     function editar_sexo()
     {
-
         $this->db->where('nombre_poblacion_sexo', $this->input->post('nombre_poblacion_sexo'));
         $this->db->where_not_in('id_poblacion_sexo', $this->input->post('id_poblacion_sexo'));
         $query = $this->db->get('cat_poblacion_sexo');
@@ -3680,13 +3601,6 @@ class Campana_Model extends CI_Model
 
     function dame_todas_clasificaciones()
     {
-        //$this->db->where('usuario_estatus', 'A');
-        //$this->db->or_where('usuario_estatus', 'I');
-        
-        //$estatus = array('A', 'I');
-        //$this->db->where_in('usuario_estatus', $estatus);
-        
-        //$this->db->where('active', '1');
         $query = $this->db->get('cat_servicios_clasificacion');
         
         if($query->num_rows() > 0)
@@ -3761,7 +3675,6 @@ class Campana_Model extends CI_Model
 
     function editar_clasificacion()
     {
-
         $this->db->where('nombre_servicio_clasificacion', $this->input->post('nombre_servicio_clasificacion'));
         $this->db->where_not_in('id_servicio_clasificacion', $this->input->post('id_servicio_clasificacion'));
         $query = $this->db->get('cat_servicios_clasificacion');
@@ -3818,13 +3731,6 @@ class Campana_Model extends CI_Model
 
     function dame_todas_categorias()
     {
-        //$this->db->where('usuario_estatus', 'A');
-        //$this->db->or_where('usuario_estatus', 'I');
-        
-        //$estatus = array('A', 'I');
-        //$this->db->where_in('usuario_estatus', $estatus);
-        
-        //$this->db->where('active', '1');
         $query = $this->db->get('cat_servicios_categorias');
         
         if($query->num_rows() > 0)
@@ -3947,7 +3853,6 @@ class Campana_Model extends CI_Model
 
     function editar_categoria()
     {
-
         $this->db->where('nombre_servicio_categoria', $this->input->post('nombre_servicio_categoria'));
         $this->db->where('id_servicio_clasificacion', $this->input->post('id_servicio_clasificacion'));
         $this->db->where_not_in('id_servicio_categoria', $this->input->post('id_servicio_categoria'));
@@ -3979,13 +3884,6 @@ class Campana_Model extends CI_Model
 
     function dame_todas_subcategorias()
     {
-        //$this->db->where('usuario_estatus', 'A');
-        //$this->db->or_where('usuario_estatus', 'I');
-        
-        //$estatus = array('A', 'I');
-        //$this->db->where_in('usuario_estatus', $estatus);
-        
-        //$this->db->where('active', '1');
         $query = $this->db->get('cat_servicios_subcategorias');
         
         if($query->num_rows() > 0)
@@ -4100,7 +3998,6 @@ class Campana_Model extends CI_Model
 
     function editar_subcategoria()
     {
-
         $this->db->where('nombre_servicio_subcategoria', $this->input->post('nombre_servicio_subcategoria'));
         $this->db->where('id_servicio_categoria', $this->input->post('id_servicio_categoria'));
         $this->db->where_not_in('id_servicio_subcategoria', $this->input->post('id_servicio_subcategoria'));
@@ -4130,13 +4027,6 @@ class Campana_Model extends CI_Model
 
     function dame_todas_unidades()
     {
-        //$this->db->where('usuario_estatus', 'A');
-        //$this->db->or_where('usuario_estatus', 'I');
-        
-        //$estatus = array('A', 'I');
-        //$this->db->where_in('usuario_estatus', $estatus);
-        
-        //$this->db->where('active', '1');
         $query = $this->db->get('cat_servicios_unidades');
         
         if($query->num_rows() > 0)
@@ -4251,7 +4141,6 @@ class Campana_Model extends CI_Model
 
     function editar_unidad()
     {
-
         $this->db->where('nombre_servicio_unidad', $this->input->post('nombre_servicio_unidad'));
         $this->db->where('id_servicio_subcategoria', $this->input->post('id_servicio_subcategoria'));
         $this->db->where_not_in('id_servicio_unidad', $this->input->post('id_servicio_unidad'));
@@ -4281,13 +4170,6 @@ class Campana_Model extends CI_Model
 
     function dame_todas_atribuciones()
     {
-        //$this->db->where('usuario_estatus', 'A');
-        //$this->db->or_where('usuario_estatus', 'I');
-        
-        //$estatus = array('A', 'I');
-        //$this->db->where_in('usuario_estatus', $estatus);
-        
-        //$this->db->where('active', '1');
         $query = $this->db->get('cat_so_atribucion');
         
         if($query->num_rows() > 0)
@@ -4422,13 +4304,6 @@ class Campana_Model extends CI_Model
 
     function dame_todos_estados()
     {
-        //$this->db->where('usuario_estatus', 'A');
-        //$this->db->or_where('usuario_estatus', 'I');
-        
-        //$estatus = array('A', 'I');
-        //$this->db->where_in('usuario_estatus', $estatus);
-        
-        //$this->db->where('active', '1');
         $query = $this->db->get('cat_so_estados');
         
         if($query->num_rows() > 0)
@@ -4568,13 +4443,6 @@ class Campana_Model extends CI_Model
 
     function dame_todos_ordenes()
     {
-        //$this->db->where('usuario_estatus', 'A');
-        //$this->db->or_where('usuario_estatus', 'I');
-        
-        //$estatus = array('A', 'I');
-        //$this->db->where_in('usuario_estatus', $estatus);
-        
-        //$this->db->where('active', '1');
         $query = $this->db->get('cat_so_ordenes_gobierno');
         
         if($query->num_rows() > 0)
@@ -4681,7 +4549,6 @@ class Campana_Model extends CI_Model
 
     function editar_orden()
     {
-
         $this->db->where('nombre_so_orden_gobierno', $this->input->post('nombre_so_orden_gobierno'));
         $this->db->where_not_in('id_so_orden_gobierno', $this->input->post('id_so_orden_gobierno'));
         $query = $this->db->get('cat_so_ordenes_gobierno');
@@ -4709,13 +4576,6 @@ class Campana_Model extends CI_Model
 
     function dame_todos_presupuestos()
     {
-        //$this->db->where('usuario_estatus', 'A');
-        //$this->db->or_where('usuario_estatus', 'I');
-        
-        //$estatus = array('A', 'I');
-        //$this->db->where_in('usuario_estatus', $estatus);
-        
-        //$this->db->where('active', '1');
         $query = $this->db->get('cat_presupuesto_conceptos');
         
         if($query->num_rows() > 0)
@@ -4740,13 +4600,7 @@ class Campana_Model extends CI_Model
     }
 
     function dame_todos_presupuestos_active()
-    {
-        //$this->db->where('usuario_estatus', 'A');
-        //$this->db->or_where('usuario_estatus', 'I');
-        
-        //$estatus = array('A', 'I');
-        //$this->db->where_in('usuario_estatus', $estatus);
-        
+    {        
         $this->db->where('active', '1');
         $query = $this->db->get('cat_presupuesto_conceptos');
         
@@ -4789,7 +4643,6 @@ class Campana_Model extends CI_Model
             return '';
         }
     }
-
 
     function descarga_presupuestos()
     {
@@ -4962,15 +4815,6 @@ class Campana_Model extends CI_Model
 
     function dame_todos_trimestres()
     {
-        //$this->db->where('usuario_estatus', 'A');
-        //$this->db->or_where('usuario_estatus', 'I');
-        
-        //$estatus = array('A', 'I');
-        //$this->db->where_in('usuario_estatus', $estatus);
-        
-        //$this->db->where('active', '1');
-
-        
         $query = $this->db->get('cat_trimestres');
         
         if($query->num_rows() > 0)
@@ -5105,13 +4949,6 @@ class Campana_Model extends CI_Model
 
     function dame_todos_ejercicios($activos)
     {
-        //$this->db->where('usuario_estatus', 'A');
-        //$this->db->or_where('usuario_estatus', 'I');
-        
-        //$estatus = array('A', 'I');
-        //$this->db->where_in('usuario_estatus', $estatus);
-        
-        //$this->db->where('active', '1');
         if($activos == true){
             $this->db->where('active', '1');
         }
@@ -5150,7 +4987,6 @@ class Campana_Model extends CI_Model
         }
     }
 
-
     function dame_objetivo_nombre($id)
     {
         $this->db->where('id_campana_objetivo', $id);
@@ -5167,7 +5003,6 @@ class Campana_Model extends CI_Model
             return '';
         }
     }
-
 
     function descarga_ejercicios()
     {
@@ -5285,13 +5120,6 @@ class Campana_Model extends CI_Model
 
     function dame_todos_personalidades($activos)
     {
-        //$this->db->where('usuario_estatus', 'A');
-        //$this->db->or_where('usuario_estatus', 'I');
-        
-        //$estatus = array('A', 'I');
-        //$this->db->where_in('usuario_estatus', $estatus);
-        
-        //$this->db->where('active', '1');
         if($activos == true){
             $this->db->where('active', '1');
         }
@@ -5447,13 +5275,6 @@ class Campana_Model extends CI_Model
 
     function dame_todos_procedimientos($activos)
     {
-        //$this->db->where('usuario_estatus', 'A');
-        //$this->db->or_where('usuario_estatus', 'I');
-        
-        //$estatus = array('A', 'I');
-        //$this->db->where_in('usuario_estatus', $estatus);
-        
-        //$this->db->where('active', '1');
         if($activos == true){
             $this->db->where('active', '1');
         }
@@ -5591,13 +5412,6 @@ class Campana_Model extends CI_Model
 
     function dame_todos_ligas($activos)
     {
-        //$this->db->where('usuario_estatus', 'A');
-        //$this->db->or_where('usuario_estatus', 'I');
-        
-        //$estatus = array('A', 'I');
-        //$this->db->where_in('usuario_estatus', $estatus);
-        
-        //$this->db->where('active', '1');
         if($activos == true){
             $this->db->where('active', '1');
         }

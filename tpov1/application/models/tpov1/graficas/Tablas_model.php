@@ -465,26 +465,29 @@ class Tablas_model extends CI_Model
         return $query->result_array();
     }
     
-    function F70FXXIIIB_reporte_formatos()
+    function F70FXXIIIB()
     {
         $sqltext = 'select 
             c.nombre_sujeto_obligado, 
-            (select f.nombre_so_atribucion from cat_so_atribucion as f where c.id_so_atribucion=f.id_so_atribucion)  as funcion, 
-            b.area_responsable, 
-            (select g.nombre_servicio_clasificacion from cat_servicios_clasificacion as g where b.id_servicio_clasificacion=g.id_servicio_clasificacion)  as id_servicio_clasificacion, 
-            (select h.ejercicio from cat_ejercicios as h where a.id_ejercicio=h.id_ejercicio)  as ejercicio, 
-            (select i.trimestre from cat_trimestres as i where a.id_trimestre=i.id_trimestre)  as trimestre, 
+			(select h.ejercicio from cat_ejercicios as h where a.id_ejercicio=h.id_ejercicio)  as ejercicio,
+			(select i.trimestre from cat_trimestres as i where a.id_trimestre=i.id_trimestre)  as trimestre, 
             a.id_trimestre,
-            (select j.nombre_servicio_categoria from cat_servicios_categorias as j where b.id_servicio_categoria=j.id_servicio_categoria ) as id_servicio_categoria, 
-            (select k.nombre_servicio_subcategoria from cat_servicios_subcategorias as k where b.id_servicio_subcategoria=k.id_servicio_subcategoria ) as id_servicio_subcategoria, 
+            (select f.nombre_so_atribucion from cat_so_atribucion as f where c.id_so_atribucion=f.id_so_atribucion)  as funcion, 
+            b.area_administrativa, 		
+            (select g.nombre_servicio_clasificacion from cat_servicios_clasificacion as g where b.id_servicio_clasificacion=g.id_servicio_clasificacion) 
+					as id_servicio_clasificacion, 
+            (select j.nombre_servicio_categoria from cat_servicios_categorias as j where b.id_servicio_categoria=j.id_servicio_categoria ) 
+					as id_servicio_categoria, 
+            (select k.nombre_servicio_subcategoria from cat_servicios_subcategorias as k where b.id_servicio_subcategoria=k.id_servicio_subcategoria ) 
+					as id_servicio_subcategoria, 
             b.descripcion_servicios, 
-            (select l.nombre_campana_tipo from cat_campana_tipos as l where d.id_campana_tipo=l.id_campana_tipo) as id_campana_tipo, 
-            d.nombre_campana_aviso, 
-            (select m.ejercicio from cat_ejercicios as m where d.id_ejercicio=m.id_ejercicio)  as ejercicio_oc, 
+		   (select l.nombre_campana_tipo from cat_campana_tipos as l where d.id_campana_tipo=l.id_campana_tipo) as id_campana_tipo, 
+			d.nombre_campana_aviso, 
+            d.periodo, 
             (select n.nombre_campana_tema from cat_campana_temas as n where d.id_campana_tema=n.id_campana_tema)  as id_campana_tema, 
             (select o.campana_objetivo from cat_campana_objetivos as o where d.id_campana_objetivo=o.id_campana_objetivo)  as id_campana_objetivo, 
             d.objetivo_comunicacion, 
-            b.monto_desglose, 
+            b.precio_unitarios, 
             d.clave_campana, 
             d.autoridad, 
             (select p.nombre_campana_cobertura from cat_campana_coberturas as p where d.id_campana_cobertura = p.id_campana_cobertura) as id_campana_cobertura, 
@@ -497,21 +500,20 @@ class Tablas_model extends CI_Model
             (SELECT GROUP_CONCAT(f.poblacion_lugar SEPARATOR " * ") FROM rel_campana_lugar as f 
             WHERE  f.id_campana_aviso = b.id_campana_aviso) as lugar, 
 
-            (SELECT GROUP_CONCAT(g.nombre_poblacion_nivel_educativo SEPARATOR " * ") 
-            FROM rel_campana_nivel_educativo as f, cat_poblacion_nivel_educativo as g 
+            (SELECT GROUP_CONCAT(g.nombre_poblacion_nivel_educativo SEPARATOR " * ") FROM rel_campana_nivel_educativo as f, cat_poblacion_nivel_educativo as g 
             WHERE  f.id_campana_aviso = b.id_campana_aviso and f.id_poblacion_nivel_educativo = g.id_poblacion_nivel_educativo ) as educacion, 
 
             (SELECT GROUP_CONCAT(g.nombre_poblacion_grupo_edad SEPARATOR " * ") FROM rel_campana_grupo_edad as f, cat_poblacion_grupo_edad as g 
             WHERE  f.id_campana_aviso = b.id_campana_aviso and f.id_poblacion_grupo_edad = g.id_poblacion_grupo_edad ) as grupo_edad, 
 
-            (SELECT GROUP_CONCAT(g.nombre_poblacion_nivel SEPARATOR " * ") 
-            FROM rel_campana_nivel as f, cat_poblacion_nivel as g 
+            (SELECT GROUP_CONCAT(g.nombre_poblacion_nivel SEPARATOR " * ") FROM rel_campana_nivel as f, cat_poblacion_nivel as g 
             WHERE  f.id_campana_aviso = b.id_campana_aviso and f.id_poblacion_nivel = g.id_poblacion_nivel ) as nivel_socioeconomico, 
-            concat(a.periodo,"-",a.id_factura,"-",a.id_orden_compra,"-",a.id_contrato,"-",a.id_proveedor) as id_respecto_proveedor, 
-            concat(a.periodo,"-",a.id_factura,"-",a.id_orden_compra,"-",a.id_contrato,"-",a.id_proveedor) as id_respecto_presupuesto, 
-            concat(a.periodo,"-",a.id_factura,"-",a.id_orden_compra,"-",a.id_contrato,"-",a.id_proveedor) as id_respecto_contrato, 
+			
+            concat(a.id_ejercicio,"-",a.id_factura,"-",a.id_orden_compra,"-",a.id_contrato,"-",a.id_proveedor) as id_respecto_proveedor, 
+            concat(a.id_ejercicio,"-",a.id_factura,"-",a.id_orden_compra,"-",a.id_contrato,"-",a.id_proveedor) as id_respecto_presupuesto, 
+            concat(a.id_ejercicio,"-",a.id_factura,"-",a.id_orden_compra,"-",a.id_contrato,"-",a.id_proveedor) as id_respecto_contrato, 
             a.fecha_validacion, 
-            a.area_responsable as "Area 2",
+            a.area_responsable,
             a.periodo, 
             a.fecha_actualizacion, 
             a.nota
@@ -536,33 +538,33 @@ class Tablas_model extends CI_Model
 
         $sqltext = '
             select 
-                concat(g.ejercicio,"-",c.partida) as id_respecto_presupuesto, 
-                c.partida as "Partida genérica",
+                concat(g.ejercicio,"-",c.partida) as "id_respecto_presupuesto", 
+                c.concepto as "Partida genérica",
                 c.capitulo as "Clave del concepto",
                 c.denominacion as "Nombre del concepto",
-                IFNULL(sum(e.monto_presupuesto), 0) as "Presupuesto asignado por concepto",
-                (IFNULL(sum(e.monto_presupuesto), 0)+IFNULL(sum(e.monto_modificacion), 0)) as "Presupuesto modificado por concepto",
-                ( select IFNULL(sum(b.monto_desglose), 0) from tab_facturas as a, tab_facturas_desglose as b 
-                    where a.id_factura = b.id_factura 
-                    and (b.id_presupuesto_concepto = e.id_presupuesto_concepto 
-                        or b.id_presupuesto_concepto_solicitante = e.id_presupuesto_concepto )
-                    and a.id_ejercicio = d.id_ejercicio) as "Presupuesto total ejercido por concepto", 
+                (IFNULL(sum(e.monto_presupuesto), 0)) as "Presupuesto asignado por concepto",
+				(IFNULL(sum(e.monto_presupuesto), 0)+IFNULL(sum(e.monto_modificacion), 0)) as "Presupuesto modificado por concepto",
+				( select IFNULL(sum(b.monto_desglose), 0) from tab_facturas as a, tab_facturas_desglose as b 
+					where a.id_factura = b.id_factura 
+					and (b.id_presupuesto_concepto = e.id_presupuesto_concepto 
+					or b.id_presupuesto_concepto_solicitante = e.id_presupuesto_concepto )
+					and a.id_ejercicio = d.id_ejercicio) as "Presupuesto total ejercido por concepto", 
                 c.denominacion as "Denominación de cada partida",
                 (IFNULL(sum(e.monto_presupuesto), 0)) as "Presupuesto total asignado a cada partida",
                 (IFNULL(sum(e.monto_presupuesto), 0) + IFNULL(sum(e.monto_modificacion), 0)) as "Presupuesto modificado por partida",
                 (select IFNULL(sum(b.monto_desglose), 0) 
-                    from tab_facturas as a, tab_facturas_desglose as b 
+					from tab_facturas as a, tab_facturas_desglose as b 
                     where a.id_factura = b.id_factura 
-                        and (b.id_presupuesto_concepto = e.id_presupuesto_concepto or
-                                b.id_presupuesto_concepto_solicitante = e.id_presupuesto_concepto)
-                        and a.id_ejercicio = d.id_ejercicio 
-                        and a.id_trimestre = (select max(a2.id_trimestre) from tab_facturas as a2 where  a2.id_ejercicio = d.id_ejercicio) ) as "Presupuesto ejercido al periodo"
-            from tab_presupuestos as d
-            JOIN tab_presupuestos_desglose e ON e.id_presupuesto = d.id_presupuesto
-            JOIN cat_presupuesto_conceptos c ON c.id_presupesto_concepto = e.id_presupuesto_concepto
-            JOIN cat_ejercicios g ON g.id_ejercicio = d.id_ejercicio
-            GROUP BY g.ejercicio, e.id_presupuesto_concepto
-        ';
+                    and (b.id_presupuesto_concepto = e.id_presupuesto_concepto or
+                    b.id_presupuesto_concepto_solicitante = e.id_presupuesto_concepto)
+                    and a.id_ejercicio = d.id_ejercicio 
+                    and a.id_trimestre = (select max(a2.id_trimestre) from tab_facturas as a2 where  a2.id_ejercicio = d.id_ejercicio) ) as "Presupuesto ejercido al periodo"
+				FROM tab_presupuestos d
+				JOIN tab_presupuestos_desglose e ON d.id_presupuesto = e.id_presupuesto
+				JOIN cat_presupuesto_conceptos c ON e.id_presupuesto_concepto = c.id_presupesto_concepto
+				JOIN cat_ejercicios g ON g.id_ejercicio = d.id_ejercicio
+				GROUP BY c.capitulo, d.id_ejercicio
+				ORDER BY d.id_ejercicio';
         
         $query = $this->db->query( $sqltext );
         return $query->result_array();
@@ -573,10 +575,10 @@ class Tablas_model extends CI_Model
             concat(IFNULL(a.id_factura, ""), "-", IFNULL(a.id_orden_compra, ""), "-", IFNULL( a.id_contrato, "" ), "-", IFNULL( a.id_proveedor, "" ) ) as id_respecto_contrato, 
             b.fecha_celebracion as "Fecha de firma de contrato",
             b.numero_contrato as  "Número o referencia de identificación del contrato",
-            REPLACE(REPLACE(REPLACE(b.objeto_contrato, ",", "&#44;"), "\r", ""), "\n", "") as "Objeto del contrato",
+            e.descripcion_servicios as "Objeto del contrato",
             b.file_contrato as "Hipervínculo al contrato firmado",
             (select GROUP_CONCAT(c.file_convenio," * ") from tab_convenios_modificatorios as c where c.id_contrato=b.id_contrato) as "Hipervínculo al convenio modificatorio, en su caso",
-            b.monto_contrato as  "Monto total del contrato",
+            sum(e.monto_desglose) as  "Monto total del contrato",
             sum(e.monto_desglose) as "Monto pagado al periodo publicado",
             b.fecha_inicio as "Fecha de inicio",
             b.fecha_fin as "Fecha de término", 
@@ -593,11 +595,10 @@ class Tablas_model extends CI_Model
             group by 
             concat(IFNULL(a.id_factura, ""), "-", IFNULL(a.id_orden_compra, ""), "-", IFNULL( a.id_contrato, "" ), "-", IFNULL( a.id_proveedor, "" ) ), 
             b.fecha_fin, 
-            b.objeto_contrato,
+            e.descripcion_servicios,
             b.numero_contrato,
             a.numero_factura,
             b.file_contrato,
-            b.monto_contrato,
             a.file_factura_pdf,
             b.fecha_celebracion,
             b.fecha_inicio
@@ -606,10 +607,10 @@ class Tablas_model extends CI_Model
             concat(IFNULL(a.id_factura, ""), "-", IFNULL(a.id_orden_compra, ""), "-", IFNULL( a.id_contrato, "" ), "-", IFNULL( a.id_proveedor, "" ) ) as id_respecto_contrato, 
             b.fecha_orden as "Fecha de firma de contrato",
             b.numero_orden_compra as  "Número o referencia de identificación del contrato",
-            b.descripcion_justificacion as "Objeto del contrato",
+            e.descripcion_servicios as "Objeto del contrato",
             "" as "Hipervínculo al contrato firmado",
             (select GROUP_CONCAT( IFNULL(c.file_convenio, "") ," * ") from tab_convenios_modificatorios as c where c.id_contrato=b.id_contrato) as "Hipervínculo al convenio modificatorio, en su caso",
-            e.monto_desglose as  "Monto total del contrato",
+            sum(e.monto_desglose) as  "Monto total del contrato",
             sum(e.monto_desglose) as "Monto pagado al periodo publicado",
             b.fecha_orden as "Fecha de inicio",
             IFNULL(c.fecha_fin, "") as "Fecha de término", 
@@ -627,7 +628,7 @@ class Tablas_model extends CI_Model
             c.id_contrato = b.id_contrato
             group by 
             concat(IFNULL(a.id_factura, ""), "-", IFNULL(a.id_orden_compra, ""), "-", IFNULL( a.id_contrato, "" ), "-", IFNULL( a.id_proveedor, "" ) ), 
-            b.descripcion_justificacion,
+            e.descripcion_servicios,
             b.numero_orden_compra,
             a.numero_factura,
             a.file_factura_pdf,
@@ -644,17 +645,17 @@ class Tablas_model extends CI_Model
             e.nombre_razon_social as razon_social, 
             e.nombres, 
             e.primer_apellido, 
-            e.segundo_apellido, 
+            e.segundo_apellido,
+            e.nombre_comercial,			
             e.rfc, 
             p.procedimiento,
-            f.fundamento,
-            r.razones,
-            e.nombre_comercial
+            f.motivo,
+            r.razones
             FROM tab_facturas AS a, tab_proveedores AS e,
-            ( SELECT DISTINCT IFNULL(fundamento_juridico, "") AS fundamento, id_contrato FROM tab_contratos ) AS f,
+            ( SELECT DISTINCT IFNULL(motivo_adjudicacion, "") AS motivo, id_orden_compra FROM tab_ordenes_compra AS c) AS f,
             ( SELECT DISTINCT IFNULL(descripcion_justificacion, "") AS razones, id_orden_compra FROM tab_ordenes_compra AS b  ) AS r,
             ( SELECT DISTINCT IFNULL(p.nombre_procedimiento, "") AS procedimiento, c.id_contrato FROM cat_procedimientos AS p, tab_contratos AS c WHERE p.id_procedimiento = c.id_procedimiento) AS p
-            WHERE a.id_proveedor = e.id_proveedor AND f.id_contrato = a.id_contrato AND a.id_orden_compra IS NOT NULL  AND r.id_orden_compra = a.id_orden_compra AND p.id_contrato = a.id_contrato ';
+            WHERE a.id_proveedor = e.id_proveedor AND f.id_orden_compra = a.id_orden_compra AND a.id_orden_compra IS NOT NULL  AND r.id_orden_compra = a.id_orden_compra AND p.id_contrato = a.id_contrato ';
     
         $query = $this->db->query( $sqltext );
         return $query->result_array();
@@ -691,12 +692,12 @@ class Tablas_model extends CI_Model
             e.nombre_comercial,
             f.descripcion_justificacion as 'razones',
 			b.monto_tiempo,
-            b.area_responsable as 'Area 1',
+            b.area_responsable as 'Area 2',
             b.fecha_inicio, 
             b.fecha_termino,
   			a.periodo as id_respecto_presupuesto,
             a.numero_factura,
-            a.area_responsable as 'Area 2',
+            a.area_responsable as 'Area 1',
             b.fecha_validacion,
             b.fecha_actualizacion, 
             b.nota as nota
