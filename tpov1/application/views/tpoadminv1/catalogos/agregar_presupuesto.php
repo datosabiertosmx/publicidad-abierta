@@ -96,23 +96,30 @@
 
     <div class="row">
         <form role="form" method="post" action="<?php echo base_url(); ?>index.php/tpoadminv1/catalogos/catalogos/validate_agregar_presupuesto" enctype="multipart/form-data" >
-            <div class="box box-primary">
+            <?php 
+                if(validation_errors() == TRUE)
+                {
+                    echo '<div class="alert alert-danger"><button class="close"  data-dismiss="alert">x</button>
+                    <h4><i class="icon fa fa-ban"></i>¡Alerta!</h4>' . validation_errors() . '</div>';  
+                }
+            ?>
+			<div class="box box-primary">
                 <div class="box-header">
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <input type="hidden" value="" class="form-control" name="id_presupesto_concepto"/>
                     <div class="form-group">
-                        <label>Cap&iacute;tulo*</label>
+                        <label>Concepto*</label>
                         <?php $class = "form-control";
                             echo form_input(array('type' => 'text', 'name' => 'capitulo', 'value' => $presupuesto['capitulo'], 'class' => $class)); ?>
                     </div>
                     <div class="form-group">
-                        <label>Concepto*</label>
+                        <label>Partida genérica</label>
                         <?php $class = "form-control";
                             echo form_input(array('type' => 'text', 'name' => 'concepto', 'value' => $presupuesto['concepto'], 'class' => $class)); ?>
                     </div>
                     <div class="form-group">
-                        <label>Partida*</label>
+                        <label>Partida específica</label>
                         <?php $class = "form-control";
                             echo form_input(array('type' => 'text', 'name' => 'partida', 'value' => $presupuesto['partida'], 'class' => $class)); ?>
                     </div>
@@ -144,13 +151,6 @@
                     <?php echo anchor("tpoadminv1/catalogos/catalogos/busqueda_presupuestos", "<button class='btn btn-default' type='button'>Regresar</button></td>"); ?>
                 </div>     
             </div><!-- /.box -->    
-            <?php 
-                if(validation_errors() == TRUE)
-                {
-                    echo '<div class="alert alert-danger"><button class="close"  data-dismiss="alert">x</button>
-                    <h4><i class="icon fa fa-ban"></i>¡Alerta!</h4>' . validation_errors() . '</div>';  
-                }
-            ?>
         </form>
     </div>
 </section>

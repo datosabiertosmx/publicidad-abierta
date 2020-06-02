@@ -1895,9 +1895,9 @@ class Catalogos_Model extends CI_Model
         
         $query = $this->db->get('cat_presupuesto_conceptos');
         $csv_header = array('#',
-                    utf8_decode('Capítulo'),
                     utf8_decode('Concepto'),
-                    utf8_decode('Partida'),
+                    utf8_decode('Partida genérica'),
+                    utf8_decode('Partida específica'),
                     utf8_decode('Denominación'),
                     utf8_decode('Descripción'),
                     utf8_decode('Captura'),

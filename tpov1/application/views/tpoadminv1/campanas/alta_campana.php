@@ -130,6 +130,17 @@ for($z = 0; $z < sizeof($tiposTO); $z++)
         $sel_tipoTO .= '<option value="'.$tiposTO[$z]['id_campana_tipoTO'].'">' . $tiposTO[$z]['nombre_campana_tipoTO'] . '</option>';
     }
 }
+
+//Documentos_PACS
+$sel_pacs = '<option value="0">- Selecciona -</option>';
+for($z = 0; $z < sizeof($docpacs); $z++)
+	{
+		if($this->input->post('id_presupuesto') == $docpacs[$z]['id_presupuesto']){
+			$sel_pacs .= '<option value="'.$docpacs[$z]['id_presupuesto'].'" selected>' . $docpacs[$z]['denominacion'] . '</option>';
+		}else{
+			$sel_pacs .= '<option value="'.$docpacs[$z]['id_presupuesto'].'">' . $docpacs[$z]['denominacion'] . '</option>';
+		}
+	}
 ?>
 
 <style>
@@ -438,21 +449,21 @@ for($z = 0; $z < sizeof($tiposTO); $z++)
 									</table>
                                 </div>
                              
-                             <script type="text/javascript">
+								<script type="text/javascript">
 
-						function monto_TO() {
-						
-						    hora_to=document.getElementById('hora_to').value;
-						    minutos_to=document.getElementById('minutos_to').value;
-						    segundos_to=document.getElementById('segundos_to').value;
-						
-						    monto_tiempo=hora_to+':'+minutos_to+':'+segundos_to;
-						
-						    document.getElementById('monto_tiempo').value=monto_tiempo;
-												
-						}
-						
-						</script>
+									function monto_TO() {
+									
+										hora_to=document.getElementById('hora_to').value;
+										minutos_to=document.getElementById('minutos_to').value;
+										segundos_to=document.getElementById('segundos_to').value;
+									
+										monto_tiempo=hora_to+':'+minutos_to+':'+segundos_to;
+									
+										document.getElementById('monto_tiempo').value=monto_tiempo;
+															
+									}
+									
+								</script>
 						   
                                 <div class="form-group">
                                     <label>Tipo de tiempo oficial
@@ -499,8 +510,9 @@ for($z = 0; $z < sizeof($tiposTO); $z++)
                                     <label>Documento del PACS
                                         <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['pacs']?>"></i>
                                     </label>
-                                    <?php $class = "form-control";
-                                            echo form_input(array('type' => 'text', 'name' => 'plan_acs', 'value' => $this->input->post('plan_acs'), 'class' => $class)); ?>
+									<select name="id_presupuesto" id="id_presupuesto" class="form-control">
+                                        <?php echo $sel_pacs; ?>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label>Fecha publicaci&oacute;n*

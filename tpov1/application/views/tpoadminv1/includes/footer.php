@@ -13,7 +13,7 @@
             <div class="pull-right hidden-xs">
                 <b>Versi&oacute;n</b> 2.0
             </div>
-            <strong> &copy;2015 All Rights Reserved Publicidad abierta </strong>
+            <strong> &copy;2015 All Rights Reserved Publicidad abierta</strong>
         </footer>
     </div><!-- ./wrapper -->
 

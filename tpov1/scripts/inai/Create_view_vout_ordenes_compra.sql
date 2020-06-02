@@ -1,12 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.6.6deb4
--- https://www.phpmyadmin.net/
---
--- Servidor: db768805800.hosting-data.io
--- Tiempo de generación: 09-08-2019 a las 03:29:41
--- Versión del servidor: 5.5.60-0+deb7u1-log
--- Versión de PHP: 7.0.33-0+deb9u3
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -17,7 +8,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `db768805800`
+-- Base de datos: `bd_tpo`
 --
 
 -- --------------------------------------------------------
@@ -28,7 +19,7 @@ SET time_zone = "+00:00";
 DROP view vout_ordenes_compra;
 
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`dbo771185753`@`%` SQL SECURITY DEFINER VIEW `vout_ordenes_compra`  AS  select `a`.`numero_orden_compra` AS `ID_Orden_de_compra)`,
+CREATE ALGORITHM=UNDEFINED DEFINER=`usr_tpo`@`%` SQL SECURITY DEFINER VIEW `vout_ordenes_compra`  AS  select `a`.`numero_orden_compra` AS `ID_Orden_de_compra)`,
 (select `b`.`nombre_razon_social` from `tab_proveedores` `b` where (`a`.`id_proveedor` = `b`.`id_proveedor`)) AS `Proveedor`,
 (select `c`.`nombre_procedimiento` from `cat_procedimientos` `c` where (`a`.`id_procedimiento` = `c`.`id_procedimiento`)) AS `Procedimiento`,
 (select `d`.`numero_contrato` from `tab_contratos` `d` where (`a`.`id_contrato` = `d`.`id_contrato`)) AS `Contrato`,

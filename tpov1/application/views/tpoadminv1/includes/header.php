@@ -1,13 +1,8 @@
 <?php
 
-/* 
- * INAI TPO
- */
-
 header('Cache-Control: no-cache, no-store, must-revalidate'); // HTTP 1.1.
 header('Pragma: no-cache'); // HTTP 1.0.
 header('Expires: 0'); // Proxies.
-
 
 ?>
 
@@ -21,35 +16,21 @@ header('Expires: 0'); // Proxies.
         <!-- Bootstrap 3.3.2 -->
         <link href="<?php echo base_url(); ?>bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Font Awesome Icons -->
-        <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />-->
         <link href="<?php echo base_url(); ?>dist/css/font-awesome-4.3.0.css" rel="stylesheet" type="text/css" />
-        <!-- Ionicons -->
-        <!--<link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />-->
+
         <!-- fullCalendar 2.2.5-->
         <link href="<?php echo base_url(); ?>plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url(); ?>plugins/fullcalendar/fullcalendar.print.css" rel="stylesheet" type="text/css" media='print' />
         <!-- Theme style -->
         <link href="<?php echo base_url(); ?>dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
-        <!-- AdminLTE Skins. Choose a skin from the css/skins 
-             folder instead of downloading all of them to reduce the load. -->
         <link href="<?php echo base_url(); ?>dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
         <!-- DataTables -->
-        <!--<script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>-->
-        <!--<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>-->
         <script type="text/javascript" language="javascript" src="<?php echo base_url(); ?>plugins/jQuery/jQuery-3.3.1.js"></script>
         <script type="text/javascript" language="javascript" src="<?php echo base_url(); ?>plugins/datatables/jquery.dataTables.min.js"></script>
-        
-
 
         <link href="<?php echo base_url(); ?>plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
         <!-- jQuery Datetimepicker -->
         <link href="<?php echo base_url(); ?>plugins/datetimepicker/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-        <![endif]-->
     </head>
 <body class="<?php echo $body_class; ?>">
     
@@ -123,21 +104,8 @@ header('Expires: 0'); // Proxies.
                     </div>
                     <div class="pull-left info">
                         <p><?php echo $heading; ?></p>
-                        <!--
-                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-                        -->
                     </div>
                 </div>
-                <!-- search form -->
-                <!--<form action="#" method="get" class="sidebar-form">
-                    <div class="input-group">
-                        <input type="text" name="q" class="form-control" placeholder="Search..."/>
-                        <span class="input-group-btn">
-                            <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
-                        </span>
-                    </div>
-                </form>-->
-                <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
                     <li class="header">MENU</li>
@@ -295,6 +263,7 @@ header('Expires: 0'); // Proxies.
                             <i class="fa fa-cog"></i> Configuraci&oacute;n
                         </a>
                     </li>
+					
                     <?php } 
                     else if($this->session->userdata('usuario_rol') == '2' 
                         && ($this->session->userdata('usuario_id_so_atribucion') == 1 || $this->session->userdata('usuario_id_so_atribucion') == 3)){ ?>
@@ -315,7 +284,7 @@ header('Expires: 0'); // Proxies.
                             <i class="fa fa-database"></i> Campañas y avisos institucionales
                         </a>
                     </li>
-                    <?php } if($this->session->userdata('usuario_rol') == '2' 
+					<?php } if($this->session->userdata('usuario_rol') == '2' 
                         && ($this->session->userdata('usuario_id_so_atribucion') == 1 || $this->session->userdata('usuario_id_so_atribucion') == 3)){ ?>
                     <li class=" <?php if($active == 'contratos') { echo ' active'; } ?>">
                         <a href="<?php echo base_url(); ?>index.php/tpoadminv1/capturista/contratos/busqueda_contratos">

@@ -20,8 +20,7 @@ class Campanas extends CI_Controller
 
     // Funcion para revisar inicio de session 
     function is_logged_in() 
-    {
-        
+    {       
         $this->load->model('tpoadminv1/usuarios/Usuario_model');
         $is_rol_active = $this->Usuario_model->Is_Rol_Active($this->session->userdata('usuario_rol'));
         $is_logged_in = $this->session->userdata('is_logged_in');
@@ -29,8 +28,7 @@ class Campanas extends CI_Controller
             redirect('tpoadminv1/cms');
         }else if(!isset($is_rol_active) || $is_rol_active != true){
             redirect('tpoadminv1/cms');
-        }
-        
+        }        
     }
     
     // Funcion para cerrar session
@@ -52,7 +50,6 @@ class Campanas extends CI_Controller
         }
     }
     
-
     //Validamos las opciones que son necesarias
     function validate_tipo($str)
     {
@@ -77,7 +74,6 @@ class Campanas extends CI_Controller
             return FALSE;
         }
     }
-
 
     function validate_ejercicio($str)
     {
@@ -180,10 +176,7 @@ class Campanas extends CI_Controller
             return FALSE;
         }
     }
-    
-
-
-    
+       
     function validate_orden($str)
     {
         if($str != '0'){
@@ -214,17 +207,10 @@ class Campanas extends CI_Controller
         }
     }
 
-    
     //Mostramos la vista cargada
     function busqueda_camp_edades()
     {
-        
-        //print_r($thi->input->get('id_campana_aviso'));
         $data['id_campana_aviso'] = $_GET['id_campana_aviso'];
-
-        //print_r($this->session->userdata);
-
-        //    $data['id_campana_aviso'] = $this->session->userdata['id_campana_aviso'];
 
         $this->load->model('tpoadminv1/campanas/Campana_model');
         $data['cat_edad'] = $this->Campana_model->dame_todas_edades_campana();
@@ -233,39 +219,27 @@ class Campanas extends CI_Controller
         $this->load->view('tpoadminv1/campanas/alta_campana_edad', $data);
     }
 
-
     function dame_dif_edades_campana()
     {
         $this->load->model('tpoadminv1/campanas/Campana_model');
         
         $result = $this->Campana_model->dame_grupos_dif_campana();
-
-        //print_r($result);
-
-        
         
         if($result != '0')
         {
-            $sel_usuario = '';
-            
-            echo '<option value="0">- Selecciona -</option>';
-            
-            for($z = 0; $z < sizeof($result); $z++)
-            {
-                $sel_usuario .= '<option value="' . $result[$z]['id_poblacion_grupo_edad'] . '">'.$result[$z]['nombre_poblacion_grupo_edad']. '</option>';
-            }
-            
+            $sel_usuario = '';            
+            echo '<option value="0">- Selecciona -</option>';            
+				for($z = 0; $z < sizeof($result); $z++)
+				{
+					$sel_usuario .= '<option value="' . $result[$z]['id_poblacion_grupo_edad'] . '">'.$result[$z]['nombre_poblacion_grupo_edad']. '</option>';
+				}            
             echo $sel_usuario;
         }
         else
         {
             echo '<option value="0">No hay valores</option>';
-        }
-        
+        }       
     }
-
-
-
 
     //Guardamos la edad en la BD
     function guarda_valor_camp()
@@ -278,8 +252,6 @@ class Campanas extends CI_Controller
             case '1': $this->session->set_flashdata('exito', "Se ha agregado correctamente");
             
             //pasar el valor en una session para el redirect
-
-            //'usuario_id' => $query['usuario_id'],
             $this->session->set_userdata('id_campana_aviso', $this->input->post('id_campana_aviso'));
             
             redirect('/tpoadminv1/campanas/campanas/edita_campanas_avisos');
@@ -291,8 +263,6 @@ class Campanas extends CI_Controller
                 break;
         }
     }
-
-
 
     function actualizar_valor_camp()
     {
@@ -316,16 +286,11 @@ class Campanas extends CI_Controller
         }
     }
 
-
     function alta_camp_lugar()
     {
-        $data['id_campana_aviso'] = $_GET['id_campana_aviso'];
-
-        
+        $data['id_campana_aviso'] = $_GET['id_campana_aviso'];        
         $this->load->model('tpoadminv1/campanas/Campana_model');
-        //$data['lugares'] = $this->Campana_model->dame_todos_lugares_campana();
-        $data['lugares'] = $this->Campana_model->dame_lugares_campana_id($data['id_campana_aviso']);
-        
+        $data['lugares'] = $this->Campana_model->dame_lugares_campana_id($data['id_campana_aviso']);   
         $this->load->view('tpoadminv1/campanas/alta_campana_lugar', $data);
     }
 
@@ -344,10 +309,8 @@ class Campanas extends CI_Controller
                             });
                             </script>";
         
-
         $this->load->view('tpoadminv1/campanas/alta_campana_nivel', $data);
     }
-
     
     function alta_camp_educacion()
     {
@@ -361,9 +324,6 @@ class Campanas extends CI_Controller
         $this->load->view('tpoadminv1/campanas/alta_campana_nivel_educativo', $data);
     }
 
-
-
-
     function alta_camp_sexo()
     {
         $data['id_campana_aviso'] = $_GET['id_campana_aviso'];
@@ -375,7 +335,6 @@ class Campanas extends CI_Controller
 
         $this->load->view('tpoadminv1/campanas/alta_campana_sexo', $data);
     }
-
 
     function alta_camp_audios()
     {
@@ -410,7 +369,6 @@ class Campanas extends CI_Controller
     
         $this->load->view('tpoadminv1/campanas/alta_campana_audios',$data);
     }
-
 
     function alta_camp_imagenes()
     {
@@ -482,11 +440,8 @@ class Campanas extends CI_Controller
                                 "});" .
                             "</script>";
     
-
         $this->load->view('tpoadminv1/campanas/alta_campana_imagenes',$data);
-
     }
-
 
     function alta_camp_videos()
     {
@@ -500,7 +455,6 @@ class Campanas extends CI_Controller
             'name_file_campana_video' => '',
             'name_file_campana_video_edita' => '',
         );
-
         // poner true para ocultar los botones
         $data['control_update'] = array (
             'file_by_save' => false,
@@ -521,13 +475,10 @@ class Campanas extends CI_Controller
     
         $this->load->view('tpoadminv1/campanas/alta_campana_videos',$data);
     }
-
     
     function upload_file2()
     {
-
         $tipo_archivo = $_GET['tipo_archivo'];
-
         //Validamos que el usuario tenga acceso
         $this->permiso_capturista();
         $this->load->model('tpoadminv1/Generales_model');
@@ -558,15 +509,11 @@ class Campanas extends CI_Controller
                         $extenciones = array('mp4','3gp');
                         $name_file = $this->Generales_model->existe_nombre_archivo('./data/campanas/videos/', utf8_decode($name_file));
                         break;
-                    //default: return 'Guardar valor';
-                    //    break;
                 }
 
-                //$extenciones = array('xlsx','xls','pdf','doc','docx');
                 $aux = strtolower($porciones[$size-1]); 
                 if(in_array($aux, $extenciones)){
                     // se guarda el archivo
-                //    $config['upload_path'] = './data/campanas';
                     $config['allowed_types']        = '*';
                     $config['detect_mime']          = false;
                     $config['max_size']	= '1000';
@@ -592,10 +539,7 @@ class Campanas extends CI_Controller
         header('Content-type: application/json');
         
         echo json_encode( $registro );
-
     }
-
-
 
     function upload_file_documento()
     {
@@ -650,7 +594,6 @@ class Campanas extends CI_Controller
         }
     }
 
-
     function upload_file_documento_edita()
     {
         //Validamos que el usuario tenga acceso
@@ -664,7 +607,6 @@ class Campanas extends CI_Controller
         }
         else
         {
-
             $name_file = $this->Generales_model->clean_file_name(basename($_FILES['file_programa_evaluacion']['name']), false);
             $registro = array('error','<span class="text-danger">No fue posible subir el archivo, intentelo de nuevo.'. $name_file .'</span>');
             if(isset($name_file) && !empty($name_file))
@@ -704,7 +646,6 @@ class Campanas extends CI_Controller
             
             echo json_encode( $registro );
         }
-
     }
 
     function upload_file()
@@ -727,7 +668,6 @@ class Campanas extends CI_Controller
                 $porciones = explode(".", $name_file);
                 $size = sizeof($porciones);
                 if($size >= 2){
-                    //$extenciones = array('xlsx','xls','pdf','doc','docx');
                     $extenciones = array('mp3','wma','wav','acc');
                     $aux = strtolower($porciones[$size-1]); 
                     if(in_array($aux, $extenciones)){
@@ -761,15 +701,11 @@ class Campanas extends CI_Controller
         }
     }
 
-
     function upload_file_edita_audio()
-    {
-        
+    {       
         //Validamos que el usuario tenga acceso
         $this->permiso_capturista();
         $this->load->model('tpoadminv1/Generales_model');
-
-        
 
         if($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) &&
         empty($_FILES) && $_SERVER['CONTENT_LENGTH'] > 0)
@@ -786,7 +722,6 @@ class Campanas extends CI_Controller
                 $porciones = explode(".", $name_file);
                 $size = sizeof($porciones);
                 if($size >= 2){
-                    //$extenciones = array('xlsx','xls','pdf','doc','docx');
                     $extenciones = array('mp3','wma','wav','acc');
                     $aux = strtolower($porciones[$size-1]); 
                     if(in_array($aux, $extenciones)){
@@ -823,23 +758,9 @@ class Campanas extends CI_Controller
 
     function upload_file_edita_imagen()
     {
-
         //Validamos que el usuario tenga acceso
         $this->permiso_capturista();
         $this->load->model('tpoadminv1/Generales_model');
-
-        /*
-        $size = (int) $_SERVER['CONTENT_LENGTH'];
-
-
-        if($size > '19999')
-        {
-            $registro = array('alert', '<span class="text-danger">El tamaño excede lo permitido</span>');
-        }
-        else
-        {
-            */
-
 
             $name_file = $this->Generales_model->clean_file_name(basename($_FILES['file_campana_edita_imagen']['name']), false);
             $registro = array('error','<span class="text-danger">No fue posible subir el archivo, intentelo de nuevo.'. $name_file .'</span>');
@@ -876,15 +797,10 @@ class Campanas extends CI_Controller
                     }
                 } 
             }
-        //}
-        
-
-        
 
         header('Content-type: application/json');
         
         echo json_encode( $registro );
-
     }
 
     function upload_file_edita_video()
@@ -907,7 +823,6 @@ class Campanas extends CI_Controller
                 $porciones = explode(".", $name_file);
                 $size = sizeof($porciones);
                 if($size >= 2){
-                    //$extenciones = array('xlsx','xls','pdf','doc','docx');
                     $extenciones = array('avi','mpeg','mov','wmv');
                     $aux = strtolower($porciones[$size-1]); 
                     if(in_array($aux, $extenciones)){
@@ -941,7 +856,6 @@ class Campanas extends CI_Controller
         }
     }
 
-
     function upload_file_imagen()
     {
         //Validamos que el usuario tenga acceso
@@ -955,7 +869,6 @@ class Campanas extends CI_Controller
             $porciones = explode(".", $name_file);
             $size = sizeof($porciones);
             if($size >= 2){
-                //$extenciones = array('xlsx','xls','pdf','doc','docx');
                 $extenciones = array('jpg','png','pdf');
                 $aux = strtolower($porciones[$size-1]); 
                 if(in_array($aux, $extenciones)){
@@ -987,9 +900,7 @@ class Campanas extends CI_Controller
         header('Content-type: application/json');
         
         echo json_encode( $registro );
-
     }
-
 
     function upload_file_imagen22()
     {
@@ -1037,7 +948,6 @@ class Campanas extends CI_Controller
         echo json_encode( $registro );
 
     }
-
 
     function upload_file_video()
     {
@@ -1093,7 +1003,6 @@ class Campanas extends CI_Controller
         }
     }
 
-
     function clear_file_documento()
     {
         $clear_path = './data/campanas/evaluacion' . $this->input->post('file_programa_imagen'); //utf8_decode($this->input->post('file_programa_anual'));
@@ -1106,14 +1015,9 @@ class Campanas extends CI_Controller
         echo json_encode( $registro );
     }
 
-
     function clear_file_agregar()
     {
-        //$file_audio = 'AUDIO_INAI_1.WAV';
-
-        $clear_path = './data/campanas/audios/' . $this->input->post('name_file_input'); //utf8_decode($this->input->post('file_programa_anual'));
-        
-        //$clear_path = './data/campanas/audios/' . $file_audio; //utf8_decode($this->input->post('file_programa_anual'));
+        $clear_path = './data/campanas/audios/' . $this->input->post('name_file_input'); 
 
         if(file_exists($clear_path))
         {
@@ -1121,19 +1025,13 @@ class Campanas extends CI_Controller
 
             $registro = array('exito','Eliminado');
             header('Content-type: application/json');
-        }
-            
-        
+        }        
         echo json_encode( $registro );
     }
 
     function clear_file()
     {
-        //$file_audio = 'AUDIO_INAI_1.WAV';
-
-        $clear_path = './data/campanas/audios/' . $this->input->post('name_file_programa_anual'); //utf8_decode($this->input->post('file_programa_anual'));
-        
-        //$clear_path = './data/campanas/audios/' . $file_audio; //utf8_decode($this->input->post('file_programa_anual'));
+        $clear_path = './data/campanas/audios/' . $this->input->post('name_file_programa_anual');
 
         if(file_exists($clear_path))
         {
@@ -1141,9 +1039,7 @@ class Campanas extends CI_Controller
 
             $registro = array('exito','Eliminado');
             header('Content-type: application/json');
-        }
-            
-        
+        }        
         echo json_encode( $registro );
     }
 
@@ -1172,12 +1068,10 @@ class Campanas extends CI_Controller
         echo json_encode( $registro );
     }
 
-
     function busqueda_campanas_avisos()    //Version con json
     {
         //Validamos que el usuario tenga acceso
         $this->permiso_capturista();
-
         $this->load->model('tpoadminv1/campanas/Campana_model');
                 
         $data['title'] = "Campa&ntilde;as y avisos institucionales";
@@ -1242,8 +1136,7 @@ class Campanas extends CI_Controller
             'fecha_actualizacion' => 'Fecha de actualización',
             'nota' => 'Nota'
         );
-
-        
+       
         $data['scripts'] = "<script type='text/javascript'>" .
                                 "$(function () {" .
                                     "$('[data-toggle=\"tooltip\"]').tooltip();
@@ -1255,9 +1148,7 @@ class Campanas extends CI_Controller
                             "</script>";
         
         $this->load->view('tpoadminv1/includes/template', $data);
-
     }
-
 
     function lista_campanas(){
 
@@ -1269,7 +1160,6 @@ class Campanas extends CI_Controller
         
         echo json_encode( $data );
     }
-
 
     function preparar_exportacion_campanas()
     {
@@ -1283,7 +1173,6 @@ class Campanas extends CI_Controller
         
         echo json_encode( base_url() . $path );
     }
-
 
 	function edita_campanas_avisos()
     {
@@ -1324,6 +1213,7 @@ class Campanas extends CI_Controller
         $data['objetivos'] = $this->Campana_model->dame_todos_objetivos();
         $data['coberturas'] = $this->Campana_model->dame_todas_coberturas();
         $data['tiposTO'] = $this->Campana_model->dame_todos_tiposTO();
+		$data['docpacs'] = $this->Campana_model->dame_todos_docpacs();
         
         // poner true para ocultar los botones
         if(!empty($data['campana']['evaluacion_documento']))
@@ -1505,7 +1395,6 @@ class Campanas extends CI_Controller
         $this->load->view('tpoadminv1/includes/template', $data);
     }
 
-
     function validate_edita_campanas_avisos()
     {
         //Validamos que el usuario tenga acceso
@@ -1570,6 +1459,7 @@ class Campanas extends CI_Controller
         $data['objetivos'] = $this->Campana_model->dame_todos_objetivos();
         $data['coberturas'] = $this->Campana_model->dame_todas_coberturas();
         $data['tiposTO'] = $this->Campana_model->dame_todos_tiposTO();
+		$data['docpacs'] = $this->Campana_model->dame_todos_docpacs();
         $data['registro'] = array(
             'id_presupuesto' => $this->input->post('id_presupuesto'),
             'id_ejercicio' => $this->input->post('id_ejercicio'),
@@ -1864,8 +1754,6 @@ class Campanas extends CI_Controller
         }
     }
 
-
-
     function dame_edad_rel_id()
     {
         $this->load->model('tpoadminv1/campanas/Campana_model');
@@ -1881,7 +1769,6 @@ class Campanas extends CI_Controller
 
         print_r($detalles);
     }
-
 
     function dame_nivel_rel_id()
     {
@@ -1899,7 +1786,6 @@ class Campanas extends CI_Controller
         print_r($detalles);
     }
 
-
     function dame_educacion_disponibles_id()
     {
         $this->load->model('tpoadminv1/campanas/Campana_model');
@@ -1916,7 +1802,6 @@ class Campanas extends CI_Controller
         print_r($detalles);
     }
 
-
     function dame_sexo_disponibles_id()
     {
         $this->load->model('tpoadminv1/campanas/Campana_model');
@@ -1925,7 +1810,6 @@ class Campanas extends CI_Controller
         print_r($detalles);
     }
 
-
     function dame_sexo_rel_id()
     {
         $this->load->model('tpoadminv1/campanas/Campana_model');
@@ -1933,7 +1817,6 @@ class Campanas extends CI_Controller
 
         print_r($detalles);
     }
-
 
     //AUDIOS
     function dame_tipo_liga_audio()
@@ -1953,7 +1836,6 @@ class Campanas extends CI_Controller
         print_r($detalles);
     }
 
-
     //IMAGENES
     function dame_tipo_liga_imagen()
     {
@@ -1963,8 +1845,6 @@ class Campanas extends CI_Controller
         print_r($detalles);
     }
 
-
-
     function dame_detalles_campana_id()
     {
         $this->load->model('tpoadminv1/campanas/Campana_model');
@@ -1972,7 +1852,6 @@ class Campanas extends CI_Controller
 
         print_r($detalles);
     }
-
 
     function obten_campana_nombre()
     {
@@ -1986,7 +1865,6 @@ class Campanas extends CI_Controller
         
         echo json_encode( $campana );
     }
-
 
     function obten_campana_info()
     {
@@ -2121,7 +1999,6 @@ class Campanas extends CI_Controller
         }
     }
 
-    
     function fecha_inicio_to_check($str)
     {
         if(empty($str))
@@ -2136,7 +2013,6 @@ class Campanas extends CI_Controller
             return TRUE;
         }
     }
-
 
     function eliminar_campana_aviso()
     {
@@ -2156,15 +2032,8 @@ class Campanas extends CI_Controller
         redirect('/tpoadminv1/campanas/campanas/busqueda_campanas_avisos');
     }
 
-
     function eliminar_relacion_campana()
     {
-        /*
-        print_r($this->uri->segment(5));
-        print_r('<br>');
-        print_r($this->uri->segment(6));
-        die();
-        */
         
         //Validamos que el usuario tenga acceso
         $this->permiso_capturista();
@@ -2182,7 +2051,6 @@ class Campanas extends CI_Controller
         //redirect('/tpoadminv1/campanas/campanas/busqueda_campanas_avisos');
         redirect('/tpoadminv1/campanas/campanas/edita_campanas_avisos', $this->uri->segment(5));
     }
-
 
     function alta_campanas_avisos()
     {
@@ -2209,6 +2077,7 @@ class Campanas extends CI_Controller
         $data['objetivos'] = $this->Campana_model->dame_todos_objetivos();
         $data['coberturas'] = $this->Campana_model->dame_todas_coberturas();
         $data['tiposTO'] = $this->Campana_model->dame_todos_tiposTO();
+		$data['docpacs'] = $this->Campana_model->dame_todos_docpacs();
 
         //texto para dialogos de ayuda
         $data['texto_ayuda'] = array(
@@ -2417,7 +2286,6 @@ class Campanas extends CI_Controller
         $this->load->view('tpoadminv1/includes/template', $data);
     }
 
-    
     function validate_alta_campanas_avisos()
     {
         //Validamos que el usuario tenga acceso
@@ -2431,7 +2299,6 @@ class Campanas extends CI_Controller
         $this->form_validation->set_message('validate_tipo','Debes seleccionar un tipo.');
         $this->form_validation->set_rules('id_campana_subtipo', 'Subtipo', 'required|callback_validate_subtipo');
         $this->form_validation->set_message('validate_subtipo','Debes seleccionar un subtipo.');
-        
         $this->form_validation->set_rules('id_ejercicio', 'Ejercicio', 'required|callback_validate_ejercicio');
         $this->form_validation->set_message('validate_ejercicio','Debes seleccionar un ejercicio.');
         $this->form_validation->set_rules('id_trimestre', '"Trimestre"', 'required|callback_validate_trimestre');
@@ -2483,6 +2350,7 @@ class Campanas extends CI_Controller
         $data['objetivos'] = $this->Campana_model->dame_todos_objetivos();
         $data['coberturas'] = $this->Campana_model->dame_todas_coberturas();
         $data['tiposTO'] = $this->Campana_model->dame_todos_tiposTO();
+		$data['docpacs'] = $this->Campana_model->dame_todos_docpacs();
 
         $data['registro'] = array(
             'id_factura' => '',
@@ -2520,8 +2388,7 @@ class Campanas extends CI_Controller
             'ejercicio' => 'Indica el a&ntilde;o del ejercicio presupuestario.',
             'trimestre' => 'Indica el trimestre que se reporta (enero – marzo, abril-junio, julio-septiembre, octubre-diciembre ).',
             'fecha_inicio_periodo' => 'Fecha de inicio del periodo que se informa',
-            'fecha_termino_periodo' => 'Fecha de termino del periodo que se informa',
-        
+            'fecha_termino_periodo' => 'Fecha de termino del periodo que se informa',       
             'sos' => 'Indica el nombre del sujeto obligado que celebra el contrato u orden de compra con el proveedor.',
             'soc' => 'Indica el nombre del sujeto que solicit&oacute; el producto o servicio aunque éste no sea quien celebra el contrato u orden de compra con el proveedor (Ej. Sujeto obligado solicitante: Secretaría de Cultura sujeto obligado contratante: Coordinaci&oacute;n General de Comunicaci&oacute;n Social).',
             'tema' => 'Indica el tema de la campa&ntilde;a o aviso institucional (Ej. Salud, Educaci&oacute;n, etc).',
@@ -2706,7 +2573,6 @@ class Campanas extends CI_Controller
             {
                 $alta_1 = explode("|", $alta);
                 $alta = $alta_1[0]; // return 1
-                //echo $alta_1[1]; // return id ultima campana insertada
             }
             
             switch ($alta)
@@ -2755,7 +2621,6 @@ class Campanas extends CI_Controller
         $this->load->view('tpoadminv1/includes/template', $data);
     }
 
-
     function get_sujeto()
     {
         $this->load->model('tpoadminv1/sujetos/Sujeto_model');
@@ -2779,12 +2644,6 @@ class Campanas extends CI_Controller
             
             for($z = 0; $z < sizeof($result); $z++)
             {
-                /*
-                if($this->input->post('id_campana_subtipo') == $result[$z]['id_campana_subtipo'])
-                {
-                    $selected = 'selected';
-                }
-                */
                 $sel_subtipo .= '<option value="' . $result[$z]['id_campana_subtipo'] . '">'.$result[$z]['nombre_campana_subtipo']. '</option>';
             }
             
@@ -2795,7 +2654,6 @@ class Campanas extends CI_Controller
             echo '<option value="0">No hay valores</option>';
         }
     }
-
 
     function busqueda_subtipo_edita()
     {
@@ -2840,14 +2698,10 @@ class Campanas extends CI_Controller
             $sel_subtipo = '';
             echo '<option value="0">- Selecciona -</option>';
 
-            //$selected = '';
-
             $id_campana_tipo = $this->input->post('id_campana_subtipo');
 
             for($z = 0; $z < sizeof($result); $z++)
             {
-
-
                 if($id_campana_tipo == $result[$z]['id_campana_subtipo'])
                 {
                     $selected = 'selected';
@@ -2856,12 +2710,10 @@ class Campanas extends CI_Controller
                 {
                     $selected = '';
                 }
-
                 $sel_subtipo .= '<option value="' . $result[$z]['id_campana_subtipo'] . '" '.$selected.'>
                                     '.$result[$z]['nombre_campana_subtipo']. '
                                 </option>';
-            }
-            
+            }           
             echo $sel_subtipo;
         }
         else

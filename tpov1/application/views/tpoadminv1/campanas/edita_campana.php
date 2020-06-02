@@ -128,6 +128,16 @@
             $sel_tipoTO .= '<option value="'.$tiposTO[$z]['id_campana_tipoTO'].'">' . $tiposTO[$z]['nombre_campana_tipoTO'] . '</option>';
         }
     }
+	
+	$sel_pacs = '<option value="0">- Selecciona -</option>';
+	for($z = 0; $z < sizeof($docpacs); $z++)
+	{
+		if($campana['id_presupuesto'] == $docpacs[$z]['id_presupuesto']){
+			$sel_pacs .= '<option value="'.$docpacs[$z]['id_presupuesto'].'" selected>' . $docpacs[$z]['denominacion'] . '</option>';
+		}else{
+			$sel_pacs .= '<option value="'.$docpacs[$z]['id_presupuesto'].'">' . $docpacs[$z]['denominacion'] . '</option>';
+		}
+	}
     
 ?>
 
@@ -511,17 +521,14 @@
                                     <label>Documento del PACS
                                         <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['pacs']?>"></i> 
                                     </label>
-                                    <?php $class = "form-control";
-                                            echo form_input(array('type' => 'text', 'name' => 'plan_acs', 
-                                            'value' => $campana['plan_acs'], 'class' => $class)); ?>  
+                                     <select name="id_presupuesto" class="form-control">
+                                        <?php echo $sel_pacs; ?>
+                                    </select>  
                                 </div>
                                 <div class="form-group">
                                     <label>Fecha publicaci&oacute;n*
                                         <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['fecha_publicacion']?>"></i> 
                                     </label>
-                                    <!--
-                                    <input type="text" value="<?php if($campana['fecha_termino_to'] != '0000-00-00'){ echo $campana['fecha_termino_to'];}else { echo '';} ?>" class="form-control" id="fecha_termino_to" name="fecha_termino_to" autocomplete="off"/>
-                                    -->
                                     <input type="text" value="<?php if($campana['fecha_dof'] != '0000-00-00'){ echo $campana['fecha_dof'];}else { echo '';} ?>" class="form-control" name="fecha_dof" id="fecha_dof" autocomplete="off"/>
                                 </div>
                                 <div class="form-group">
@@ -573,9 +580,6 @@
                                     <label>Fecha de validaci&oacute;n
                                         <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['fecha_validacion']?>"></i>
                                     </label>
-                                    <!--
-                                    <input type="text" value="<?php echo $campana['fecha_validacion']; ?>" class="form-control datepicker" name="fecha_validacion" data-provide="datepicker"/>
-                                    -->
                                     <input type="text" value="<?php if($campana['fecha_validacion'] != '0000-00-00'){ echo $campana['fecha_validacion'];}else { echo '';} ?>" class="form-control" name="fecha_validacion" autocomplete="off"/>
                                 </div>
 
@@ -1844,24 +1848,16 @@
 
    
     var abrirModal = function(){
-        //$('#myModal').find('#item_1').html(name);
+
         $('#myModal').modal('show');
     }
 
     function verificar($id_campana_aviso)
     {
         $('#tabla_edades').load('busqueda_camp_edades?id_campana_aviso='+$id_campana_aviso, function(output) {
-        //$('#tabla_edades').load('busqueda_camp_edades', function(output) {
-            //alert(output);
-            //alert($id_campana_aviso);
 
         });
-        
-        /*
-        $('#tabla_edades').load('busqueda_camp_edades', function(output) {
-            //alert(output);
-        });
-        */
+
     }
 
     function lugar($id_campana_aviso)

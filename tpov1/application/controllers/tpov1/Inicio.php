@@ -12,7 +12,7 @@ class Inicio extends CI_Controller
         $this->load->model('tpov1/graficas/Graficas_model');
         $this->load->model('tpov1/Generales_vp_model');
 
-        $data['title'] = "Transparencia en publicidad oficial";
+        $data['title'] = "Publicidad abierta";
         $data['heading'] = "Fecha de actualizaci&oacute;n: ";
         $data['heading_s'] = $this->Generales_vp_model->get_fecha_actualizacion();
         $data['breadcrum'] = '';

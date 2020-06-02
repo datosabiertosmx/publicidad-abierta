@@ -465,26 +465,29 @@ class Tablas_model extends CI_Model
         return $query->result_array();
     }
     
-    function F70FXXIIIB_reporte_formatos()
+    function F70FXXIIIB()
     {
         $sqltext = 'select 
             c.nombre_sujeto_obligado, 
-            (select f.nombre_so_atribucion from cat_so_atribucion as f where c.id_so_atribucion=f.id_so_atribucion)  as funcion, 
-            b.area_administrativa, 
-            (select g.nombre_servicio_clasificacion from cat_servicios_clasificacion as g where b.id_servicio_clasificacion=g.id_servicio_clasificacion)  as id_servicio_clasificacion, 
-            (select h.ejercicio from cat_ejercicios as h where a.id_ejercicio=h.id_ejercicio)  as ejercicio, 
-            (select i.trimestre from cat_trimestres as i where a.id_trimestre=i.id_trimestre)  as trimestre, 
+			(select h.ejercicio from cat_ejercicios as h where a.id_ejercicio=h.id_ejercicio)  as ejercicio,
+			(select i.trimestre from cat_trimestres as i where a.id_trimestre=i.id_trimestre)  as trimestre, 
             a.id_trimestre,
-            (select j.nombre_servicio_categoria from cat_servicios_categorias as j where b.id_servicio_categoria=j.id_servicio_categoria ) as id_servicio_categoria, 
-            (select k.nombre_servicio_subcategoria from cat_servicios_subcategorias as k where b.id_servicio_subcategoria=k.id_servicio_subcategoria ) as id_servicio_subcategoria,
-            (select s.nombre_servicio_unidad from cat_servicios_unidades as s where b.id_servicio_unidad=s.id_servicio_unidad ) as id_servicio_unidad,			
-            (select l.nombre_campana_tipo from cat_campana_tipos as l where d.id_campana_tipo=l.id_campana_tipo) as id_campana_tipo, 
-            d.nombre_campana_aviso, 
-            d.periodo as anio_campana, 
+            (select f.nombre_so_atribucion from cat_so_atribucion as f where c.id_so_atribucion=f.id_so_atribucion)  as funcion, 
+            b.area_administrativa, 		
+            (select g.nombre_servicio_clasificacion from cat_servicios_clasificacion as g where b.id_servicio_clasificacion=g.id_servicio_clasificacion) 
+					as id_servicio_clasificacion, 
+            (select j.nombre_servicio_categoria from cat_servicios_categorias as j where b.id_servicio_categoria=j.id_servicio_categoria ) 
+					as id_servicio_categoria, 
+            (select k.nombre_servicio_subcategoria from cat_servicios_subcategorias as k where b.id_servicio_subcategoria=k.id_servicio_subcategoria ) 
+					as id_servicio_subcategoria, 
+            b.descripcion_servicios, 
+		   (select l.nombre_campana_tipo from cat_campana_tipos as l where d.id_campana_tipo=l.id_campana_tipo) as id_campana_tipo, 
+			d.nombre_campana_aviso, 
+            d.periodo, 
             (select n.nombre_campana_tema from cat_campana_temas as n where d.id_campana_tema=n.id_campana_tema)  as id_campana_tema, 
             (select o.campana_objetivo from cat_campana_objetivos as o where d.id_campana_objetivo=o.id_campana_objetivo)  as id_campana_objetivo, 
             d.objetivo_comunicacion, 
-            b.monto_desglose, 
+            b.precio_unitarios, 
             d.clave_campana, 
             d.autoridad, 
             (select p.nombre_campana_cobertura from cat_campana_coberturas as p where d.id_campana_cobertura = p.id_campana_cobertura) as id_campana_cobertura, 
@@ -497,21 +500,20 @@ class Tablas_model extends CI_Model
             (SELECT GROUP_CONCAT(f.poblacion_lugar SEPARATOR " * ") FROM rel_campana_lugar as f 
             WHERE  f.id_campana_aviso = b.id_campana_aviso) as lugar, 
 
-            (SELECT GROUP_CONCAT(g.nombre_poblacion_nivel_educativo SEPARATOR " * ") 
-            FROM rel_campana_nivel_educativo as f, cat_poblacion_nivel_educativo as g 
+            (SELECT GROUP_CONCAT(g.nombre_poblacion_nivel_educativo SEPARATOR " * ") FROM rel_campana_nivel_educativo as f, cat_poblacion_nivel_educativo as g 
             WHERE  f.id_campana_aviso = b.id_campana_aviso and f.id_poblacion_nivel_educativo = g.id_poblacion_nivel_educativo ) as educacion, 
 
             (SELECT GROUP_CONCAT(g.nombre_poblacion_grupo_edad SEPARATOR " * ") FROM rel_campana_grupo_edad as f, cat_poblacion_grupo_edad as g 
             WHERE  f.id_campana_aviso = b.id_campana_aviso and f.id_poblacion_grupo_edad = g.id_poblacion_grupo_edad ) as grupo_edad, 
 
-            (SELECT GROUP_CONCAT(g.nombre_poblacion_nivel SEPARATOR " * ") 
-            FROM rel_campana_nivel as f, cat_poblacion_nivel as g 
+            (SELECT GROUP_CONCAT(g.nombre_poblacion_nivel SEPARATOR " * ") FROM rel_campana_nivel as f, cat_poblacion_nivel as g 
             WHERE  f.id_campana_aviso = b.id_campana_aviso and f.id_poblacion_nivel = g.id_poblacion_nivel ) as nivel_socioeconomico, 
-            concat(a.periodo,"-",a.id_factura,"-",a.id_orden_compra,"-",a.id_contrato,"-",a.id_proveedor) as id_respecto_proveedor, 
-            concat(a.periodo,"-",a.id_factura,"-",a.id_orden_compra,"-",a.id_contrato,"-",a.id_proveedor) as id_respecto_presupuesto, 
-            concat(a.periodo,"-",a.id_factura,"-",a.id_orden_compra,"-",a.id_contrato,"-",a.id_proveedor) as id_respecto_contrato, 
+			
+            concat(a.id_ejercicio,"-",a.id_factura,"-",a.id_orden_compra,"-",a.id_contrato,"-",a.id_proveedor) as id_respecto_proveedor, 
+            concat(a.id_ejercicio,"-",a.id_factura,"-",a.id_orden_compra,"-",a.id_contrato,"-",a.id_proveedor) as id_respecto_presupuesto, 
+            concat(a.id_ejercicio,"-",a.id_factura,"-",a.id_orden_compra,"-",a.id_contrato,"-",a.id_proveedor) as id_respecto_contrato, 
             a.fecha_validacion, 
-            a.area_responsable as "Area 2",
+            a.area_responsable,
             a.periodo, 
             a.fecha_actualizacion, 
             a.nota
@@ -643,12 +645,12 @@ class Tablas_model extends CI_Model
             e.nombre_razon_social as razon_social, 
             e.nombres, 
             e.primer_apellido, 
-            e.segundo_apellido, 
+            e.segundo_apellido,
+            e.nombre_comercial,			
             e.rfc, 
             p.procedimiento,
             f.motivo,
-            r.razones,
-            e.nombre_comercial
+            r.razones
             FROM tab_facturas AS a, tab_proveedores AS e,
             ( SELECT DISTINCT IFNULL(motivo_adjudicacion, "") AS motivo, id_orden_compra FROM tab_ordenes_compra AS c) AS f,
             ( SELECT DISTINCT IFNULL(descripcion_justificacion, "") AS razones, id_orden_compra FROM tab_ordenes_compra AS b  ) AS r,

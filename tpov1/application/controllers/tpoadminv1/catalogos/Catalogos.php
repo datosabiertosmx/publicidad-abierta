@@ -868,13 +868,13 @@ class Catalogos extends CI_Controller
         $this->load->model('tpoadminv1/catalogos/Catalogos_model');
         $this->load->library('form_validation');
 
-        $this->form_validation->set_rules('capitulo', 'Ingresa el cap&iacute;tulo', 'required');
-        $this->form_validation->set_rules('concepto', 'Ingresa un concepto', 'required');
-        $this->form_validation->set_rules('partida', 'Ingrese una partida', 'required');
-        $this->form_validation->set_rules('denominacion', 'Ingrese una denominaci&iacute;n', 'required');
-        $this->form_validation->set_rules('descripcion', 'Ingresa una descipci&iacute;n', 'required');
-        $this->form_validation->set_rules('id_captura', 'Seleccione un calor de captura valido', 'required');
-        $this->form_validation->set_rules('active', 'Seleccione un estatus valido', 'required');
+        $this->form_validation->set_rules('capitulo', 'Concepto', 'required');
+        $this->form_validation->set_rules('concepto', 'Partida genérica');
+        $this->form_validation->set_rules('partida', 'Partida específica');
+        $this->form_validation->set_rules('denominacion', 'Denominación', 'required');
+        $this->form_validation->set_rules('descripcion', 'Descripción', 'required');
+        $this->form_validation->set_rules('id_captura', 'Captura', 'required');
+        $this->form_validation->set_rules('active', 'Estatus', 'required');
         $this->form_validation->set_error_delimiters('<p>','</p>');
 
         $data['title'] = "Agregar partida presupuestar&iacute;a";
@@ -954,15 +954,16 @@ class Catalogos extends CI_Controller
         $this->load->model('tpoadminv1/catalogos/Catalogos_model');
         $this->load->library('form_validation');
 
-        $this->form_validation->set_rules('capitulo', 'Ingresa el cap&iacute;tulo', 'required');
-        $this->form_validation->set_rules('concepto', 'Ingresa un concepto', 'required');
-        $this->form_validation->set_rules('partida', 'Ingrese una partida', 'required');
-        $this->form_validation->set_rules('denominacion', 'Ingrese una denominaci&iacute;n', 'required');
-        $this->form_validation->set_rules('descripcion', 'Ingresa una descipci&iacute;n', 'required');
-        $this->form_validation->set_rules('id_captura', 'Seleccione un calor de captura valido', 'required');
-        $this->form_validation->set_rules('active', 'Seleccione un estatus valido', 'required');
+		$this->form_validation->set_rules('capitulo', 'Concepto', 'required');
+        $this->form_validation->set_rules('concepto', 'Partida genérica');
+        $this->form_validation->set_rules('partida', 'Partida específica');
+        $this->form_validation->set_rules('denominacion', 'Denominación', 'required');
+        $this->form_validation->set_rules('descripcion', 'Descripción', 'required');
+        $this->form_validation->set_rules('id_captura', 'Captura', 'required');
+        $this->form_validation->set_rules('active', 'Estatus', 'required');
         $this->form_validation->set_error_delimiters('<p>','</p>');
-
+		
+		
         $data['title'] = "Editar partida presupuestar&iacute;a";
         $data['heading'] = $this->session->userdata('usuario_nombre');
         $data['mensaje'] = "";

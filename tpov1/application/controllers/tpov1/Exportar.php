@@ -14,14 +14,14 @@ class Exportar extends CI_Controller
 
     function pnt(){
         $file_F70FXXIIIA = $this->F70FXXIIIA('data/archivos/', 'F70FXXIIIA.csv');
-        $file_F70FXXIIIB_reporte_formatos = $this->F70FXXIIIB_reporte_formatos('data/archivos/', 'F70FXXIIIB_reporte_formatos.csv');
+        $file_F70FXXIIIB = $this->F70FXXIIIB('data/archivos/', 'F70FXXIIIB.csv');
         $file_F70FXXIIIB_tabla_10633 = $this->F70FXXIIIB_tabla_10633('data/archivos/', 'F70FXXIIIB_tabla_10633.csv');
         $file_F70FXXIIIB_tabla_10632 = $this->F70FXXIIIB_tabla_10632('data/archivos/', 'F70FXXIIIB_tabla_10632.csv');
         $file_F70FXXIIIB_tabla_10656 = $this->F70FXXIIIB_tabla_10656('data/archivos/', 'F70FXXIIIB_tabla_10656.csv');
 		$file_F70FXXIIIC = $this->F70FXXIIIC('data/archivos/', 'F70FXXIIIC.csv');
 		$file_F70FXXIIIC_tabla_333914 = $this->F70FXXIIIC_tabla_333914('data/archivos/', 'F70FXXIIIC_tabla_333914.csv');
         $file_F70FXXIIID = $this->F70FXXIIID('data/archivos/', 'F70FXXIIID.csv');		
-        $files =array($file_F70FXXIIIA, $file_F70FXXIIIB_reporte_formatos, $file_F70FXXIIIB_tabla_10633, $file_F70FXXIIIB_tabla_10632, $file_F70FXXIIIB_tabla_10656, $file_F70FXXIIIC, $file_F70FXXIIIC_tabla_333914, $file_F70FXXIIID);
+        $files =array($file_F70FXXIIIA, $file_F70FXXIIIB, $file_F70FXXIIIB_tabla_10633, $file_F70FXXIIIB_tabla_10632, $file_F70FXXIIIB_tabla_10656, $file_F70FXXIIIC, $file_F70FXXIIIC_tabla_333914, $file_F70FXXIIID);
                
         $leemefile = 'leeme.txt';
         $leemetexto = $this->leemePNT();
@@ -772,7 +772,7 @@ class Exportar extends CI_Controller
         return $filename;
      }  
      
-     function F70FXXIIIB_reporte_formatos($path, $namefile)
+     function F70FXXIIIB($path, $namefile)
      {
         $this->load->model('tpov1/graficas/Tablas_model');
         $this->load->model('tpoadminv1/Generales_model');
@@ -780,7 +780,7 @@ class Exportar extends CI_Controller
         $filename = $path . $namefile;
         $myfile = fopen(FCPATH . $filename, 'w');
         
-        $registros = $this->Tablas_model->F70FXXIIIB_reporte_formatos();
+        $registros = $this->Tablas_model->F70FXXIIIB();
         $csv_header = array(
                     utf8_decode('Sujeto Obligado'),
                     utf8_decode('Ejercicio'),
@@ -831,18 +831,18 @@ class Exportar extends CI_Controller
                     utf8_decode($this->Generales_model->set_fecha_termino_trimestre($row['id_trimestre'], $row['ejercicio'], true)),
                     utf8_decode($this->Generales_model->set_fecha_termino_trimestre($row['id_trimestre'], $row['ejercicio'], false)),
                     utf8_decode($row['funcion']),
-                    utf8_decode($row['area_responsable']),
+                    utf8_decode($row['area_administrativa']),
                     utf8_decode($row['id_servicio_clasificacion']),
                     utf8_decode($row['id_servicio_categoria']),
                     utf8_decode($row['id_servicio_subcategoria']),
                     utf8_decode($this->Generales_model->clear_html_tags($row['descripcion_servicios'])),
                     utf8_decode($row['id_campana_tipo']),
                     utf8_decode($row['nombre_campana_aviso']),
-                    utf8_decode($row['ejercicio_oc']),
+                    utf8_decode($row['periodo']),
                     utf8_decode($row['id_campana_tema']),
                     utf8_decode($this->Generales_model->clear_html_tags($row['id_campana_objetivo'])),
                     utf8_decode($this->Generales_model->clear_html_tags($row['objetivo_comunicacion'])),
-                    utf8_decode($row['monto_desglose']),
+                    utf8_decode($row['precio_unitarios']),
                     utf8_decode($row['clave_campana']),
                     utf8_decode($row['autoridad']),
                     utf8_decode($row['id_campana_cobertura']),
@@ -857,7 +857,7 @@ class Exportar extends CI_Controller
                     utf8_decode($row['id_respecto_proveedor']),
                     utf8_decode($row['id_respecto_presupuesto']),
                     utf8_decode($row['id_respecto_contrato']),
-                    utf8_decode($row['Area 2']),
+                    utf8_decode($row['area_responsable']),
                     utf8_decode($this->Generales_model->clear_date($row['fecha_validacion'])),
                     utf8_decode($this->Generales_model->clear_date($row['fecha_actualizacion'])),
                     utf8_decode($this->Generales_model->clear_html_tags($row['nota']))
@@ -1015,8 +1015,8 @@ class Exportar extends CI_Controller
                     utf8_decode($row['nombre_comercial']),
                     utf8_decode($row['rfc']),
                     utf8_decode($row['procedimiento']),
-                    utf8_decode($this->Generales_model->clear_html_tags($row['fundamento'])),
-                    utf8_decode($this->Generales_model->clear_html_tags($row['razones'])),
+                    utf8_decode($this->Generales_model->clear_html_tags($row['motivo'])),
+                    utf8_decode($this->Generales_model->clear_html_tags($row['razones']))
                 );
                 fputcsv($myfile, $csv);
                 $count += 1;
@@ -1100,12 +1100,12 @@ class Exportar extends CI_Controller
                     utf8_decode($row['nombre_comercial']),
                     utf8_decode($this->Generales_model->clear_html_tags($row['razones'])),
 					utf8_decode($row['monto_tiempo']),
-                    utf8_decode($row['Area 1']),
+                    utf8_decode($row['Area 2']),
                     utf8_decode($row['fecha_inicio']),
                     utf8_decode($row['fecha_termino']),
 					utf8_decode($row['id_respecto_presupuesto']),
                     utf8_decode($row['numero_factura']),
-                    utf8_decode($row['Area 2']),
+                    utf8_decode($row['Area 1']),
                     utf8_decode($this->Generales_model->clear_date($row['fecha_validacion'])),
                     utf8_decode($this->Generales_model->clear_date($row['fecha_actualizacion'])),
                     utf8_decode($this->Generales_model->clear_html_tags($row['nota']))
@@ -1981,7 +1981,7 @@ class Exportar extends CI_Controller
                     utf8_decode('Fecha termino tiempo oficial'),
                     utf8_decode('Publicación SEGOB'),
                     utf8_decode('Ámbito geográfico'),
-                    utf8_decode('Documento ACS'),
+                    utf8_decode('Documento PACS'),
                     utf8_decode('Fecha de publicación'),
                     utf8_decode('Evaluación'),
                     utf8_decode('Documento de evaluación'),
@@ -2012,8 +2012,8 @@ class Exportar extends CI_Controller
                     utf8_decode($this->Campana_model->dame_objetivo_nombre($row['id_campana_objetivo'])),
                     utf8_decode($this->Campana_model->dame_ejercicio_nombre($row['id_ejercicio'])),
                     utf8_decode($this->Campana_model->dame_trimestre_nombre($row['id_trimestre'])),
-                    utf8_decode($this->Campana_model->dame_soc_nombre($row['id_so_contratante'])),
-                    utf8_decode($this->Campana_model->dame_sos_nombre($row['id_so_solicitante'])),
+                    utf8_decode($this->Campana_model->dame_nombre_contratante($row['id_so_contratante'])),
+                    utf8_decode($this->Campana_model->dame_nombre_solicitante($row['id_so_solicitante'])),
                     utf8_decode($this->Campana_model->dame_tiempo_oficial_nombre($row['id_tiempo_oficial'])),
                     utf8_decode($row['nombre_campana_aviso']),
                     utf8_decode($this->Generales_model->clear_html_tags($row['objetivo_comunicacion'])),
@@ -2023,7 +2023,7 @@ class Exportar extends CI_Controller
                     utf8_decode($row['fecha_termino_to']),
                     utf8_decode($row['publicacion_segob']),
                     utf8_decode($row['campana_ambito_geo']),
-                    utf8_decode($row['plan_acs']),
+                    utf8_decode($this->Campana_model->dame_docs_nombre($row['id_presupuesto'])),
                     utf8_decode($row['fecha_dof']),
                     utf8_decode($this->Generales_model->clear_html_tags($row['evaluacion'])),
                     utf8_decode($row['evaluacion_documento']),

@@ -180,7 +180,7 @@ if($disponible == true){ /* se muestra la info*/
                     </tr>
                     <tr>
                         <td>Documento del PACS <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['pacs']?>"></i></td>
-                        <td><?php echo $campana['plan_acs']?></td>
+                        <td><?php echo $campana['denominacion']?></td>
                     </tr>
                     <tr>
                         <td>Fecha de publicación* <i class="fa fa-info-circle text-primary" data-toggle="tooltip" title="<?php echo $texto_ayuda['fecha_publicacion']?>"></i></td>
