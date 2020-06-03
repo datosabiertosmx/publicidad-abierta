@@ -198,7 +198,7 @@
             </div><!-- / .box-body-->
         </div><!-- / .box-->
     </div><!-- / .col -->
-
+	<div style="visibility: hidden">versión jun-2020</div>
 </div><!-- / .row gráficas-->
 
 <script>
