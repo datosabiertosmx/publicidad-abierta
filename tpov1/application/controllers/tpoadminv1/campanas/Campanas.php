@@ -1427,8 +1427,6 @@ class Campanas extends CI_Controller
         $this->form_validation->set_message('validate_objetivo','Debes seleccionar un Objetivo.');
         $this->form_validation->set_rules('id_campana_cobertura', 'Objetivo', 'required|callback_validate_cobertura');
         $this->form_validation->set_message('validate_cobertura','Debes seleccionar una cobertura.');
-        $this->form_validation->set_rules('id_campana_tipoTO', 'Tipo', 'callback_validate_tipoTO');
-        $this->form_validation->set_message('validate_tipoTO','Debes seleccionar un tipo de tiempo oficial.');
         $this->form_validation->set_rules('fecha_inicio_periodo', 'Fecha de inicio del periodo que se informa', 'required|callback_fecha_inicio_periodo_check');
         $this->form_validation->set_rules('fecha_termino_periodo', 'Fecha de termino del periodo que se informa', 'required|callback_fecha_termino_periodo_check');
         $this->form_validation->set_rules('fecha_inicio', 'fecha de inicio', 'callback_fecha_inicio_check');
@@ -2317,8 +2315,6 @@ class Campanas extends CI_Controller
         $this->form_validation->set_message('validate_objetivo','Debes seleccionar un Objetivo.');
         $this->form_validation->set_rules('id_campana_cobertura', 'Objetivo', 'required|callback_validate_cobertura');
         $this->form_validation->set_message('validate_cobertura','Debes seleccionar una cobertura.');
-        $this->form_validation->set_rules('id_campana_tipoTO', 'Tipo', 'callback_validate_tipoTO');
-        $this->form_validation->set_message('validate_tipoTO','Debes seleccionar un tipo de tiempo oficial.');
         $this->form_validation->set_rules('fecha_inicio_periodo', 'Fecha de inicio del periodo que se informa', 'required|callback_fecha_inicio_periodo_check');
         $this->form_validation->set_rules('fecha_termino_periodo', 'Fecha de termino del periodo que se informa', 'required|callback_fecha_termino_periodo_check');        
         $this->form_validation->set_rules('fecha_inicio', 'fecha de inicio', 'callback_fecha_inicio_check');
