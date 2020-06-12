@@ -77,7 +77,7 @@
                 </div>
 				<br>				
 				<div class="bottomFooter col-md-12" style="text-align:center; color:#999999; margin-top: 2.9em;">
-                Publicidad Abierta TPO ver.2.0. Antes Transparencia en Publicidad Oficial. Es una plataforma de código abierto basada en el prototipo funcional desarrollado por el Gobierno del Estado de Oaxaca 2011 – 2016 y Fundar.
+                Publicidad Abierta 2.0.0 antes Transparencia en Publicidad Oficial. Es una plataforma de código abierto basada en el prototipo funcional desarrollado por el Gobierno del Estado de Oaxaca 2011 – 2016 y Fundar.
 				</div> 				
             </div>			
         </footer>
