@@ -13,7 +13,7 @@
 ```
 ### Software
 ```
-• Sistema operativo: Red Hat 7
+• Sistema operativo: Linux Centos 7
 • Base de datos: MySQL (5.7)
 • Servidor de aplicaciones: Apache 2.0
 • PHP: 5.5
