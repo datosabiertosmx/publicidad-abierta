@@ -9,7 +9,7 @@
 ```
 • Almacenamiento: 250GB o superior 
 • Memoria RAM: 4 Gigabytes o superior
-• Velocidad de procesador: Intel Core 1.3 a 3.0 GHz o superior
+• Velocidad de procesador: 1.3 a 3.0 GHz o superior
 ```
 ### Software
 ```
