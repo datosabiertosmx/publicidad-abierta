@@ -1209,6 +1209,9 @@ class Exportar extends CI_Controller
      }
 	
 	private function getDateTimeMD5( $filename ) {  
+
+        date_default_timezone_set('America/Mexico_City');
+
         $file = FCPATH . 'data/archivos/' . $filename . '.csv';
         if (file_exists($file)) {
            $outstr = 'Archivo: ' . $filename . '.csv  Generado: ' . 

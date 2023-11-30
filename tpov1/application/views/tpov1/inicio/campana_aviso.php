@@ -753,7 +753,7 @@
                 error:function(){
                 },
                 success: function(response){
-                    window.open(response, '_blank');
+                    window.location.href = response;
                 }
             });
         }
