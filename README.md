@@ -1,4 +1,4 @@
-# **Publicidad aAbierta**
+# **Publicidad Abierta**
 
 Es una iniciativa que tiene el objetivo de transparentar los montos destinados al gasto en **comunicación social** y **publicidad oficial** de las instituciones públicas.
 
