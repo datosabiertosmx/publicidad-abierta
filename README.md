@@ -8,7 +8,7 @@ Actualmente, la iniciativa continúa a disposición de los sujetos obligados que
 ### Requerimientos mínimos de hardware
 - Memoria RAM: 4 GB.
 - Almacenamiento: 250 GB.
-- Procesador: Inter Core 1.3 a 3.0 GHz.
+- Velocidad de procesador: 2 GHz.
 
 ### Requerimientos de software
 - Sistema operativo: Ubuntu 22.04.
